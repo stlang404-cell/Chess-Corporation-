@@ -14,9 +14,12 @@ interface AppState {
   /** academy deep link (e.g. review a game id) */
   academyIntent: { kind: 'review'; matchId: string } | null;
   autoMatch: boolean;
+  /** set when a new app version is installed and waiting */
+  updateReady: null | (() => void);
+  /** pending promotion ceremony to show over the results */
 }
 
-let state: AppState = { save: newSave(), tab: 'home', ready: false, recovered: false, toast: null, academyIntent: null, autoMatch: false };
+let state: AppState = { save: newSave(), tab: 'home', ready: false, recovered: false, toast: null, academyIntent: null, autoMatch: false, updateReady: null };
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach((l) => l());
 

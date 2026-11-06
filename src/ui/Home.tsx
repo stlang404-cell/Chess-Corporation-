@@ -1,190 +1,229 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useApp, go, updateSave } from './appState';
-import { rankInfo, arenaForRank, meritNeeded, ratingGate, seriesLength } from '../game/career';
+import { rankInfo, rankLine, arenaForRank, meritNeeded, ratingGate, seriesLength } from '../game/career';
 import { isProvisional, expectedScore } from '../game/rating';
-import { identityOf, leagueRecord } from '../game/opponents';
+import { identityOf, leagueRecord, opponentCareer } from '../game/opponents';
 import { STYLES } from '../engine/ai';
-import { Bar, CrestBadge, PlayerSeal, money, motifUrl, titleForRating } from './common';
+import { CrestBadge, money, motifUrl } from './common';
+import { Insignia } from './Insignia';
 import { pickOpponent, startMatch, nextKind } from './matchFlow';
 import type { OpponentSpec } from '../game/state';
-import { TIME_CONTROLS } from '../game/state';
 import { itemById } from '../game/store';
+import { isUntimed, timeControlOf } from '../game/clock';
 
 export function Home() {
   const { save } = useApp();
-  const [phase, setPhase] = useState<'idle' | 'search' | 'found'>('idle');
   const [opp, setOpp] = useState<OpponentSpec | null>(null);
-  const rank = rankInfo(save.career.rank);
+  const fam = save.career.family;
+  const rank = rankInfo(save.career.rank, fam);
   const arena = arenaForRank(save.career.rank);
   const need = meritNeeded(save.career.rank);
-  const nextGate = ratingGate(save.career.rank + 1);
+  const next = save.career.rank + 1;
+  const nextGate = ratingGate(next);
   const series = save.career.series;
   const active = save.active && !save.active.finished ? save.active : null;
   const office = itemById(save.equipped.office)?.data?.motif ?? 'plain';
-  const tc = TIME_CONTROLS.find((t) => t.id === save.settings.tc) ?? TIME_CONTROLS[0];
+  const tcLabel = isUntimed({ clocks: null, tc: save.settings.tc }) ? 'Untimed' : timeControlOf({ tc: save.settings.tc }).label;
+  const last = save.history[0];
+  const provisional = isProvisional(save.rating);
+  const progress = series ? series.wins / (Math.floor(series.length / 2) + 1) : Math.min(1, save.career.merit / need);
 
   const onMatch = () => {
     if (active) return go('play');
-    if (phase !== 'idle') return;
-    setPhase('search');
-    const o = pickOpponent();
-    setOpp(o);
-    setTimeout(() => setPhase('found'), 900 + Math.random() * 500);
+    if (opp) return;
+    setOpp(pickOpponent());
   };
-  useEffect(() => {
-    if (phase !== 'found' || !opp) return;
-    const t = setTimeout(() => {
-      startMatch(nextKind(), opp);
-      setPhase('idle');
-    }, 2200);
-    return () => clearTimeout(t);
-  }, [phase, opp]);
 
-  const recent = save.history.slice(0, 7);
-  const provisional = isProvisional(save.rating);
-
+  const w = save.stats.rated;
   return (
-    <div className="home" style={{ backgroundImage: motifUrl(office, '#1d1d1b', 0.05) }}>
+    <div className="home" style={{ ['--motif' as string]: motifUrl(office, 'currentColor', 0.05) }}>
       <header className="home-top">
-        <div className="wordmark">
-          <span className="seven-kanji">七</span> SEVEN
+        <div className="brand-inline" aria-hidden>
+          <span className="brand-seal sm">七</span> SEVEN
         </div>
         <div className="balance" title="Fictional dollars — cosmetics only">
           {money(save.wallet.balance)}
         </div>
       </header>
 
-      <section className="identity">
-        <PlayerSeal save={save} size={72} />
-        <div className="title-block">
-          <div className="eyebrow">Current title</div>
-          <h1 className="rank-title">{rank.title}</h1>
-          <div className="rank-grade">Grade {rank.gradeLabel}</div>
+      <section className="hero">
+        <Insignia rank={save.career.rank} family={fam} size={92} />
+        <h1 className="rank-title">{rank.title}</h1>
+        <div className="rank-sub">
+          Grade {rank.gradeLabel} · {rank.stage === 'institution' ? rank.employer : rank.appointment.split(' · ')[0]}
         </div>
       </section>
 
-      <section className="stat-row">
+      <section className="stat-row" aria-label="Your standing">
         <div className="stat">
           <div className="stat-num">
             {Math.round(save.rating.r)}
-            {provisional && <span className="prov" title="Provisional rating">?</span>}
+            {provisional && <span className="prov" title="Provisional — settles after a few games">?</span>}
           </div>
-          <div className="stat-label">Rating</div>
+          <div className="stat-label">
+            Rating
+            {last && (last.kind === 'ranked' || last.kind === 'series' || last.kind === 'cup') ? (
+              <span className={last.ratingDelta >= 0 ? 'up' : 'down'}>
+                {' '}
+                {last.ratingDelta >= 0 ? '+' : ''}
+                {last.ratingDelta}
+              </span>
+            ) : null}
+          </div>
         </div>
-        <div className="stat arena-stat" style={{ borderColor: arena.accent }}>
-          <div className="stat-num arena-kanji" style={{ color: arena.accent }}>
-            {arena.kanji}
-          </div>
+        <button className="stat arena-stat" onClick={() => go('career')} style={{ ['--accent' as string]: arena.accent }}>
+          <div className="stat-num arena-kanji">{arena.kanji}</div>
           <div className="stat-label">{arena.name}</div>
-        </div>
+        </button>
         <div className="stat">
-          <div className="stat-num">{save.stats.rated.g}</div>
-          <div className="stat-label">Matches</div>
+          <div className="stat-num">
+            {w.w}
+            <span className="wdl">
+              –{w.d}–{w.l}
+            </span>
+          </div>
+          <div className="stat-label">Record</div>
         </div>
       </section>
 
-      <section className="promo">
+      <div className="match-wrap">
+        <button className={`match-btn ${opp ? 'busy' : ''}`} onClick={onMatch} aria-label={active ? 'Resume game' : 'Match'}>
+          <svg className="match-ring" viewBox="0 0 120 120" aria-hidden>
+            <circle cx="60" cy="60" r="56" className="ring-bg" />
+            <circle cx="60" cy="60" r="56" className="ring-fg" style={{ strokeDasharray: `${progress * 351.9} 351.9` }} />
+          </svg>
+          <span className="match-label">{active ? 'RESUME' : series ? 'SERIES' : save.cup.active ? 'CUP' : 'MATCH'}</span>
+          <span className="match-mini">{active ? 'game in progress' : `${tcLabel} · rated`}</span>
+        </button>
+      </div>
+
+      <section className="next-promo" aria-label="Next promotion">
         {series ? (
           <>
-            <div className="promo-head">
-              <span>Promotion series → {rankInfo(series.targetRank).full}</span>
-              <span>
-                {series.wins} / {Math.floor(series.length / 2) + 1} pts · game {series.games + 1} of {series.length}
-              </span>
-            </div>
+            <div className="np-head">Promotion series</div>
+            <div className="np-title">{rankLine(series.targetRank, fam)}</div>
             <div className="series-pips">
               {Array.from({ length: series.length }).map((_, i) => (
                 <span key={i} className={i < series.games ? 'pip done' : 'pip'} />
               ))}
             </div>
+            <div className="np-req">
+              {series.wins} of {Math.floor(series.length / 2) + 1} points · game {series.games + 1} of {series.length}
+            </div>
           </>
         ) : (
           <>
-            <div className="promo-head">
-              <span>Next: {rankInfo(save.career.rank + 1).full}</span>
+            <div className="np-head">Next promotion</div>
+            <div className="np-title">{rankLine(next, fam)}</div>
+            <div className="np-req">
               <span>
                 {save.career.merit} / {need} merit
               </span>
-            </div>
-            <Bar value={save.career.merit} max={need} accent={arena.accent} />
-            <div className="promo-req">
-              {nextGate > 0 && <span className={save.rating.r >= nextGate ? 'ok' : 'warn'}>Rating ≥ {nextGate}</span>}
-              {seriesLength(save.career.rank + 1) > 0 && <span>Best-of-{seriesLength(save.career.rank + 1)} promotion series</span>}
+              {nextGate > 0 && (
+                <span className={save.rating.r >= nextGate ? 'ok' : 'warn'}>
+                  rating {nextGate.toLocaleString('en-US')}
+                  {save.rating.r >= nextGate ? ' ✓' : ''}
+                </span>
+              )}
+              {seriesLength(next) > 0 && <span>best-of-{seriesLength(next)} series</span>}
             </div>
           </>
         )}
       </section>
 
-      <div className="match-wrap">
-        <button className={`match-btn ${phase}`} onClick={onMatch} aria-label="Match">
-          <span className="match-ring" />
-          <span className="match-label">{active ? 'RESUME' : phase === 'idle' ? (series ? 'SERIES' : save.cup.active ? 'CUP' : 'MATCH') : 'FINDING'}</span>
+      {!active && !series && !save.cup.active && save.cup.tokens > 0 && !opp && (
+        <button
+          className="btn small cup-btn"
+          onClick={async () => {
+            await updateSave((s) => {
+              s.cup.tokens--;
+              s.cup.active = { arena: arena.index, round: 0 };
+            });
+            onMatch();
+          }}
+        >
+          Enter the Arena Cup · {save.cup.tokens} invitation{save.cup.tokens > 1 ? 's' : ''}
         </button>
-        <div className="match-sub">
-          {active ? 'Game in progress' : save.cup.active && !series ? `Arena Cup · round ${save.cup.active.round + 1} of 3` : `${tc.label} · rated`}
+      )}
+
+      {save.history.length > 0 && (
+        <div className="recent" aria-label="Recent results">
+          {save.history.slice(0, 10).map((h) => (
+            <span key={h.id} className={`dot r${h.score * 2}`} title={`${h.score === 1 ? 'Win' : h.score === 0 ? 'Loss' : 'Draw'} vs ${h.oppName}`} />
+          ))}
+          {save.stats.streak >= 2 && <span className="streak">{save.stats.streak} wins in a row</span>}
         </div>
-        {!active && !series && !save.cup.active && save.cup.tokens > 0 && phase === 'idle' && (
-          <button
-            className="btn small cup-btn"
-            onClick={async () => {
-              await updateSave((s) => {
-                s.cup.tokens--;
-                s.cup.active = { arena: arena.index, round: 0 };
-              });
-              onMatch();
-            }}
-          >
-            Enter the {arena.name} Cup · {save.cup.tokens} invitation{save.cup.tokens > 1 ? 's' : ''}
-          </button>
-        )}
-      </div>
+      )}
 
-      <div className="recent" aria-label="Recent results">
-        {recent.map((h) => (
-          <span key={h.id} className={`dot r${h.score * 2}`} title={`${h.score === 1 ? 'Win' : h.score === 0 ? 'Loss' : 'Draw'} vs ${h.oppName}`} />
-        ))}
-        {save.stats.streak >= 2 && <span className="streak">{save.stats.streak} win streak</span>}
-      </div>
-
-      {phase !== 'idle' && opp && <MatchmakingOverlay phase={phase} opp={opp} playerRating={save.rating.r} h2h={save.opponents[String(opp.id)]} />}
+      {opp && <OpponentReveal opp={opp} onCancel={() => setOpp(null)} onBegin={() => startMatch(nextKind(), opp).then(() => setOpp(null))} />}
     </div>
   );
 }
 
-function MatchmakingOverlay({ phase, opp, playerRating, h2h }: { phase: string; opp: OpponentSpec; playerRating: number; h2h?: { w: number; d: number; l: number } }) {
+function OpponentReveal({ opp, onBegin, onCancel }: { opp: OpponentSpec; onBegin: () => void; onCancel: () => void }) {
+  const { save } = useApp();
   const id = identityOf(opp.id);
-  const E = expectedScore(playerRating, opp.rating, opp.rd);
+  const career = opponentCareer(opp.id, opp.rating);
+  const E = expectedScore(save.rating.r, opp.rating, opp.rd);
+  const h2h = save.opponents[String(opp.id)];
+  const lr = leagueRecord(opp.id);
+  const started = useRef(false);
+  const begin = () => {
+    if (started.current) return;
+    started.current = true;
+    onBegin();
+  };
+  useEffect(() => {
+    const t = setTimeout(begin, 1800);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
-    <div className="overlay mm">
-      {phase === 'search' ? (
-        <div className="mm-search">
-          <div className="ripple" />
-          <div className="ripple r2" />
-          <div className="mm-text">Finding a worthy opponent…</div>
+    <div className="overlay reveal" role="dialog" aria-modal="true" aria-label="Opponent found">
+      <div className="opp-card">
+        {opp.rival && <div className="rival-tag">Rival</div>}
+        <CrestBadge crest={id.crest} size={76} />
+        <div className="opp-name">{id.name}</div>
+        <div className="opp-title">{career.title}</div>
+        <div className="opp-org">{career.employer}</div>
+        <div className="opp-meta">
+          <span className="opp-rating">{opp.rating}</span>
+          <span className="sep" />
+          <span>{STYLES[opp.style].label}</span>
         </div>
-      ) : (
-        <div className="mm-card">
-          {opp.rival && <div className="rival-tag">Rival</div>}
-          <CrestBadge crest={id.crest} size={84} />
-          <div className="mm-name">{id.name}</div>
-          <div className="mm-title">{titleForRating(opp.rating, opp.id)}</div>
-          <div className="mm-meta">
-            <span>{opp.rating}</span>
-            <span>·</span>
-            <span>{STYLES[opp.style].label}</span>
+        <p className="opp-blurb">{STYLES[opp.style].blurb}</p>
+        <div className="opp-odds">
+          <div>
+            <b>{Math.round(E * 100)}%</b>
+            <span>expected score</span>
           </div>
-          <div className="mm-blurb">{STYLES[opp.style].blurb}</div>
-          <div className="mm-blurb">
-            {id.bio} League record {(() => {
-              const lr = leagueRecord(opp.id);
-              return `${lr.wins}–${lr.draws}–${lr.losses}`;
-            })()}.
+          <div>
+            <b>{h2h ? `${h2h.w}–${h2h.d}–${h2h.l}` : '—'}</b>
+            <span>head to head</span>
           </div>
-          <div className="mm-odds">
-            Expected score {Math.round(E * 100)}%{h2h ? ` · H2H ${h2h.w}–${h2h.d}–${h2h.l}` : ''}
+          <div>
+            <b>
+              {lr.wins}–{lr.draws}–{lr.losses}
+            </b>
+            <span>league record</span>
           </div>
         </div>
-      )}
+        <div className="reveal-actions">
+          <button
+            className="btn ghost"
+            onClick={() => {
+              started.current = true;
+              onCancel();
+            }}
+          >
+            Not now
+          </button>
+          <button className="btn primary begin" onClick={begin} autoFocus>
+            Begin
+            <span className="countdown" aria-hidden />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
