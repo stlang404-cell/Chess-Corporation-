@@ -10,15 +10,3 @@
 {"label":"v02-vs-v01","nodes":100000,"opening":"c2c3 c6c4 a2a3 d6d5","newWhite":false,"scoreNew":1,"term":"checkmate","plies":62}
 {"label":"v02-vs-v01","nodes":100000,"opening":"c2c4 c6c5 b1c3 a6a5","newWhite":true,"scoreNew":0,"term":"checkmate","plies":90}
 {"label":"v02-vs-v01","nodes":100000,"opening":"c2c4 c6c5 b1c3 a6a5","newWhite":false,"scoreNew":0,"term":"checkmate","plies":137}
-/home/user/Chess-Corporation-/scripts/engine-match.ts:28
-    const m = ok[Math.floor(rand() * ok.length)][0];
-                                               ^
-
-TypeError: Cannot read properties of undefined (reading '0')
-    at makeOpening (/home/user/Chess-Corporation-/scripts/engine-match.ts:28:48)
-    at <anonymous> (/home/user/Chess-Corporation-/scripts/engine-match.ts:58:14)
-    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
-    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
-
-Node.js v22.23.4

@@ -540,3 +540,13 @@ mark { background: color-mix(in srgb, var(--gold) 35%, transparent); color: inhe
 .qual-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 10px 0; font-size: 0.74rem; }
 .qs { display: flex; justify-content: space-between; border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; background: var(--surface); }
 @media (max-width: 420px) { .qual-summary { grid-template-columns: repeat(2, 1fr); } }
+@media (max-height: 720px) and (max-width: 899px) {
+  .hero { margin-top: 2px; gap: 2px; }
+  .hero .insignia { width: 64px; height: 64px; }
+  .rank-title { font-size: 1.5rem; margin-top: 4px; }
+  .stat-row { margin-top: 8px; }
+  .stat-num { font-size: 1.4rem; }
+  .match-btn { width: min(44vw, 176px); }
+  .match-wrap { padding: 14px 0 10px; }
+  .match-label { font-size: 1.35rem; }
+}

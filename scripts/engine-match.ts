@@ -25,7 +25,7 @@ function makeOpening(): string[] {
   for (let i = 0; i < 4; i++) {
     const r = s.search(p, { nodes: 20000 }, { rootScores: true, rootMargin: 60 });
     const ok = r.rootScores!.filter((x) => x[1] >= r.rootScores![0][1] - 60);
-    const m = ok[Math.floor(rand() * ok.length)][0];
+    const m = ok.length ? ok[Math.floor(rand() * ok.length)][0] : r.move;
     moves.push(oldUci(m));
     p.make(m);
   }

@@ -30,3 +30,15 @@
 {"fen":"3qkbr/P5p/4BpN/nPB1p2/4P2/2PP1PP/Q3K1R b Kk - 1 16","themes":["defence","material"],"rating":700,"steps":[{"accept":["f7c4"]}],"eval":-1749,"gap":401}
 {"fen":"3qk1B/P5p/5pN/nPb1p2/4P2/2PP1PP/Q3K1R b K - 0 17","themes":["defence","material"],"rating":700,"steps":[{"accept":["d7a7"]}],"eval":-1708,"gap":401}
 {"fen":"2b1kr1/2n3p/2pb1p1/Q1B1p1q/P3P2/1B1P1PP/R3K1R b K - 3 17","themes":["defence","material"],"rating":700,"steps":[{"accept":["d5c4"]}],"eval":-381,"gap":371}
+{"fen":"rnbqkbr/6p/p3p2/1ppp1p1/PPPP2P/1B1NPP1/R2QKBR b KQkq - 0 9","themes":["fork"],"rating":950,"steps":[{"accept":["b4c3"]}],"eval":183,"gap":357}
+{"fen":"rn1qkbr/1b4p/4P2/p3N2/PP1P3/2p2P1/R2QKBR w KQkq - 0 15","themes":["material"],"rating":950,"steps":[{"accept":["d1f3"]}],"eval":32,"gap":401}
+{"fen":"5bQ/3kq1p/b6/r6/Pp1P2R/4KP1/R4B1 w - - 1 23","themes":["material"],"rating":700,"steps":[{"accept":["g3e3"]}],"eval":154,"gap":401}
+{"fen":"5b1/3k2p/7/r6/PpQP1q1/3K3/4RB1 w - - 0 31","themes":["material"],"rating":700,"steps":[{"accept":["c3e5"]}],"eval":358,"gap":401}
+{"fen":"5b1/2k3p/4Q2/r6/Pp1P1q1/3K3/4RB1 w - - 2 32","themes":["material"],"rating":1200,"steps":[{"accept":["e1c1"]}],"eval":389,"gap":401}
+{"fen":"7/2k3p/7/r1b2Q1/P2P3/1p1KB1q/2R4 w - - 0 35","themes":["fork"],"rating":700,"steps":[{"accept":["c1c4"]}],"eval":486,"gap":401}
+{"fen":"6Q/r3k1p/3b3/7/P2P3/3KB1q/2R4 b - - 6 39","themes":["skewer"],"rating":700,"steps":[{"accept":["g2g5"]}],"eval":412,"gap":401}
+{"fen":"6Q/r3k1p/3b2q/7/P2P3/4B2/2RK3 b - - 8 40","themes":["material"],"rating":700,"steps":[{"accept":["d5b3"]}],"eval":424,"gap":401}
+{"fen":"6Q/r3k1p/q6/6B/Pb1P3/2R4/3K3 b - - 12 42","themes":["defence","material"],"rating":950,"steps":[{"accept":["e6d5"]}],"eval":-497,"gap":401}
+{"fen":"1Q5/r5p/q2k3/6B/Pb1P3/2R4/3K3 b - - 14 43","themes":["defence","material"],"rating":700,"steps":[{"accept":["d5e5"]}],"eval":-670,"gap":401}
+{"fen":"7/r5p/q3k2/6B/PQ1P3/2R4/3K3 b - - 0 44","themes":["defence","fork","skewer"],"rating":1700,"steps":[{"accept":["a5a4"]}],"eval":-675,"gap":401}
+{"fen":"7/r5p/6k/2Q3B/P2Pq2/7/1R1K3 b - - 8 48","themes":["defence","fork","skewer"],"rating":700,"steps":[{"accept":["e3g1"]}],"eval":-286,"gap":401}

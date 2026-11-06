@@ -103,9 +103,13 @@ function Overview() {
             </div>
             <ul className="req-list">
               <li className="ok">Merit: earned by playing rated games (wins most, draws some, losses cost a little).</li>
-              <li className={save.rating.r >= ratingGate(next) ? 'ok' : 'warn'}>
-                Rating ≥ {ratingGate(next).toLocaleString('en-US') || 'none'} {save.rating.r >= ratingGate(next) ? '— met' : `— you are ${Math.round(save.rating.r)}`}
-              </li>
+              {ratingGate(next) > 0 ? (
+                <li className={save.rating.r >= ratingGate(next) ? 'ok' : 'warn'}>
+                  Rating ≥ {ratingGate(next).toLocaleString('en-US')} {save.rating.r >= ratingGate(next) ? '— met' : `— you are ${Math.round(save.rating.r)}`}
+                </li>
+              ) : (
+                <li className="ok">No rating requirement at this level.</li>
+              )}
               {seriesLength(next) > 0 && <li>Best-of-{seriesLength(next)} promotion series against opponents at the gate.</li>}
             </ul>
           </>
