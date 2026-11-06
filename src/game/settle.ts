@@ -264,6 +264,16 @@ export function settleMatch(
   o.last = now;
   o.tier = opp.tier;
   o.rating = opp.rating;
+  // bound storage: keep rivals and recent opponents, forget one-off encounters beyond 1,500 entries
+  const keys = Object.keys(s.opponents);
+  if (keys.length > 1500) {
+    const drop = keys
+      .map((k) => s.opponents[k])
+      .filter((x) => x.g < 3)
+      .sort((a, b) => a.last - b.last)
+      .slice(0, keys.length - 1500);
+    for (const x of drop) delete s.opponents[String(x.id)];
+  }
   s.rematch = s.rematch && s.rematch.oppId === opp.id ? { oppId: opp.id, count: s.rematch.count + 1 } : { oppId: opp.id, count: 1 };
   s.settled.push(match.id);
   if (s.settled.length > 1000) s.settled.splice(0, s.settled.length - 1000);

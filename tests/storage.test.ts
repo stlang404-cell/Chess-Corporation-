@@ -80,3 +80,21 @@ describe('save & reload', () => {
     expect(importSave(JSON.stringify({ json: '{}', sum: 5 }))).toBeNull();
   });
 });
+
+describe('storage without IndexedDB', () => {
+  it('falls back to localStorage when IndexedDB is unavailable', async () => {
+    const real = (globalThis as any).indexedDB;
+    (globalThis as any).indexedDB = undefined;
+    try {
+      const mod = await import('../src/game/storage?noidb' as any).catch(() => null);
+      expect(mod).not.toBeNull();
+      const s = newSave(9);
+      s.wallet.balance = 4242;
+      await mod.writeSave(s);
+      const { save } = await mod.loadSave();
+      expect(save.wallet.balance).toBe(4242);
+    } finally {
+      (globalThis as any).indexedDB = real;
+    }
+  });
+});
