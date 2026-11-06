@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useApp, go, updateSave } from './appState';
 import { rankInfo, arenaForRank, meritNeeded, ratingGate, seriesLength } from '../game/career';
 import { isProvisional, expectedScore } from '../game/rating';
-import { identityOf } from '../game/opponents';
+import { identityOf, leagueRecord } from '../game/opponents';
 import { STYLES } from '../engine/ai';
 import { Bar, CrestBadge, PlayerSeal, money, motifUrl, titleForRating } from './common';
 import { pickOpponent, startMatch, nextKind } from './matchFlow';
@@ -174,6 +174,12 @@ function MatchmakingOverlay({ phase, opp, playerRating, h2h }: { phase: string; 
             <span>{STYLES[opp.style].label}</span>
           </div>
           <div className="mm-blurb">{STYLES[opp.style].blurb}</div>
+          <div className="mm-blurb">
+            {id.bio} League record {(() => {
+              const lr = leagueRecord(opp.id);
+              return `${lr.wins}–${lr.draws}–${lr.losses}`;
+            })()}.
+          </div>
           <div className="mm-odds">
             Expected score {Math.round(E * 100)}%{h2h ? ` · H2H ${h2h.w}–${h2h.d}–${h2h.l}` : ''}
           </div>
