@@ -1,6 +1,8 @@
-// A rated game in progress survives a page reload (IndexedDB) and resumes on the Play tab.
+// An untimed rated game survives a long think and a page reload (IndexedDB),
+// and resumes on the Play tab with the same moves and still the player's turn.
 // Usage: node tests/e2e/resume.mjs http://localhost:4173/
 import { createRequire } from 'node:module';
+import { finishOnboarding, startRated, playAnyMove, MY_TURN } from './helpers.mjs';
 const { chromium } = createRequire(import.meta.url)('playwright');
 const url = process.argv[2] ?? 'http://localhost:4173/';
 const b = await chromium.launch();
@@ -8,32 +10,22 @@ const p = await b.newPage({ viewport: { width: 390, height: 844 } });
 const errors = [];
 p.on('pageerror', (e) => errors.push(String(e)));
 await p.goto(url);
-await p.click('.match-btn');
-await p.waitForSelector('.board', { timeout: 10000 });
-async function myMove() {
-  await p.waitForSelector('.player-bar.me .clock.running', { timeout: 20000 });
-  const box = await p.$eval('.board', (el) => {
-    const r = el.getBoundingClientRect();
-    return { x: r.x, y: r.y, w: r.width };
-  });
-  for (let k = 0; k < 49; k++) {
-    await p.mouse.click(box.x + ((k % 7) + 0.5) * (box.w / 7), box.y + (Math.floor(k / 7) + 0.5) * (box.w / 7));
-    const t = await p.$$('.target');
-    if (t.length) {
-      const tb = await t[0].boundingBox();
-      await p.mouse.click(tb.x + tb.width / 2, tb.y + tb.height / 2);
-      return;
-    }
-  }
+await finishOnboarding(p);
+await startRated(p);
+for (let i = 0; i < 2; i++) {
+  await p.waitForSelector(MY_TURN, { timeout: 20000 });
+  await playAnyMove(p);
 }
-await myMove();
-await myMove();
-await p.waitForSelector('.player-bar.me .clock.running', { timeout: 20000 });
-const before = (await p.textContent('.movelist')).trim();
+await p.waitForSelector(MY_TURN, { timeout: 20000 });
+// think for a while: untimed games never flag
+await p.waitForTimeout(4000);
+const before = (await p.textContent('.movelist')).replace(/\s+/g, ' ').trim();
 await p.reload();
 await p.waitForSelector('.play .board', { timeout: 10000 });
-const after = (await p.textContent('.movelist')).trim();
+const after = (await p.textContent('.movelist')).replace(/\s+/g, ' ').trim();
+const stillMyTurn = !!(await p.waitForSelector(MY_TURN, { timeout: 10000 }).catch(() => null));
 const tabIsPlay = !!(await p.$('.app.tab-play'));
-console.log(JSON.stringify({ before, after, tabIsPlay, errors }));
+const noClock = !(await p.$('.clock'));
+console.log(JSON.stringify({ before, after, tabIsPlay, stillMyTurn, noClock, errors }));
 await b.close();
-process.exit(before === after && tabIsPlay && before.length > 5 && !errors.length ? 0 : 1);
+process.exit(before === after && tabIsPlay && stillMyTurn && noClock && before.length > 5 && !errors.length ? 0 : 1);
