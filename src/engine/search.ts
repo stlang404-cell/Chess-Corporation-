@@ -108,7 +108,7 @@ export class Searcher {
     return pos.side === this.rootSide ? -this.pers.contempt : this.pers.contempt;
   }
 
-  search(pos: Position, limits: SearchLimits, opts: { rootScores?: boolean } = {}): SearchResult {
+  search(pos: Position, limits: SearchLimits, opts: { rootScores?: boolean; rootMargin?: number } = {}): SearchResult {
     const t0 = now();
     this.nodes = 0;
     this.stopped = false;
@@ -159,18 +159,29 @@ export class Searcher {
       if (this.nodes > this.nodeLimit * 0.5 && limits.nodes) break;
     }
     if (opts.rootScores) {
-      // score every root move at the completed depth (used for personality / tier choice)
+      // Score root moves at the completed depth inside a window [best-margin, best+64]:
+      // exact values are only needed for moves that could be chosen. Moves that fail
+      // low keep their (upper-bound) score and are filtered by the caller's margin.
       const d = Math.max(1, best.depth);
+      const margin = opts.rootMargin ?? 300;
+      const lo = best.score - margin - 1;
+      const hi = best.score + 64;
       this.stopped = false;
       this.deadline = Infinity;
-      this.nodeLimit = Infinity;
+      this.nodeLimit = this.nodes + Math.max(2000, (limits.nodes ?? 100000) * 2);
       const rs: [number, number][] = [];
       for (const m of legal) {
+        if (m === best.move) {
+          rs.push([m, best.score]);
+          continue;
+        }
         pos.make(m);
-        const s = -this.negamax(pos, d - 1, -INF, INF, 1, true);
+        const sc = -this.negamax(pos, d - 1, -hi, -lo, 1, true);
         pos.unmake();
-        rs.push([m, s]);
+        if (this.stopped) break;
+        rs.push([m, sc]);
       }
+      this.stopped = false;
       rs.sort((a, b) => b[1] - a[1]);
       best.rootScores = rs;
     }
