@@ -1,0 +1,5 @@
+15 16 4 balanced balanced
+18 19 4 balanced balanced
+20 22 1 balanced balanced
+16 16 6 defender balanced
+16 16 6 gambiteer balanced

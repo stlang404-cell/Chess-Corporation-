@@ -1,0 +1,4 @@
+16 16 6 endgame balanced
+22 24 4 balanced balanced
+19 20 2 balanced balanced
+16 18 4 balanced balanced
