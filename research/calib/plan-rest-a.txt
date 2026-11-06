@@ -1,0 +1,16 @@
+13 14 7 balanced balanced
+14 15 10 balanced balanced
+8 8 10 endgame balanced
+8 8 10 wildcard balanced
+8 8 10 gambiteer balanced
+8 8 10 technician balanced
+14 16 10 balanced balanced
+16 17 6 balanced balanced
+17 18 6 balanced balanced
+18 20 6 balanced balanced
+20 21 6 balanced balanced
+21 22 6 balanced balanced
+22 24 6 balanced balanced
+16 16 8 defender balanced
+16 16 8 endgame balanced
+16 16 8 gambiteer balanced
