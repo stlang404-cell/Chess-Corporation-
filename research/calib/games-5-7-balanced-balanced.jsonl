@@ -11,3 +11,10 @@
 {"a":"5:balanced","b":"7:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":216}
 {"a":"5:balanced","b":"7:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":61}
 {"a":"5:balanced","b":"7:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":86}
+{"a":"5:balanced","b":"7:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":85}
+{"a":"5:balanced","b":"7:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":88}
+{"a":"5:balanced","b":"7:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":185}
+{"a":"5:balanced","b":"7:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":82}
+{"a":"5:balanced","b":"7:balanced","scoreA":1,"aWhite":false,"term":"checkmate","plies":126}
+{"a":"5:balanced","b":"7:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":90}
+{"a":"5:balanced","b":"7:balanced","scoreA":0.5,"aWhite":false,"term":"repetition","plies":79}
