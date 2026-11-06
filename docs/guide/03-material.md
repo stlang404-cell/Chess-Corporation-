@@ -46,9 +46,9 @@ Because each side starts with two bishops and one knight, **the bishop pair is t
 > **Hypothesis:** the bishop pair is worth roughly half a pawn in open middlegames and more in endgames, as in chess. The effect may be smaller in SEVEN because the board is short enough for a knight to cover both wings quickly.
 
 ```seven
-fen: 2b1k1r/r4p1/p1p3p/3p3/3P3/P1N1P2/1B2KB1 w - - 0 1
-caption: Two bishops against bishop and knight. White's bishops rake both wings; Black's knight would need several moves to reach a useful square.
-highlight: b2 f2
+fen: 6k/p1pnbpp/3p3/3P3/3BP2/PB3PP/6K w - - 0 1
+caption: Material is level, but White has the bishop pair. The engine rates White clearly better (+2.8 at depth 11). Black's light-squared bishop is also hemmed in by its own pawns on c6 and d5.
+highlight: b2 d3 c6 d5
 ```
 
 ## Mating material
