@@ -136,3 +136,24 @@ describe('analysis', () => {
     expect(mFrom(0) + mTo(0)).toBe(0);
   });
 });
+
+import { classify } from '../src/engine/analysis';
+describe('move quality labels', () => {
+  const base = { played: 1, best: 1, bestScore: 50, playedScore: 50, secondScore: 30, see: 0 };
+  it('best / excellent / good / inaccuracy / mistake / blunder follow win-probability loss', () => {
+    expect(classify(base)).toBe('best');
+    expect(classify({ ...base, played: 2, playedScore: 40 })).toBe('excellent');
+    expect(classify({ ...base, played: 2, playedScore: -20 })).toBe('good');
+    expect(classify({ ...base, played: 2, playedScore: -120 })).toBe('inaccuracy');
+    expect(classify({ ...base, played: 2, playedScore: -230 })).toBe('mistake');
+    expect(classify({ ...base, played: 2, playedScore: -600 })).toBe('blunder');
+  });
+  it('great needs an only-move; brilliant additionally needs a real sacrifice and an unclear position', () => {
+    expect(classify({ ...base, secondScore: -300 })).toBe('great');
+    expect(classify({ ...base, secondScore: -300, see: -200 })).toBe('brilliant');
+    // already completely winning: a sacrifice is not "brilliant"
+    expect(classify({ ...base, bestScore: 900, playedScore: 900, secondScore: 100, see: -300 })).toBe('great');
+    // a sacrifice that is not the only good move is just "best"
+    expect(classify({ ...base, secondScore: 40, see: -300 })).toBe('best');
+  });
+});

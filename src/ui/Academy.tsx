@@ -7,7 +7,10 @@ import { moveToSan, sanToMove, uciOf, uciToMove } from '../engine/game';
 import { STYLES, STYLE_IDS, TIERS, type StyleId } from '../engine/ai';
 import { analyst } from './engineClient';
 import type { MoveAnalysis } from '../engine/analysis';
-import { boardTheme, Card, Segmented } from './common';
+import { boardTheme, Card, Segmented, animMsFor } from './common';
+import { Puzzles } from './Puzzles';
+
+const QUALITY_LABEL: Record<string, string> = { brilliant: 'Brilliant', great: 'Great', best: 'Best', excellent: 'Excellent', good: 'Good', inaccuracy: 'Inaccuracy', mistake: 'Mistake', blunder: 'Blunder' };
 import { parseMarkdown, Inline, blockText, type Block } from './markdown';
 import { botRating, botRd } from '../game/bots';
 import { identityOf } from '../game/opponents';
@@ -37,7 +40,7 @@ const EXERCISES = CHAPTERS.flatMap((c) =>
     .map((b) => ({ ...(b as { fields: Record<string, string> }).fields, chapter: c.title }) as Record<string, string>),
 );
 
-type Sec = 'guide' | 'exercises' | 'review' | 'practice';
+type Sec = 'guide' | 'puzzles' | 'exercises' | 'review' | 'practice';
 
 const toIdx = (s: number) => rankOf(s) * 7 + fileOf(s);
 const toSq = (i: number) => sq(i % 7, Math.floor(i / 7));
@@ -56,12 +59,14 @@ export function Academy() {
         onChange={setSec}
         options={[
           ['guide', 'Guide'],
+          ['puzzles', 'Puzzles'],
           ['exercises', 'Exercises'],
           ['review', 'Review'],
           ['practice', 'Practice'],
         ]}
       />
       {sec === 'guide' && <Guide />}
+      {sec === 'puzzles' && <Puzzles />}
       {sec === 'exercises' && <ExerciseList />}
       {sec === 'review' && <Review />}
       {sec === 'practice' && <Practice />}
@@ -530,6 +535,7 @@ function Review() {
         lastMove={last ? [toIdx(mFrom(last)), toIdx(mTo(last))] : null}
         coordinates={save.settings.coordinates}
         arrows={cur && cur.tag !== 'best' && cur.bestSan !== cur.san ? arrowForSan(game.moves, ply - 1, cur.bestSan) : undefined}
+        animMs={animMsFor(save.settings.animSpeed)}
       />
       <div className="btn-row">
         <button className="btn small" onClick={() => setPly(0)}>⏮</button>
@@ -545,12 +551,35 @@ function Review() {
       {an && <EvalGraph moves={an.moves} ply={ply} onPick={setPly} />}
       {an && (
         <div className="muted small">
-          White accuracy {acc(an.moves, 0)}% · Black accuracy {acc(an.moves, 1)}%{cur ? ` · ${cur.san}: ${cur.tag || 'ok'}${cur.tag && cur.tag !== 'best' ? ` (best ${cur.bestSan})` : ''}` : ''}
+          White accuracy {acc(an.moves, 0)}% · Black accuracy {acc(an.moves, 1)}%
+        </div>
+      )}
+      {an && cur && (
+        <div className="review-move">
+          <b>{cur.san}</b> <span className={`qual q-${cur.quality}`}>{QUALITY_LABEL[cur.quality]}</span>
+          {!['best', 'great', 'brilliant'].includes(cur.quality) && <span className="muted small"> · engine preferred {cur.bestSan}</span>}
+          {cur.lowConfidence && <span className="muted small"> · low confidence (shallow search)</span>}
+        </div>
+      )}
+      {an && (
+        <div className="qual-summary">
+          {(['brilliant', 'great', 'best', 'excellent', 'good', 'inaccuracy', 'mistake', 'blunder'] as const).map((q) => {
+            const nW = an.moves.filter((m) => m.ply % 2 === 0 && m.quality === q).length;
+            const nB = an.moves.filter((m) => m.ply % 2 === 1 && m.quality === q).length;
+            return (
+              <div key={q} className={`qs q-${q}`}>
+                <span>{QUALITY_LABEL[q]}</span>
+                <span>
+                  {nW} · {nB}
+                </span>
+              </div>
+            );
+          })}
         </div>
       )}
       <div className="movelist wrap">
         {sans.map((s, i) => (
-          <span key={i} className={`mv ${i === ply - 1 ? 'cur' : ''} ${an?.moves[i]?.tag ?? ''}`} onClick={() => setPly(i + 1)}>
+          <span key={i} className={`mv ${i === ply - 1 ? 'cur' : ''} ${an?.moves[i] ? 'q-' + an.moves[i].quality : ''}`} onClick={() => setPly(i + 1)}>
             {i % 2 === 0 && <b>{i / 2 + 1}.</b>} {s}
           </span>
         ))}
@@ -590,9 +619,9 @@ function EvalGraph({ moves, ply, onPick }: { moves: MoveAnalysis[]; ply: number;
         onPick(Math.max(0, Math.min(moves.length, Math.round(((e.clientX - r.left) / r.width) * moves.length))));
       }}
     >
-      <rect width={w} height={h / 2} fill="#f7f3ea" />
-      <rect y={h / 2} width={w} height={h / 2} fill="#d9d2c3" />
-      <polyline points={`0,${h / 2} ${pts}`} fill="none" stroke="#1d1d1b" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <rect width={w} height={h / 2} className="eg-top" />
+      <rect y={h / 2} width={w} height={h / 2} className="eg-bot" />
+      <polyline points={`0,${h / 2} ${pts}`} className="eg-line" vectorEffect="non-scaling-stroke" />
       {moves.map((m, i) =>
         m.tag === 'blunder' || m.tag === 'mistake' ? <circle key={i} cx={((i + 1) / moves.length) * w} cy={y(m.evalWhite)} r="2.5" fill={m.tag === 'blunder' ? '#b5452f' : '#c69a3c'} /> : null,
       )}
@@ -609,10 +638,14 @@ function Practice() {
   const [color, setColor] = useState<'w' | 'b' | 'r'>('r');
   const [mode, setMode] = useState<'training' | 'casual'>('training');
   const [tc, setTc] = useState(save.settings.tc);
+  const [max, setMax] = useState(false);
   const id = useMemo(() => Math.floor(Math.random() * 0x7fffffff), [tier, style]);
+  const top = TIERS.length - 1;
   const begin = () => {
     const c = color === 'w' ? 0 : color === 'b' ? 1 : Math.random() < 0.5 ? 0 : 1;
-    startMatch(mode, { id, tier, style, rating: botRating(tier, style), rd: botRd(tier), name: identityOf(id).name }, c as 0 | 1, tc);
+    const t = max ? top : tier;
+    const st = max ? 'balanced' : style;
+    startMatch(mode, { id, tier: t, style: st, rating: botRating(t, st), rd: botRd(t), name: identityOf(id).name, maxStrength: max }, c as 0 | 1, tc);
   };
   return (
     <Card>
@@ -620,7 +653,7 @@ function Practice() {
       <p className="muted small">Unrated. Training mode allows undo and engine hints. No rating, merit or dollars change.</p>
       <label className="setting">
         <span>Opponent strength</span>
-        <select value={tier} onChange={(e) => setTier(+e.target.value)}>
+        <select className="select" value={tier} disabled={max} onChange={(e) => setTier(+e.target.value)}>
           {TIERS.map((t) => (
             <option key={t.tier} value={t.tier}>
               Tier {t.tier} · ≈{botRating(t.tier, style)}
@@ -629,8 +662,15 @@ function Practice() {
         </select>
       </label>
       <label className="setting">
+        <span>
+          Maximum-strength challenge
+          <span className="muted small block">The strongest engine, no handicaps, up to 15 seconds per move. Expect long thinks.</span>
+        </span>
+        <input type="checkbox" className="switch" checked={max} onChange={(e) => setMax(e.target.checked)} />
+      </label>
+      <label className="setting">
         <span>Style</span>
-        <select value={style} onChange={(e) => setStyle(e.target.value as StyleId)}>
+        <select className="select" value={style} onChange={(e) => setStyle(e.target.value as StyleId)}>
           {STYLE_IDS.map((s) => (
             <option key={s} value={s}>
               {STYLES[s].label}
@@ -640,7 +680,7 @@ function Practice() {
       </label>
       <label className="setting">
         <span>Your colour</span>
-        <select value={color} onChange={(e) => setColor(e.target.value as 'w' | 'b' | 'r')}>
+        <select className="select" value={color} onChange={(e) => setColor(e.target.value as 'w' | 'b' | 'r')}>
           <option value="r">Random</option>
           <option value="w">White</option>
           <option value="b">Black</option>
@@ -648,14 +688,14 @@ function Practice() {
       </label>
       <label className="setting">
         <span>Mode</span>
-        <select value={mode} onChange={(e) => setMode(e.target.value as 'training' | 'casual')}>
+        <select className="select" value={mode} onChange={(e) => setMode(e.target.value as 'training' | 'casual')}>
           <option value="training">Training (undo, hints)</option>
           <option value="casual">Casual (undo)</option>
         </select>
       </label>
       <label className="setting">
         <span>Clock</span>
-        <select value={tc} onChange={(e) => setTc(e.target.value)}>
+        <select className="select" value={tc} onChange={(e) => setTc(e.target.value)}>
           {TIME_CONTROLS.map((t) => (
             <option key={t.id} value={t.id}>
               {t.label}

@@ -69,6 +69,9 @@ export class TranspositionTable {
 const LMR = new Int8Array(64 * 64);
 for (let d = 1; d < 64; d++) for (let m = 1; m < 64; m++) LMR[d * 64 + m] = Math.floor(0.75 + (Math.log(d) * Math.log(m)) / 2.25);
 
+/** Search feature switches for A/B experiments (research); defaults are what ships. */
+export const SEARCH_OPTS = { lmp: true, qsTT: true, countermove: true };
+
 const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
 
 export class Searcher {
@@ -85,6 +88,8 @@ export class Searcher {
   private pvTable = new Int32Array(MAX_PLY * MAX_PLY);
   private pvLen = new Int32Array(MAX_PLY);
   private quietTried = new Int32Array(MAX_PLY * 64);
+  /** countermove table: best quiet reply indexed by the previous move's from/to */
+  private counterMove = new Int32Array(1 << 14);
   private rootSide = WHITE;
   /** optional deterministic eval noise amplitude (cp) for weaker tiers */
   noise = 0;
@@ -224,6 +229,7 @@ export class Searcher {
         else if (promo === QUEEN) sc = 900_000;
         else if (m === k1) sc = 800_000;
         else if (m === k2) sc = 700_000;
+        else if (SEARCH_OPTS.countermove && m === this.counterMove[(pos.lastMove() & 0x3fff)]) sc = 600_000;
         else if (promo) sc = -100_000;
         else sc = this.history[b[mFrom(m)] * 99 + mTo(m)];
       }
@@ -325,8 +331,11 @@ export class Searcher {
       if (!pos.make(m)) continue;
       legal++;
       const givesCheck = pos.inCheck();
-      // futility pruning of quiet moves at frontier nodes
-      if (!isPv && !inCheck && isQuiet && !givesCheck && depth <= 2 && legal > 1 && staticEval + 120 * depth <= alpha) {
+      // futility pruning of quiet moves at frontier nodes, and late-move pruning
+      if (
+        !isPv && !inCheck && isQuiet && !givesCheck && legal > 1 &&
+        ((depth <= 2 && staticEval + 120 * depth <= alpha) || (SEARCH_OPTS.lmp && depth <= 3 && legal > 4 + depth * depth * 2 && Math.abs(alpha) < MATE - 200))
+      ) {
         pos.unmake();
         continue;
       }
@@ -360,6 +369,7 @@ export class Searcher {
           this.pvLen[ply] = Math.max(this.pvLen[ply + 1], ply + 1);
           if (s >= beta) {
             if (isQuiet) {
+              if (SEARCH_OPTS.countermove) this.counterMove[pos.lastMove() & 0x3fff] = m;
               if (this.killers[ply * 2] !== m) {
                 this.killers[ply * 2 + 1] = this.killers[ply * 2];
                 this.killers[ply * 2] = m;
@@ -403,6 +413,15 @@ export class Searcher {
     if (this.stopped) return 0;
     if (ply >= MAX_PLY - 2) return this.evalPos(pos);
     const inCheck = qd < 4 && pos.inCheck();
+    const tt = this.tt;
+    const tidx = pos.hashLo & tt.mask;
+    if (SEARCH_OPTS.qsTT && tt.flag[tidx] && tt.key[tidx] === pos.hashHi) {
+      let s = tt.score[tidx];
+      if (s > MATE - 200) s -= ply;
+      else if (s < -MATE + 200) s += ply;
+      const f = tt.flag[tidx];
+      if (f === TT_EXACT || (f === TT_LOWER && s >= beta) || (f === TT_UPPER && s <= alpha)) return s;
+    }
     let best = -INF;
     if (!inCheck) {
       const stand = this.evalPos(pos);

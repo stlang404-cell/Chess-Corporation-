@@ -8,17 +8,19 @@ import { OFFICIAL, startFen } from '../src/engine/rules';
 import { Searcher } from '../src/engine/search';
 import { boardOutcome, uciToMove } from '../src/engine/game';
 import { EVAL_OPTS } from '../src/engine/eval';
+import { SEARCH_OPTS } from '../src/engine/search';
 import * as OldB from '../research/engine-v01/board';
 import { Searcher as OldSearcher } from '../research/engine-v01/search';
 import { uciOf as oldUci } from '../research/engine-v01/game';
 
 const [nodesS, openS, seedS, label, offS = ''] = process.argv.slice(2);
 const nodes = +nodesS;
-const off = offS.split(',').filter(Boolean) as (keyof typeof EVAL_OPTS)[];
+const off = offS.split(',').filter(Boolean);
 let seed = +seedS;
 const rand = () => ((seed = (Math.imul(seed, 1103515245) + 12345) & 0x7fffffff) / 0x7fffffff);
-const setA = () => { for (const k of Object.keys(EVAL_OPTS) as (keyof typeof EVAL_OPTS)[]) EVAL_OPTS[k] = true; };
-const setB = () => { setA(); for (const k of off) EVAL_OPTS[k] = false; };
+const OPTS: Record<string, boolean>[] = [EVAL_OPTS as any, SEARCH_OPTS as any];
+const setA = () => { for (const o of OPTS) for (const k of Object.keys(o)) o[k] = true; };
+const setB = () => { setA(); for (const k of off) for (const o of OPTS) if (k in o) o[k] = false; };
 function makeOpening(): string[] {
   const p = OldB.Position.fromFen(startFen(OFFICIAL), OFFICIAL as any);
   const s = new OldSearcher(16);

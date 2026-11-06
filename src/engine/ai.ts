@@ -121,6 +121,8 @@ export interface BotSpec {
   seed: number;
   /** optional wall-clock cap (ms) derived from the bot's remaining game clock */
   maxMs?: number;
+  /** override the tier's node budget (maximum-strength challenge) */
+  nodes?: number;
 }
 
 export interface BotMoveInfo {
@@ -151,7 +153,7 @@ export function chooseBotMove(pos: Position, spec: BotSpec, searcher: Searcher):
   const wantScores = tier.temp > 0 || style.pers.aggression !== 0 || opening;
   const res = searcher.search(
     pos,
-    { nodes: opening ? Math.min(tier.nodes, 60000) : tier.nodes, timeMs: spec.maxMs },
+    { nodes: opening ? Math.min(spec.nodes ?? tier.nodes, 60000) : spec.nodes ?? tier.nodes, timeMs: spec.maxMs },
     { rootScores: wantScores, rootMargin: Math.max(opening ? 15 : tier.margin, 60) },
   );
   searcher.noise = 0;

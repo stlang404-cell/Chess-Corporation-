@@ -169,7 +169,9 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
     setThinking(true);
     const t0 = performance.now();
     engine
-      .botMove(m.moves, { tier: opp.tier, style: opp.style, seed: m.seed, maxMs: botThinkCapMs(m, pos.side, getState().save.settings.aiThink) }, m.moves.length < 2)
+      .botMove(m.moves, opp.maxStrength
+          ? { tier: opp.tier, style: opp.style, seed: m.seed, nodes: 8_000_000, maxMs: 15000 }
+          : { tier: opp.tier, style: opp.style, seed: m.seed, maxMs: botThinkCapMs(m, pos.side, getState().save.settings.aiThink) }, m.moves.length < 2)
       .then(async (r) => {
         const minDelay = 260 + Math.random() * 240;
         const spent = performance.now() - t0;

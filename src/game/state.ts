@@ -19,6 +19,8 @@ export interface OpponentSpec {
   rd: number;
   name: string;
   rival?: boolean;
+  /** unrated maximum-strength challenge: top tier, larger budget, longer thinks */
+  maxStrength?: boolean;
 }
 
 export interface TimeControl {
@@ -151,7 +153,12 @@ export interface SaveData {
   active: ActiveMatch | null;
   rematch: { oppId: number; count: number } | null;
   lastPlayedAt: number;
-  academy: { solved: Record<string, number>; readChapters: Record<string, number> };
+  academy: {
+    solved: Record<string, number>;
+    readChapters: Record<string, number>;
+    /** puzzle ladder: a separate rating that never touches the game rating */
+    puzzle: { rating: number; rd: number; vol: number; attempts: number; solved: number; streak: number; best: number; done: Record<string, 0 | 1> };
+  };
   /** cosmetic headquarters: an unlimited dollar sink, one floor at a time */
   hq: { floors: number };
   /** Arena Cup: a 3-round rated gauntlet; one entry token per CUP_EVERY rated games (max 3) */
@@ -216,7 +223,7 @@ export function newSave(now = Date.now()): SaveData {
     active: null,
     rematch: null,
     lastPlayedAt: 0,
-    academy: { solved: {}, readChapters: {} },
+    academy: { solved: {}, readChapters: {}, puzzle: { rating: 1000, rd: 250, vol: 0.06, attempts: 0, solved: 0, streak: 0, best: 0, done: {} } },
     hq: { floors: 0 },
     cup: { tokens: 0, active: null, trophies: [] },
   };
@@ -237,7 +244,7 @@ export function migrate(raw: unknown): SaveData {
     stats: { ...base.stats, ...(s.stats ?? {}) },
     settings: { ...base.settings, ...(s.settings ?? {}) },
     equipped: { ...base.equipped, ...(s.equipped ?? {}) },
-    academy: { ...base.academy, ...(s.academy ?? {}) },
+    academy: { ...base.academy, ...(s.academy ?? {}), puzzle: { ...base.academy.puzzle, ...((s.academy as any)?.puzzle ?? {}) } },
     hq: { ...base.hq, ...(s.hq ?? {}) },
     cup: { ...base.cup, ...(s.cup ?? {}) },
     finance: { ...base.finance, ...(s.finance ?? {}) },
