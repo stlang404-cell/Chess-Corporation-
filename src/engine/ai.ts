@@ -91,10 +91,10 @@ export const TIERS: TierDef[] = [
   { tier: 6, nodes: 14000, noise: 30, temp: 18, margin: 75 },
   { tier: 7, nodes: 32000, noise: 18, temp: 10, margin: 45 },
   { tier: 8, nodes: 70000, noise: 8, temp: 5, margin: 25 },
-  { tier: 9, nodes: 150000, noise: 0, temp: 0, margin: 0 },
-  { tier: 10, nodes: 320000, noise: 0, temp: 0, margin: 0 },
-  { tier: 11, nodes: 700000, noise: 0, temp: 0, margin: 0 },
-  { tier: 12, nodes: 1500000, noise: 0, temp: 0, margin: 0 },
+  { tier: 9, nodes: 150000, noise: 0, temp: 3, margin: 10 },
+  { tier: 10, nodes: 300000, noise: 0, temp: 2, margin: 8 },
+  { tier: 11, nodes: 600000, noise: 0, temp: 0, margin: 0 },
+  { tier: 12, nodes: 1200000, noise: 0, temp: 0, margin: 0 },
 ];
 
 export interface BotSpec {
@@ -102,6 +102,8 @@ export interface BotSpec {
   style: StyleId;
   /** per-game seed: makes the bot's noise stable within a game */
   seed: number;
+  /** optional wall-clock cap (ms) derived from the bot's remaining game clock */
+  maxMs?: number;
 }
 
 export interface BotMoveInfo {
@@ -132,8 +134,8 @@ export function chooseBotMove(pos: Position, spec: BotSpec, searcher: Searcher):
   const wantScores = tier.temp > 0 || style.pers.aggression !== 0 || opening;
   const res = searcher.search(
     pos,
-    { nodes: opening ? Math.min(tier.nodes, 60000) : tier.nodes },
-    { rootScores: wantScores && (opening || tier.nodes <= 200000), rootMargin: Math.max(opening ? 15 : tier.margin, 60) },
+    { nodes: opening ? Math.min(tier.nodes, 60000) : tier.nodes, timeMs: spec.maxMs },
+    { rootScores: wantScores, rootMargin: Math.max(opening ? 15 : tier.margin, 60) },
   );
   searcher.noise = 0;
   if (!res.rootScores || res.rootScores.length < 2) {

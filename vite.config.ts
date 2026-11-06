@@ -12,6 +12,6 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     assetsInlineLimit: mode === 'single' ? 100_000_000 : 4096,
   },
-  worker: { format: 'es' },
+  worker: { format: mode === 'single' ? 'iife' : 'es' },
   test: { include: ['tests/**/*.test.ts'], testTimeout: 120_000 },
 }));

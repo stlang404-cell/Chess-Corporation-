@@ -164,7 +164,12 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
     setThinking(true);
     const t0 = performance.now();
     engine
-      .botMove(m.moves, { tier: opp.tier, style: opp.style, seed: m.seed }, m.moves.length < 2)
+      .botMove(
+        m.moves,
+        // the bot respects its own clock: never spend more than ~1/25 of its remaining time + most of the increment
+        { tier: opp.tier, style: opp.style, seed: m.seed, maxMs: Math.max(150, m.clocks[pos.side] / 25 + tc.incMs * 0.7) },
+        m.moves.length < 2,
+      )
       .then(async (r) => {
         const minDelay = 350 + Math.random() * 350;
         const spent = performance.now() - t0;

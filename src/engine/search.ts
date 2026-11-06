@@ -127,7 +127,9 @@ export class Searcher {
       return best;
     }
     let prevScore = 0;
+    let iterStart = 0;
     for (let d = 1; d <= maxDepth; d++) {
+      iterStart = this.nodes;
       let score: number;
       if (d >= 4 && Math.abs(prevScore) < MATE - 200) {
         // aspiration window
@@ -156,7 +158,10 @@ export class Searcher {
       if (Math.abs(score) > MATE - 100 && d > 2) break; // found a mate
       // soft time control: don't start an iteration we likely can't finish
       if (limits.timeMs && now() - t0 > limits.timeMs * 0.45) break;
-      if (this.nodes > this.nodeLimit * 0.5 && limits.nodes) break;
+      // node budget: only start the next iteration if it is predicted to finish
+      // (iteration cost grows ~2.5x per ply); partial iterations are wasted work.
+      const iterNodes = this.nodes - iterStart;
+      if (limits.nodes && this.nodes + iterNodes * 2.5 > this.nodeLimit) break;
     }
     if (opts.rootScores) {
       // Score root moves at the completed depth inside a window [best-margin, best+64]:
