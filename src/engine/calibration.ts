@@ -4,9 +4,9 @@
  * tier 0 = 400. This is the SEVEN rating scale; it is NOT a FIDE rating.
  */
 export const CALIBRATION = {
-  generated: 'provisional (pre-measurement placeholder)',
-  games: 0,
-  tierRatings: [400, 550, 700, 850, 1000, 1150, 1300, 1450, 1600, 1750, 1900, 2050, 2200],
-  tierRd: [80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80],
-  styleOffsets: { balanced: 0, attacker: 0, strategist: 0, defender: 0, tactician: 0, endgame: 0, wildcard: 0 } as Record<string, number>,
+  generated: 'measured 2026-11-06',
+  games: 787,
+  tierRatings: [400, 520, 640, 760, 880, 1000, 1120, 1240, 1360, 1480, 1600, 1720, 1840, 1960, 2080, 2200, 2320, 2440, 2560, 2680, 2800, 2920, 3040, 3160, 3280],
+  tierRd: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+  styleOffsets: {"balanced":0,"attacker":-84,"defender":71,"endgame":18,"strategist":74,"tactician":-27,"wildcard":-314} as Record<string, number>,
 };

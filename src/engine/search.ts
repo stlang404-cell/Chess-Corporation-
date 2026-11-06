@@ -184,7 +184,9 @@ export class Searcher {
         const sc = -this.negamax(pos, d - 1, -hi, -lo, 1, true);
         pos.unmake();
         if (this.stopped) break;
-        rs.push([m, sc]);
+        // never let a re-searched alternative outrank the main search's choice
+        // (search instability would otherwise promote arbitrary moves)
+        rs.push([m, Math.min(sc, best.score - 1)]);
       }
       this.stopped = false;
       rs.sort((a, b) => b[1] - a[1]);

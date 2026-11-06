@@ -17,7 +17,7 @@ for (const f of readdirSync('research/calib')) {
 const tierGames = games.filter((g) => g.a.endsWith(':balanced') && g.b.endsWith(':balanced'));
 const tiers = [...new Set(tierGames.flatMap((g) => [g.a, g.b]))].map((x) => +x.split(':')[0]).sort((a, b) => a - b);
 const N = Math.max(...tiers) + 1;
-const r = new Array(N).fill(0).map((_, i) => i * 150);
+const r = new Array(N).fill(0).map((_, i) => i * 120);
 const C = Math.LN10 / 400;
 const E = (d: number) => 1 / (1 + Math.pow(10, -d / 400));
 for (let it = 0; it < 20000; it++) {
@@ -31,8 +31,8 @@ for (let it = 0; it < 20000; it++) {
   // weak prior toward a smooth ladder keeps unobserved / perfect-score pairs finite
   for (let i = 1; i < N; i++) {
     const d = r[i] - r[i - 1];
-    grad[i] -= (d - 200) / 400 ** 2 * 4;
-    grad[i - 1] += (d - 200) / 400 ** 2 * 4;
+    grad[i] -= (d - 120) / 400 ** 2 * 4;
+    grad[i - 1] += (d - 120) / 400 ** 2 * 4;
   }
   let m = 0;
   for (let i = 1; i < N; i++) {

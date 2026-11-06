@@ -81,21 +81,38 @@ export interface TierDef {
 }
 
 /** Strength tiers. Calibrated ratings live in calibration.ts (measured, not assumed). */
-export const TIERS: TierDef[] = [
-  { tier: 0, nodes: 60, noise: 220, temp: 120, margin: 500 },
-  { tier: 1, nodes: 150, noise: 160, temp: 90, margin: 350 },
-  { tier: 2, nodes: 400, noise: 120, temp: 70, margin: 260 },
-  { tier: 3, nodes: 1000, noise: 90, temp: 55, margin: 200 },
-  { tier: 4, nodes: 2500, noise: 65, temp: 40, margin: 150 },
-  { tier: 5, nodes: 6000, noise: 45, temp: 28, margin: 110 },
-  { tier: 6, nodes: 14000, noise: 30, temp: 18, margin: 75 },
-  { tier: 7, nodes: 32000, noise: 18, temp: 10, margin: 45 },
-  { tier: 8, nodes: 70000, noise: 8, temp: 5, margin: 25 },
-  { tier: 9, nodes: 150000, noise: 0, temp: 3, margin: 10 },
-  { tier: 10, nodes: 300000, noise: 0, temp: 2, margin: 8 },
-  { tier: 11, nodes: 600000, noise: 0, temp: 0, margin: 0 },
-  { tier: 12, nodes: 1200000, noise: 0, temp: 0, margin: 0 },
+/**
+ * Anchor parameter sets ("old tiers"); the 25 public tiers interpolate between
+ * consecutive anchors (log-linear in nodes, linear in noise/temperature/margin),
+ * giving finer strength steps for matchmaking. Even tiers equal the anchors.
+ */
+const ANCHORS = [
+  { nodes: 60, noise: 220, temp: 120, margin: 500 },
+  { nodes: 150, noise: 160, temp: 90, margin: 350 },
+  { nodes: 400, noise: 120, temp: 70, margin: 260 },
+  { nodes: 1000, noise: 90, temp: 55, margin: 200 },
+  { nodes: 2500, noise: 65, temp: 40, margin: 150 },
+  { nodes: 6000, noise: 45, temp: 28, margin: 110 },
+  { nodes: 14000, noise: 30, temp: 18, margin: 75 },
+  { nodes: 32000, noise: 18, temp: 10, margin: 45 },
+  { nodes: 70000, noise: 8, temp: 5, margin: 25 },
+  { nodes: 150000, noise: 0, temp: 3, margin: 10 },
+  { nodes: 300000, noise: 0, temp: 2, margin: 8 },
+  { nodes: 600000, noise: 0, temp: 0, margin: 0 },
+  { nodes: 1200000, noise: 0, temp: 0, margin: 0 },
 ];
+export const TIERS: TierDef[] = Array.from({ length: (ANCHORS.length - 1) * 2 + 1 }, (_, t) => {
+  const a = ANCHORS[Math.floor(t / 2)];
+  if (t % 2 === 0) return { tier: t, ...a };
+  const b = ANCHORS[Math.floor(t / 2) + 1];
+  return {
+    tier: t,
+    nodes: Math.round(Math.sqrt(a.nodes * b.nodes)),
+    noise: Math.round((a.noise + b.noise) / 2),
+    temp: Math.round((a.temp + b.temp) / 2),
+    margin: Math.round((a.margin + b.margin) / 2),
+  };
+});
 
 export interface BotSpec {
   tier: number;

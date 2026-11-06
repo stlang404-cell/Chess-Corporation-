@@ -23,7 +23,7 @@ level: 3
 fen: 5k1/7/7/6K/7/7/4Q2 w - - 0 1
 prompt: White to move and mate in two.
 solution: Kg5 Kg7 Qe7#
-explanation: The quiet king move takes away f6, g6 and h-nothing. Black's king must step to g7 (or f7, after which Qe7# works the same way), and the queen mates on the seventh rank, protected by nothing but geometry: the king on g5 covers f6 and g6.
+explanation: The quiet king move takes f6 and g6 away from the black king, and the queen already holds the e-file. Black's only move is Kg7, and Qe7# mates along the seventh rank. There is no h-file to escape to.
 ```
 
 ```exercise
@@ -32,7 +32,7 @@ level: 3
 fen: 7/7/6k/7/4K2/Q6/7 w - - 0 1
 prompt: White to move and mate in two.
 solution: Qf7 Kg4 Qg6#
-explanation: Qf7 boxes the king onto the g-file. Its only squares are g4 and g5, and Qg6# follows at once with the king on e4 covering f4 and f5.
+explanation: Qf7 takes f5, f6 and g6 away, and the white king on e3 covers f4, so the black king's only square is g4. Then Qg6# follows, with the king on e3 covering f3 and f4.
 ```
 
 ```exercise
@@ -62,7 +62,7 @@ level: 4
 fen: 3k3/7/7/4K1R/7/7/7 w - - 0 1
 prompt: White to move and mate in three.
 solution: Kd5 Kc7 Rb4 Kd7 Rb7#
-explanation: The king takes the opposition-like square d5. The rook then cuts off the king's escape towards the b-file, and when the black king returns to d7 the rook mates on the seventh rank.
+explanation: Kd5 takes c6, d6 and e6 away, leaving Black's king to shuttle along the seventh rank. After 1...Kc7 the rook cuts off the b-file with 2.Rb4. The king has to return to d7, opposite White's king, and 3.Rb7# mates on the seventh rank.
 ```
 
 ```exercise
@@ -71,7 +71,7 @@ level: 4
 fen: 7/3R3/7/4K2/7/6k/7 w - - 0 1
 prompt: White to move and mate in three.
 solution: Ke3 Kf1 Rg6 Ke1 Rg1#
-explanation: The king steps in front of the black king, which is trapped on the first two ranks. Rg6 is a waiting move that takes the g-file. Black's king must go to e1, and Rg1 mates on the back rank.
+explanation: Ke3 takes f2, f3 and f4 away. If 1...Kg3, 2.Rg6 is mate at once. The best defence, 1...Kf1, is met by the waiting move 2.Rg6, which takes the g-file. After 2...Ke1 forced, 3.Rg1# mates on the back rank.
 ```
 
 ## Bishops and knights
@@ -102,7 +102,7 @@ highlight: a7 d3
 
 Pawn endings on 7×7 follow the chess rules of **opposition** and **key squares**, shifted down one rank because the board is one rank shorter.
 
-> **Established:** a pawn on rank 2 or 3 (White) has its key squares two ranks ahead. For a pawn on d2 they are c4, d4 and e4; for a pawn on d3, c5, d5 and e5. If White's king reaches a key square, the pawn promotes whatever Black does. These are the chess rules applied to the shorter board, and they agree with the engine in every position we tested.
+> **Hypothesis:** a pawn on rank 2 or 3 (White) has its key squares two ranks ahead. For a pawn on d2 they are c4, d4 and e4; for a pawn on d3, c5, d5 and e5. If White's king reaches a key square, the pawn promotes whatever Black does. These are the chess rules applied to the shorter board. They agreed with the engine in every position we tested, but we have not checked them exhaustively.
 
 ```exercise
 id: endgame-opposition-win
@@ -110,7 +110,7 @@ level: 3
 fen: 7/7/3k3/7/4K2/3P3/7 w - - 0 1
 prompt: White to move and win. The pawn's key squares are c4, d4 and e4.
 solution: Kd3
-explanation: Kd3 takes the opposition. Black must give way: ...Kc5 allows Ke4, and ...Ke5 allows Kc4, both key squares. Pushing the pawn first (d3 or d4) lets Black take the opposition and draw.
+explanation: Kd3 takes the opposition. Black must give way: ...Kc5 allows Ke4, and ...Ke5 allows Kc4, both key squares. Pushing the pawn first throws the win away: the engine scores 1.d4 as a draw, and 1.d3 as far weaker than 1.Kd3.
 ```
 
 ```exercise
@@ -128,7 +128,7 @@ level: 5
 fen: 7/7/5K1/2k4/7/3P3/7 w - - 0 1
 prompt: White to move and win. Only one move does it.
 solution: Ke4
-explanation: The king steps in front of its pawn's path and "shoulders" Black's king away from d4 and d5. After 1...Kc5 2.Ke5 the black king is kept out, and the pawn walks home. Every other move allows ...Kd4 or ...Kd5 and a draw.
+explanation: The king steps in front of its pawn's path and "shoulders" Black's king away from d4 and d5. After 1...Kc5 2.Ke5 the black king is kept out, and the pawn walks home. The engine scores every other move as a draw, because they let Black's king reach d4 or d5.
 ```
 
 Two more pawn-ending facts are special to SEVEN:
@@ -140,9 +140,9 @@ Two more pawn-ending facts are special to SEVEN:
 id: endgame-escort-the-pawn
 level: 3
 fen: 7/4kP1/6K/6P/7/7/7 w - - 1 56
-prompt: White to move and win. The f-pawn is one step from queening.
+prompt: White to move. Find the quickest win. The f-pawn is one step from queening.
 solution: Kg6
-explanation: The king steps next to its pawn and covers f7, the promotion path. Black's king cannot both attack the pawn and stay in front of it, and f7 follows. Pushing the g-pawn first gives Black time to blockade on f7.
+explanation: The king steps up beside its pawn. It covers f7 and g7 and keeps protecting f6. Black's king cannot get in front of the pawn, and the pawn promotes on f7 next move. The engine rates Kg6 more than eight pawns better than any other move.
 ```
 
 ## Bishop endings
