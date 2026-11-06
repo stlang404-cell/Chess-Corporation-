@@ -23,7 +23,7 @@ To see how the engine's *search* weighs material in a real position, we set up a
 - Without Black's **d-pawn**: +0.97. Without the **a-pawn**: +0.99. Without the **g-pawn** next to the castled king: **+1.53**.
 - Without **knight and bishop**: +6.36, compared with +5.25 for the rook.
 
-> **Established:** in the engine's judgment the bishop is worth a little more than the knight, two minor pieces are worth clearly more than a rook (about one pawn more), and a pawn of the king's shelter is worth about one and a half ordinary pawns.
+> **Established:** in the engine's judgment the bishop is worth a little more than the knight, two minor pieces are worth clearly more than a rook (about one pawn more), and a pawn of the castled king's shelter is worth nearly twice an ordinary pawn (+1.23 against +0.67).
 
 > **Hypothesis:** the engine's figures inherit its hand-set values, so they are partly circular. A proper measurement needs many games from material-odds starting positions. Until that has been done, treat the classical 1–3–3–5–9 scale as accurate to within half a pawn for the minor pieces and rooks.
 
@@ -75,7 +75,7 @@ Rook for minor piece ("the exchange") is worth about a pawn and a half in the en
 
 ## Pawns: fewer, closer, faster
 
-Each side has seven pawns, and every one is close to promotion. A pawn on its fifth rank (rank 5 for White) is two steps from queening. A passed pawn in SEVEN is therefore worth more than its nominal 1.0, and the engine raises the pawn value from 88 to 115 as the game goes on for exactly this reason.
+Each side has seven pawns, and every one is close to promotion. A pawn on its fifth rank (rank 5 for White) is two steps from queening. A passed pawn in SEVEN is therefore worth more than its nominal 1.0, and the engine raises its pawn value from 88 to 115 as pieces come off.
 
 ## Summary
 

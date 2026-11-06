@@ -97,7 +97,7 @@ level: 5
 fen: 7/3K1R1/1k5/7/7/7/7 w - - 0 1
 prompt: White to move. Only one move mates in five; every other move takes at least two moves longer.
 solution: Rf4
-explanation: The rook cuts the black king off along the fourth rank, confining it to the top three ranks, with White's king already on the seventh. King moves or checks let the king out of the box. This uniqueness was confirmed by exhaustive retrograde analysis.
+explanation: The rook drops to the fourth rank and confines the black king to the top three ranks, while White's king on d6 covers c5, c6 and c7. Checks or king moves let the king out of the box. Exhaustive retrograde analysis confirms that this is the only mate in five.
 ```
 
 ```exercise
@@ -106,5 +106,5 @@ level: 5
 fen: 7/3R3/7/6K/7/4k2/7 w - - 0 1
 prompt: White to move. Find the only move that mates in five.
 solution: Kf4
-explanation: The rook already cuts the black king off along the d-file and the seventh rank is irrelevant. What matters is that White's king comes closer at once. Kf4 takes away e3's neighbours f3 and e4 and builds the box. Rook moves waste time. Exhaustive analysis shows every alternative mates at least two moves later.
+explanation: The rook on d6 already cuts the black king off from the queenside along the d-file. Now White's king must come closer: Kf4 takes e3 and f3 away from Black's king and shrinks the box. Rook moves waste time. Exhaustive analysis shows every alternative mates at least two moves later.
 ```

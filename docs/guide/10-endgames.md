@@ -54,7 +54,7 @@ caption: A 14-move KR-vs-K mate, the longest on the 7×7 board. The defending ki
 highlight: a7 g2
 ```
 
-Use the **box method**. The rook cuts the king off along a file or rank, your king approaches, and the box shrinks one line at a time. On a seven-line board the first box can be at most 3×7 squares, and the whole procedure takes few steps.
+Use the **box method**. The rook cuts the king off along a file or rank, your king approaches, and the box shrinks one line at a time. With the rook on a central line (the d-file or the fourth rank), the first box is no bigger than 3×7 squares, so the whole procedure takes only a few steps.
 
 ```exercise
 id: endgame-kr-mate-in-three-a
@@ -76,7 +76,7 @@ explanation: Ke3 takes f2, f3 and f4 away. If 1...Kg3, 2.Rg6 is mate at once. Th
 
 ## Bishops and knights
 
-> **Established:** king and two bishops against king, with the bishops on opposite colours, is a forced win in general on 7×7. The longest forced mate takes **16 moves** (19 on 8×8).
+> **Established:** king and two bishops against king, with the bishops on opposite colours, is a forced win from 99.9% of legal positions with White to move. The exceptions are immediate captures and stalemates. The longest forced mate takes **16 moves** (19 on 8×8). Two bishops of the same colour can never mate.
 
 > **Established:** king, **dark-squared** bishop and knight against king is a forced win from 99.3% of legal positions with White to move. The exceptions are immediate captures and stalemates. The longest forced mate takes **21 moves** (33 on 8×8). With the **light-squared** bishop, only 0.1% of positions are wins, all of them mates in one or two where the king is already trapped. As in chess, mate is forced in a corner of the bishop's colour, and **every corner on the 7×7 board is dark**.
 

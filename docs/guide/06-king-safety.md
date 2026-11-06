@@ -28,7 +28,7 @@ highlight: a7 b6 c5 d4 e3 f2 g1 a1 b2 c3 e5 f6 g7
 
 > **Hypothesis:** the defender's dark-squared bishop is therefore the most important defensive minor piece after short castling. Keep it, and keep the f-pawn on f2 (f6 for Black) as long as possible, since that pawn blocks the long diagonal.
 
-The engine agrees that shelter pawns count for more. Removing Black's g6-pawn from a castled position was worth +1.53 to White, against +0.97 for the d-pawn (see the Material chapter).
+The engine agrees that shelter pawns count for more. In a castled position, removing Black's g6-pawn lifted White's evaluation from +0.30 to +1.53, while removing the d-pawn lifted it only to +0.97 (see the Material chapter).
 
 ## Luft and the back rank
 

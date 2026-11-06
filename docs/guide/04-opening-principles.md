@@ -53,7 +53,7 @@ Remember this pattern from both sides: **do not be the one who opens the d-file 
 
 Short castling needs only the f-bishop out of the way, and it tucks the king into the g1 corner behind f2 and g2. Long castling takes at least three preparatory piece moves and puts the king on c1 behind a2, b2 and c2, with the rook landing on the d-file facing the enemy queen.
 
-> **Established:** short castling is available from move 3 (1.e3, 2.Be2, 3.O-O), long castling from move 4 at the earliest. In engine self-play short castling is far more common.
+> **Established:** short castling is available from move 3 (1.e3, 2.Be2, 3.O-O), long castling from move 4 at the earliest. In the ten engine games generated for this guide, short castling was played eleven times and long castling never.
 
 > **Hypothesis:** castle short when the f-file and g-file are still closed, and castle long only when the d-file is already open and you want your rook on it at once. Even then, check that the enemy dark-squared bishop cannot reach your king's diagonals.
 

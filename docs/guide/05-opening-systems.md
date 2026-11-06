@@ -53,7 +53,7 @@ arrows: g4g3
 
 - **2.a4** (+0.10) is the engine's choice, a mirror-image flank thrust. It gains space on the queenside and prepares a4–a5 or Ra3.
 - After **2...g3**, White must not take the hook. **3.f3!** (+0.14) keeps the kingside closed and leaves the g3-pawn as a long-term target. **3.fxg3?** opens the f-file towards White's own king, and the engine already prefers Black (−0.29 after 3...d5).
-- If White develops with 3.Nc3 instead, Black can play ...gxf2+. White recaptures with the king and loses the right to castle. In our engine game (see the Games chapter) White still won, but only after a long, sharp struggle.
+- If White develops with 3.Nc3 instead, Black can play ...gxf2+. White recaptures with the king and loses the right to castle. In one of our engine games in this line (1.d4 g4 2.a4 g3 3.Nc3 b5 4.axb5 gxf2+ 5.Kxf2) White still won, but only after a long, sharp struggle with the king in the open.
 
 ```seven
 fen: rnbqkbr/pppppp1/7/P2P3/6p/1PP1PPP/RNBQKBR w KQkq - 0 3
