@@ -126,6 +126,12 @@ export function Results({ report, onClear }: { report: SettlementReport; onClear
 
         {report.review && <ReviewStrip report={report} />}
         {report.contracts.length > 0 && report.contracts.map((c) => <div key={c} className="banner contract">Contract fulfilled · {c}</div>)}
+        {(report.honours ?? []).map((h) => (
+          <div key={h} className="banner honour">Honour conferred · {h}</div>
+        ))}
+        {(report.unlocked ?? []).map((u) => (
+          <div key={u} className="banner honour">Earned cosmetic unlocked · {u}</div>
+        ))}
         {lines.length > 0 ? (
           <ul className="pay" aria-label="Paycheck">
             <li className="pay-head">

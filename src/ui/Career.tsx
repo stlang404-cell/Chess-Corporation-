@@ -17,7 +17,7 @@ import {
 } from '../game/career';
 import { expectedScore, isProvisional } from '../game/rating';
 import { STYLES, STYLE_IDS } from '../engine/ai';
-import { STORE, ARENA_BOARDS, KIND_LABEL, canBuy, applyPurchase, itemById, floorPrice, floorName, hqValue, type ItemKind } from '../game/store';
+import { STORE, ARENA_BOARDS, EARNED, COLLECTIONS, KIND_LABEL, canBuy, applyPurchase, itemById, floorPrice, floorName, hqValue, type ItemKind } from '../game/store';
 import { ACHIEVEMENTS } from '../game/achievements';
 import { TIME_CONTROLS, newSave, isRatedKind, UNTIMED, type SaveData } from '../game/state';
 import { exportSave, checkImport, wipeSave } from '../game/storage';
@@ -28,6 +28,7 @@ import { PieceSvg } from './pieces';
 import { Insignia } from './Insignia';
 import { Icon } from './icons';
 import { CALIBRATION } from '../engine/calibration';
+import { DISTINCTIONS, distinctionById } from '../game/honours';
 
 type Sec = 'overview' | 'directory' | 'arenas' | 'stats' | 'finance' | 'store' | 'office' | 'settings';
 
@@ -116,6 +117,8 @@ function Overview() {
         )}
       </Card>
 
+      <Records />
+
       <Card>
         <h3>Department</h3>
         <p className="muted small">Your job family shapes title wording only. Seniority, rating and pay are unaffected.</p>
@@ -161,6 +164,60 @@ function Overview() {
             <span className="muted small">{new Date(save.createdAt).toLocaleDateString()}</span>
           </li>
         </ol>
+      </Card>
+    </>
+  );
+}
+
+function Records() {
+  const { save } = useApp();
+  const r = save.records;
+  const rows: [string, typeof r.bestAccuracy, (v: number) => string][] = [
+    ['Best accuracy', r.bestAccuracy, (v) => `${v}%`],
+    ['Biggest upset', r.biggestUpset, (v) => `+${v}`],
+    ['Largest paycheck', r.largestPaycheck, (v) => money(v)],
+    ['Fastest mate', r.fastestMate, (v) => `${v} moves`],
+    ['Best game', r.bestGame, (v) => `${v} pts`],
+  ];
+  const held = new Set(save.honors.map((h) => h.id));
+  const other = save.honors.filter((h) => !DISTINCTIONS.some((d) => d.id === h.id));
+  return (
+    <>
+      <Card>
+        <h3>Career records</h3>
+        <div className="records-grid">
+          {rows.map(([label, e, fmt]) => (
+            <div key={label} className="record">
+              <div className="rl">{label}</div>
+              <div className="rv">{e ? fmt(e.value) : '—'}</div>
+              <div className="rd muted">{e ? `${e.label} · ${new Date(e.at).toLocaleDateString()}` : 'not yet set'}</div>
+            </div>
+          ))}
+        </div>
+        <p className="muted small">
+          Contracts fulfilled: {save.contracts.completed} · Reviewed games: {save.stats.reviewed ?? 0} · Brilliant {save.stats.brilliants ?? 0} · Great {save.stats.greats ?? 0}
+        </p>
+      </Card>
+      <Card>
+        <h3>Honours</h3>
+        <div className="honour-list">
+          {DISTINCTIONS.map((d) => (
+            <span key={d.id} className={`honour ${held.has(d.id) ? '' : 'locked'}`} title={d.desc}>
+              {held.has(d.id) ? '◆ ' : '◇ '}
+              {d.name}
+            </span>
+          ))}
+        </div>
+        <p className="muted small">Each distinction also unlocks an earned-only cosmetic in the Store.</p>
+        {other.length > 0 && (
+          <ul className="req-list">
+            {[...other].reverse().slice(0, 20).map((h) => (
+              <li key={h.id} className="ok">
+                {h.name} <span className="muted small">{new Date(h.at).toLocaleDateString()}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </Card>
     </>
   );
@@ -507,15 +564,18 @@ const PREVIEW_CELLS = (() => {
 function Store() {
   const { save } = useApp();
   const [kind, setKind] = useState<ItemKind>('board');
-  const items = [...STORE, ...ARENA_BOARDS].filter((i) => i.kind === kind);
+  const items = [...STORE, ...ARENA_BOARDS, ...EARNED].filter((i) => i.kind === kind);
   const buy = (id: string) => {
     const it = itemById(id)!;
     const why = canBuy(it, save.wallet.balance, save.career.highestRank, save.owned);
     if (why) return toast(why === 'Locked' ? `Unlocks at ${rankLine(it.minRank!, save.career.family)}` : why);
+    const before = new Set(save.owned);
     updateSave((s) => {
       applyPurchase(s, id);
+    }).then(() => {
+      const bonus = EARNED.filter((e) => !before.has(e.id) && e.earned?.startsWith('collection:') && COLLECTIONS.find((c) => `collection:${c.id}` === e.earned)!.items.every((x) => x === id || before.has(x)));
+      toast(bonus.length ? `Collection complete — ${bonus.map((b) => b.name).join(', ')} unlocked` : it.price ? `Purchased ${it.name}` : `Claimed ${it.name}`);
     });
-    toast(it.price ? `Purchased ${it.name}` : `Claimed ${it.name}`);
   };
   const equip = (id: string) =>
     updateSave((s) => {
@@ -537,9 +597,9 @@ function Store() {
         {items.map((it) => {
           const owned = save.owned.includes(it.id);
           const equipped = save.equipped[it.kind] === it.id;
-          const locked = it.minRank !== undefined && save.career.highestRank < it.minRank;
+          const locked = (it.minRank !== undefined && save.career.highestRank < it.minRank) || (!!it.earned && !owned);
           return (
-            <div key={it.id} className={`store-item ${equipped ? 'equipped' : ''} ${locked ? 'locked' : ''}`}>
+            <div key={it.id} className={`store-item ${equipped ? 'equipped' : ''} ${locked ? 'locked' : ''} ${it.earned ? 'earned' : ''}`}>
               <div className="preview">
                 {it.kind === 'board' && <Board cells={PREVIEW_CELLS} theme={it.data as any} pieceSet={save.equipped.pieces} small coordinates={false} />}
                 {it.kind === 'pieces' && (
@@ -576,19 +636,57 @@ function Store() {
                 )
               ) : (
                 <>
-                  {locked && <span className="small warn lock-note">Requires {rankInfo(it.minRank!, save.career.family).title}</span>}
-                  <button className="btn small primary" onClick={() => buy(it.id)} disabled={locked}>
-                    {locked ? 'Locked' : it.price === 0 ? 'Claim' : money(it.price)}
-                  </button>
+                  {it.earned ? (
+                    <span className="small lock-note earned-note">{earnedHow(it.earned)}</span>
+                  ) : (
+                    locked && <span className="small warn lock-note">Requires {rankInfo(it.minRank!, save.career.family).title}</span>
+                  )}
+                  {!it.earned && (
+                    <button className="btn small primary" onClick={() => buy(it.id)} disabled={locked}>
+                      {locked ? 'Locked' : it.price === 0 ? 'Claim' : money(it.price)}
+                    </button>
+                  )}
                 </>
               )}
             </div>
           );
         })}
       </div>
-      <p className="muted small">Cosmetics only. Dollars can never buy rating, rank or engine help in rated games.</p>
+      <h3 className="sub-head">Collections</h3>
+      <div className="collections">
+        {COLLECTIONS.map((c) => {
+          const have = c.items.filter((x) => save.owned.includes(x)).length;
+          const done = save.owned.includes(c.reward);
+          return (
+            <div key={c.id} className={`collection ${done ? 'done' : ''}`}>
+              <div className="row-between tight">
+                <b>{c.name}</b>
+                <span className="muted small">
+                  {have}/{c.items.length}
+                </span>
+              </div>
+              <div className="bar">
+                <div className="bar-fill" style={{ width: `${(have / c.items.length) * 100}%` }} />
+              </div>
+              <div className="small muted">
+                {c.items.map((x) => itemById(x)?.name).join(' · ')}
+              </div>
+              <div className="small">
+                Reward: <b>{itemById(c.reward)?.name}</b> {done ? '✓' : '(earned only)'}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <p className="muted small">Cosmetics only. Dollars can never buy rating, rank or engine help in rated games. Earned items cannot be bought.</p>
     </>
   );
+}
+
+function earnedHow(earned: string) {
+  const [kind, id] = earned.split(':');
+  if (kind === 'honour') return `Earned: ${distinctionById(id)?.name ?? id}`;
+  return `Earned: complete ${COLLECTIONS.find((c) => c.id === id)?.name}`;
 }
 
 // ---------------- Office ----------------

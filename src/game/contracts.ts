@@ -38,6 +38,14 @@ function hash(n: number) {
   return (n ^ (n >>> 16)) >>> 0;
 }
 
+/** Kinds that are impossible right now for this save. */
+export function unavailableKinds(opponents: Record<string, { g: number }>, boardAhead: boolean): ContractKind[] {
+  const out: ContractKind[] = [];
+  if (!Object.values(opponents).some((o) => o.g >= 3)) out.push('rival');
+  if (!boardAhead) out.push('series');
+  return out;
+}
+
 const KINDS: ContractKind[] = ['accurate', 'upset', 'black', 'defence', 'great', 'clean', 'rival', 'series'];
 
 /** Deterministic contract #n for a player of this rating and rank. */
@@ -66,9 +74,10 @@ export function makeContract(n: number, rating: number, rank: number, exclude: C
   }
 }
 
-export function freshContracts(issued: number, rating: number, rank: number): Contract[] {
+/** `exclude` removes kinds that cannot currently be met (e.g. 'rival' before any rival exists). */
+export function freshContracts(issued: number, rating: number, rank: number, exclude: ContractKind[] = []): Contract[] {
   const out: Contract[] = [];
-  for (let i = 0; out.length < 3; i++) out.push(makeContract(issued + i, rating, rank, out.map((c) => c.kind)));
+  for (let i = 0; out.length < 3; i++) out.push(makeContract(issued + i, rating, rank, [...exclude, ...out.map((c) => c.kind)]));
   return out;
 }
 

@@ -8,9 +8,11 @@
 import { expectedScore, updateRating } from './rating';
 import { meritDelta, meritNeeded, ratingGate, seriesLength, rankInfo, rankLine, arenaForRank, fastTrack, MAX_RANK } from './career';
 import { computePay, computePayV3, PAY_FORMULA, promotionBonus, type PayLine } from './economy';
-import { freshContracts, advanceContracts, makeContract } from './contracts';
+import { freshContracts, advanceContracts, makeContract, unavailableKinds } from './contracts';
 import { salary } from './career';
 import { newAchievements } from './achievements';
+import { DISTINCTIONS, type HonourContext } from './honours';
+import { grantEarned } from './store';
 import { emptyWLD, seasonKey, type CompactReview, isRatedKind, CUP_ROUNDS, CUP_EVERY, type ActiveMatch, type MatchSummary, type SaveData } from './state';
 
 export interface SettlementReport {
@@ -40,6 +42,9 @@ export interface SettlementReport {
   accuracy?: number;
   cupResult: 'advanced' | 'won' | 'eliminated' | null;
   contracts: string[];
+  /** honours earned in this game, and earned-only cosmetics they unlocked */
+  honours: string[];
+  unlocked: string[];
   review: CompactReview | null;
   cupRound: number | null;
 }
@@ -73,6 +78,8 @@ export function settleMatch(
   let gateBlocked: number | null = null;
   let cupResult: SettlementReport['cupResult'] = null;
   const completedContracts: string[] = [];
+  const newHonours: string[] = [];
+  const unlockedItems: string[] = [];
   const pay: PayLine[] = [];
   const pmoves = playerMoveCount(match);
   const arena = arenaForRank(rankBefore).index;
@@ -205,7 +212,7 @@ export function settleMatch(
       if (score >= 0.5 && review.minWin <= 25) s.stats.defences++;
     }
     if (!s.contracts.active.length) {
-      s.contracts.active = freshContracts(s.contracts.issued, R0, rankBefore);
+      s.contracts.active = freshContracts(s.contracts.issued, R0, rankBefore, unavailableKinds(save.opponents, !!save.career.series || seriesLength(rankBefore + 1) > 0));
       s.contracts.issued += 3;
     }
     const isRival = (s.opponents[String(opp.id)]?.g ?? 0) >= 3;
@@ -223,7 +230,7 @@ export function settleMatch(
       pay.push({ key: 'contract', label: `Contract fulfilled: ${c.label}`, amount: c.reward });
       completedContracts.push(c.label);
       s.contracts.completed++;
-      const kinds = s.contracts.active.filter((x) => x !== c).map((x) => x.kind);
+      const kinds = [...unavailableKinds(s.opponents, !!s.career.series || seriesLength(s.career.rank + 1) > 0), ...s.contracts.active.filter((x) => x !== c).map((x) => x.kind)];
       s.contracts.active[s.contracts.active.indexOf(c)] = makeContract(s.contracts.issued++, s.rating.r, s.career.rank, kinds);
     }
     const rec = s.records;
@@ -236,16 +243,22 @@ export function settleMatch(
       const quality = review.accuracy + 10 * review.counts.brilliant + 3 * review.counts.great + Math.max(0, opp.rating - R0) / 20;
       if (!rec.bestGame || quality > rec.bestGame.value) rec.bestGame = { value: Math.round(quality), label, matchId: match.id, at: now };
     }
-    // rare distinctions (honours, separate from titles and rating)
-    const honour = (id: string, name: string) => {
-      if (!s.honors.some((h) => h.id === id)) s.honors.push({ id, name, at: now, kind: 'distinction' });
+    // rare distinctions (honours, separate from titles and rating) + their earned cosmetics
+    const hctx: HonourContext = {
+      brilliants: s.stats.brilliants,
+      defences: s.stats.defences,
+      contractsCompleted: s.contracts.completed,
+      bestStreak: s.stats.bestStreak,
+      winAccuracy: review && score === 1 && pmoves >= 20 ? review.accuracy : null,
+      upsetGap: score === 1 ? opp.rating - R0 : null,
     };
-    if (s.stats.brilliants >= 7) honour('order-seven-pines', 'Order of the Seven Pines — seven verified brilliant moves');
-    if (review && score === 1 && pmoves >= 20 && review.accuracy >= 95) honour('golden-ledger', 'Golden Ledger — a win with 95%+ accuracy');
-    if (s.stats.defences >= 5) honour('iron-defence', 'Iron Defence — five games saved from clearly worse positions');
-    if (score === 1 && opp.rating - R0 >= 300) honour('giant-slayer', 'Giant Slayer — defeated an opponent rated 300+ above');
-    if (s.contracts.completed >= 10) honour('contractor', 'Contractor of Distinction — ten performance contracts');
-    if (s.stats.bestStreak >= 10) honour('perfect-quarter', 'Perfect Quarter — ten rated wins in a row');
+    for (const d of DISTINCTIONS) {
+      if (!s.honors.some((h) => h.id === d.id) && d.test(hctx)) {
+        s.honors.push({ id: d.id, name: `${d.name} — ${d.desc.charAt(0).toLowerCase()}${d.desc.slice(1)}`, at: now, kind: 'distinction' });
+        newHonours.push(d.name);
+      }
+    }
+    for (const it of grantEarned(s)) unlockedItems.push(it.name);
   }
 
   const summary: MatchSummary = {
@@ -356,6 +369,8 @@ export function settleMatch(
       achievements: ach.map((a) => ({ id: a.id, name: a.name, reward: a.reward })),
       accuracy: fin.accuracy,
       contracts: completedContracts,
+      honours: newHonours,
+      unlocked: unlockedItems,
       review: fin.review ?? null,
       cupResult,
       cupRound: s.cup.active ? s.cup.active.round : null,

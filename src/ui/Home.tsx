@@ -9,6 +9,7 @@ import { Insignia } from './Insignia';
 import { pickOpponent, startMatch, nextKind } from './matchFlow';
 import type { OpponentSpec } from '../game/state';
 import { itemById } from '../game/store';
+import { freshContracts, unavailableKinds } from '../game/contracts';
 import { isUntimed, timeControlOf } from '../game/clock';
 
 export function Home() {
@@ -35,6 +36,12 @@ export function Home() {
   };
 
   const w = save.stats.rated;
+  const reviewed = save.history.filter((h) => h.review).slice(0, 10);
+  const recentAcc = reviewed.length ? Math.round(reviewed.reduce((a, h) => a + h.review!.summary.accuracy, 0) / reviewed.length) : null;
+  const contracts = save.contracts.active.length ? save.contracts.active : freshContracts(save.contracts.issued, save.rating.r, save.career.rank, unavailableKinds(save.opponents, !!series || seriesLength(next) > 0));
+  const rival = Object.values(save.opponents)
+    .filter((o) => o.g >= 3)
+    .sort((a, b) => b.g - a.g || b.last - a.last)[0];
   return (
     <div className="home" style={{ ['--motif' as string]: motifUrl(office, 'currentColor', 0.05) }}>
       <header className="home-top">
@@ -75,9 +82,9 @@ export function Home() {
             ) : null}
           </div>
         </div>
-        <button className="stat arena-stat" onClick={() => go('career')} style={{ ['--accent' as string]: arena.accent }}>
-          <div className="stat-num arena-kanji">{arena.kanji}</div>
-          <div className="stat-label">{arena.name}</div>
+        <button className="stat acc-stat" onClick={() => go('career')} title="Average engine-review accuracy, last 10 reviewed games">
+          <div className="stat-num">{recentAcc === null ? '—' : `${recentAcc}%`}</div>
+          <div className="stat-label">Accuracy</div>
         </button>
         <div className="stat">
           <div className="stat-num">
@@ -148,6 +155,35 @@ export function Home() {
         >
           Enter the Arena Cup · {save.cup.tokens} invitation{save.cup.tokens > 1 ? 's' : ''}
         </button>
+      )}
+
+      {!opp && (
+        <section className="contracts-card" aria-label="Performance contracts">
+          <div className="np-head">Performance contracts</div>
+          <ul>
+            {contracts.map((c) => (
+              <li key={c.id}>
+                <span className="ct-label">{c.label}</span>
+                <span className="ct-prog">
+                  {c.target > 1 && (
+                    <span className="ct-pips">
+                      {Array.from({ length: c.target }).map((_, i) => (
+                        <i key={i} className={i < c.progress ? 'on' : ''} />
+                      ))}
+                    </span>
+                  )}
+                  <b>{money(c.reward)}</b>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="ct-foot">Rated games of 15+ moves with an engine review count.</div>
+          {rival && (
+            <div className="rival-line">
+              <span className="rival-chip">rival</span> {rival.name} · {rival.w}–{rival.d}–{rival.l} in {rival.g} games
+            </div>
+          )}
+        </section>
       )}
 
       {save.history.length > 0 && (

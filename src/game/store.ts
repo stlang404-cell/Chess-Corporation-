@@ -12,6 +12,8 @@ export interface StoreItem {
   desc: string;
   /** theme data consumed by the UI */
   data?: Record<string, string>;
+  /** earned-only: granted by an honour ('honour:<id>') or a completed collection ('collection:<id>'); never for sale */
+  earned?: string;
 }
 
 export const KIND_LABEL: Record<ItemKind, string> = {
@@ -86,6 +88,28 @@ export const STORE: StoreItem[] = [
   { id: 'amenity.mentor', kind: 'amenity', name: 'Training Mentor', price: 12000, desc: 'Training-game hints search 3× deeper and show the main line.' },
 ];
 
+/** Earned-only cosmetics: rare, cannot be bought. */
+export const EARNED: StoreItem[] = [
+  { id: 'crest.pines', kind: 'crest', name: 'Seven Pines', price: 0, earned: 'honour:order-seven-pines', desc: 'Order of the Seven Pines: seven verified brilliants.', data: { mark: '松' } },
+  { id: 'frame.ledger', kind: 'frame', name: 'Golden Ledger', price: 0, earned: 'honour:golden-ledger', desc: 'A rated win at 95%+ accuracy.', data: { style: '3px double #b08d3c' } },
+  { id: 'board.iron', kind: 'board', name: 'Iron Gate', price: 0, earned: 'honour:iron-defence', desc: 'Five lost positions saved.', data: { light: '#dfe1e3', dark: '#7b8590', line: '#4c545d' } },
+  { id: 'portrait.sword', kind: 'portrait', name: 'Giant Slayer', price: 0, earned: 'honour:giant-slayer', desc: 'Beat an opponent rated 300+ above you.', data: { glyph: '剣' } },
+  { id: 'trophy.seal', kind: 'trophy', name: 'Contract Seal', price: 0, earned: 'honour:contractor', desc: 'Ten performance contracts fulfilled.', data: { glyph: '印' } },
+  { id: 'ceremony.aurora', kind: 'ceremony', name: 'Aurora', price: 0, earned: 'honour:perfect-quarter', desc: 'Ten rated wins in a row. Jade-and-indigo light falls.' },
+  { id: 'frame.jade', kind: 'frame', name: 'Jade Rule', price: 0, earned: 'collection:tea', desc: 'Tea House collection reward.', data: { style: '2px solid #3f7d64' } },
+  { id: 'board.deep-indigo', kind: 'board', name: 'Deep Indigo', price: 0, earned: 'collection:indigo', desc: 'Indigo Studio collection reward.', data: { light: '#e3e6ee', dark: '#4d5a7a', line: '#2f3a55' } },
+  { id: 'portrait.seal', kind: 'portrait', name: 'Vermilion Seal', price: 0, earned: 'collection:seal', desc: 'Seal Office collection reward.', data: { glyph: '朱' } },
+  { id: 'crest.kirin', kind: 'crest', name: 'Kirin', price: 0, earned: 'collection:executive', desc: 'Executive Suite collection reward.', data: { mark: '麟' } },
+];
+
+/** Collections: own every item to receive an earned-only reward. */
+export const COLLECTIONS: { id: string; name: string; items: string[]; reward: string }[] = [
+  { id: 'tea', name: 'Tea House', items: ['board.matcha', 'office.asanoha', 'trophy.bonsai', 'crest.pine'], reward: 'frame.jade' },
+  { id: 'indigo', name: 'Indigo Studio', items: ['board.indigo', 'office.seigaiha', 'crest.wave', 'portrait.crane'], reward: 'board.deep-indigo' },
+  { id: 'seal', name: 'Seal Office', items: ['pieces.vermilion', 'frame.vermilion', 'entrance.brush', 'trophy.clock'], reward: 'portrait.seal' },
+  { id: 'executive', name: 'Executive Suite', items: ['pieces.gold', 'board.kinpaku', 'frame.gold', 'trophy.fuji'], reward: 'crest.kirin' },
+];
+
 function mix(hex: string, base: string, t: number): string {
   const p = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
   const a = p(hex);
@@ -107,10 +131,11 @@ export const ARENA_BOARDS: StoreItem[] = Array.from({ length: AUTHORED_ARENA_COU
   };
 });
 
-export const itemById = (id: string) => STORE.find((i) => i.id === id) ?? ARENA_BOARDS.find((i) => i.id === id);
+export const itemById = (id: string) => STORE.find((i) => i.id === id) ?? ARENA_BOARDS.find((i) => i.id === id) ?? EARNED.find((i) => i.id === id);
 
 export function canBuy(item: StoreItem, balance: number, highestRank: number, owned: string[]): string | null {
   if (owned.includes(item.id)) return 'Owned';
+  if (item.earned) return 'Earned only';
   if (item.minRank !== undefined && highestRank < item.minRank) return 'Locked';
   if (balance < item.price) return 'Insufficient funds';
   return null;
@@ -144,5 +169,25 @@ export function applyPurchase(s: { wallet: { balance: number; spent: number }; f
   s.finance.purchases += it.price;
   s.owned.push(it.id);
   if (it.kind !== 'trophy' && it.kind !== 'amenity') s.equipped[it.kind] = it.id;
+  grantEarned(s);
   return null;
+}
+
+/**
+ * Grant earned-only items for held honours and completed collections (mutates
+ * `s`; idempotent). Returns the newly granted items.
+ */
+export function grantEarned(s: { owned: string[]; honors?: { id: string }[] }): StoreItem[] {
+  const out: StoreItem[] = [];
+  const held = new Set((s.honors ?? []).map((h) => h.id));
+  for (const it of EARNED) {
+    if (s.owned.includes(it.id)) continue;
+    const [kind, id] = it.earned!.split(':');
+    const ok = kind === 'honour' ? held.has(id) : COLLECTIONS.find((c) => c.id === id)!.items.every((x) => s.owned.includes(x));
+    if (ok) {
+      s.owned.push(it.id);
+      out.push(it);
+    }
+  }
+  return out;
 }

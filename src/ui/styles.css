@@ -637,3 +637,34 @@ mark { background: color-mix(in srgb, var(--gold) 35%, transparent); color: inhe
 .q-border-brilliant { border-left-color: var(--teal); } .q-border-great { border-left-color: var(--blue); } .q-border-best, .q-border-excellent { border-left-color: var(--jade); }
 .q-border-inaccuracy { border-left-color: var(--gold); } .q-border-mistake { border-left-color: #c66b2a; } .q-border-blunder { border-left-color: var(--verm); }
 @media (min-width: 900px) { .review-grid { grid-template-columns: minmax(0, 1fr) 320px; align-items: start; } .rv-side { position: sticky; top: 24px; } }
+
+/* ---- v0.3 career hooks: contracts, rival, records ---- */
+.acc-stat { border-top: 2px solid var(--jade); }
+.contracts-card { width: 100%; max-width: 440px; margin-top: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); border-left: 3px solid var(--gold); }
+.contracts-card ul { list-style: none; margin: 6px 0 0; padding: 0; }
+.contracts-card li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 5px 0; font-size: 0.82rem; border-top: 1px dashed var(--line); }
+.contracts-card li:first-child { border-top: 0; }
+.ct-label { flex: 1; }
+.ct-prog { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.ct-prog b { color: var(--gold); font-variant-numeric: tabular-nums; }
+.ct-pips { display: inline-flex; gap: 3px; }
+.ct-pips i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--jade); }
+.ct-pips i.on { background: var(--jade); }
+.ct-foot { font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
+.rival-line { margin-top: 8px; font-size: 0.78rem; color: var(--ink-soft, var(--muted)); }
+.records-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.record { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.record .rv { font-size: 1.15rem; font-weight: 600; color: var(--indigo); font-variant-numeric: tabular-nums; }
+.record .rl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.record .rd { font-size: 0.72rem; margin-top: 2px; }
+.honour-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.honour { border: 1px solid var(--gold); color: var(--gold); border-radius: 999px; padding: 2px 10px; font-size: 0.75rem; }
+.honour.locked { border-color: var(--line); color: var(--muted); }
+.ceremony-aurora .flake { background: linear-gradient(var(--jade), var(--indigo)); border-radius: 2px; width: 3px; height: 18px; }
+.banner.honour { border-color: var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 9%, transparent); }
+.store-item.earned { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); }
+.earned-note { color: var(--gold); }
+.sub-head { margin: 18px 0 8px; }
+.collections { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.collection { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 6px; }
+.collection.done { border-color: var(--jade); }
