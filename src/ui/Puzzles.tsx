@@ -71,7 +71,7 @@ export function Puzzles() {
           <div className="stat-label">Streak (best {ps.best})</div>
         </div>
       </div>
-      <div className="chips" style={{ margin: '12px 0' }}>
+      <div className="chips scroll-row" style={{ margin: '12px 0' }}>
         <button className={`chip ${theme === null ? 'on' : ''}`} onClick={() => { setTheme(null); setCurrent(pickPuzzle(ps.rating, ps.done, null, null)); }}>
           All · {PUZZLES.length}
         </button>
