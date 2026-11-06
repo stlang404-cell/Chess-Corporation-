@@ -83,7 +83,7 @@ level: 4
 fen: k1K4/7/4R2/6q/1Q5/7/7 b - - 0 1
 prompt: Black to move and save the game.
 solution: Qc4+ Qxc4
-explanation: Black offers the queen with check, and White has to take it. Then Black's king on a7 has no legal move and is not in check: the white king on c7 covers b6 and b7, and the queen on c4 covers a6. Stalemate.
+explanation: Black offers the queen with check. If White takes it, Black's king on a7 has no legal move and is not in check: the white king on c7 covers b6 and b7, and the queen on c4 covers a6. Stalemate. Blocking with Rc5 does not help either, and the engine finds no way for White to avoid the draw.
 ```
 
 ### Counter-attack with checks
