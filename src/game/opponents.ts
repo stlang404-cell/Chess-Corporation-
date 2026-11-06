@@ -144,7 +144,8 @@ export function leagueRecord(id: number): { games: number; wins: number; draws: 
 }
 
 // ---------- corporate career of an opponent ----------
-import { ratingGate, rankInfo, rankLine, arenaForRank, AUTHORED_RANKS, FAMILIES } from './career';
+import { ratingGate, rankInfo, rankLine, arenaForRank, institutionInfo, AUTHORED_RANKS, FAMILIES } from './career';
+import { INSTITUTIONS } from './careerData';
 
 let GATES: number[] | null = null;
 /**
@@ -162,5 +163,16 @@ export function opponentCareer(id: number, rating: number) {
   const family = FAMILIES[(h >>> 8) % FAMILIES.length].id;
   const r = rankInfo(rank, family);
   const arena = arenaForRank(rank);
-  return { rank, family, familyName: FAMILIES[(h >>> 8) % FAMILIES.length].name, title: rankLine(rank, family), employer: r.employer, arena: arena.name, arenaIndex: arena.index };
+  // below enterprise level, opponents work for one of the authored institutions (their affiliation)
+  const affiliation = r.stage === 'institution' ? r.employer : institutionInfo((h >>> 4) % INSTITUTIONS.length).name;
+  return {
+    rank,
+    family,
+    familyName: FAMILIES[(h >>> 8) % FAMILIES.length].name,
+    title: r.stage === 'institution' ? r.full : rankLine(rank, family),
+    line: r.stage === 'institution' ? rankLine(rank, family) : `${rankLine(rank, family)}, ${affiliation}`,
+    employer: affiliation,
+    arena: arena.name,
+    arenaIndex: arena.index,
+  };
 }

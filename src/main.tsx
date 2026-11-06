@@ -21,9 +21,12 @@ if ('serviceWorker' in navigator && import.meta.env.PROD && location.protocol.st
         const w = reg.installing;
         w?.addEventListener('statechange', () => w.state === 'installed' && offer(w));
       });
+      // Only reload when an existing page is handed to a NEW version (the player
+      // pressed Reload). The very first install claiming the page needs no reload.
+      const hadController = !!navigator.serviceWorker.controller;
       let reloading = false;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (reloading) return;
+        if (reloading || !hadController) return;
         reloading = true;
         location.reload();
       });

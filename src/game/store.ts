@@ -1,6 +1,6 @@
 /** Cosmetic store. Nothing here affects move quality, opponents, or rating. */
 import { arenaInfo, firstRankOfArena, AUTHORED_ARENA_COUNT } from './career';
-export type ItemKind = 'board' | 'pieces' | 'crest' | 'frame' | 'office' | 'ceremony' | 'entrance' | 'trophy' | 'amenity';
+export type ItemKind = 'board' | 'pieces' | 'portrait' | 'crest' | 'frame' | 'office' | 'ceremony' | 'entrance' | 'trophy' | 'amenity';
 
 export interface StoreItem {
   id: string;
@@ -17,6 +17,7 @@ export interface StoreItem {
 export const KIND_LABEL: Record<ItemKind, string> = {
   board: 'Boards',
   pieces: 'Piece sets',
+  portrait: 'Portraits',
   crest: 'Crests',
   frame: 'Profile frames',
   office: 'Office',
@@ -40,6 +41,13 @@ export const STORE: StoreItem[] = [
   { id: 'pieces.kanji', kind: 'pieces', name: 'Kanji Tiles', price: 12000, desc: 'Shogi-style tiles with kanji names.' },
   { id: 'pieces.gold', kind: 'pieces', name: 'Lacquer & Gold', price: 40000, minRank: 80, desc: 'Black lacquer, gold rims.' },
 
+  { id: 'pieces.vermilion', kind: 'pieces', name: 'Seal Vermilion', price: 9000, desc: 'Ivory against seal-ink red.' },
+
+  { id: 'portrait.ink', kind: 'portrait', name: 'Ink Silhouette', price: 0, desc: 'The default portrait.', data: { glyph: '人' } },
+  { id: 'portrait.crane', kind: 'portrait', name: 'Crane', price: 3000, desc: 'Poise under pressure.', data: { glyph: '鶴' } },
+  { id: 'portrait.tiger', kind: 'portrait', name: 'Tiger', price: 5000, desc: 'For attacking players.', data: { glyph: '虎' } },
+  { id: 'portrait.tortoise', kind: 'portrait', name: 'Tortoise', price: 5000, desc: 'For defenders.', data: { glyph: '亀' } },
+  { id: 'portrait.dragon', kind: 'portrait', name: 'Dragon', price: 40000, minRank: 76, desc: 'Reserved for chief executives.', data: { glyph: '龍' } },
   { id: 'crest.plain', kind: 'crest', name: 'Plain Seal', price: 0, desc: 'A simple circle.', data: { mark: '七' } },
   { id: 'crest.crane', kind: 'crest', name: 'Crane', price: 4000, desc: 'Longevity.', data: { mark: '鶴' } },
   { id: 'crest.wave', kind: 'crest', name: 'Wave', price: 4000, desc: 'Persistence.', data: { mark: '波' } },

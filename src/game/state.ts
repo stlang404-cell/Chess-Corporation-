@@ -187,10 +187,11 @@ export function newSave(now = Date.now()): SaveData {
     history: [],
     opponents: {},
     achievements: {},
-    owned: ['board.ivory', 'pieces.ink', 'crest.plain', 'frame.none', 'office.plain', 'ceremony.ink', 'entrance.fade'],
+    owned: ['board.ivory', 'pieces.ink', 'portrait.ink', 'crest.plain', 'frame.none', 'office.plain', 'ceremony.ink', 'entrance.fade'],
     equipped: {
       board: 'board.ivory',
       pieces: 'pieces.ink',
+      portrait: 'portrait.ink',
       crest: 'crest.plain',
       frame: 'frame.none',
       office: 'office.plain',

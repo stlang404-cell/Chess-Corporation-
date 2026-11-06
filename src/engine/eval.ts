@@ -110,6 +110,9 @@ for (const k of SQUARES)
 const PASSED_MG = [0, 4, 10, 20, 36, 60, 0];
 const PASSED_EG = [0, 12, 24, 44, 80, 130, 0];
 
+/** Feature switches for A/B testing evaluation terms (research only; all on in play). */
+export const EVAL_OPTS = { outposts: true, attackerWeight: true, rookBehind: true, squareRule: true, drawScaling: true };
+
 const ATTACKER_WEIGHT = [0, 25, 60, 85, 100, 110, 115, 120];
 const passedSq = [new Int32Array(8), new Int32Array(8)];
 const nPassed = [0, 0];
@@ -232,7 +235,7 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
       mobEg += sign * (m - 4) * 4;
       // outpost: advanced, pawn-supported, cannot be chased by enemy pawns
       const rel = c === WHITE ? rankOf(s) : RANKS - 1 - rankOf(s);
-      if (rel >= 3 && rel <= 5) {
+      if (EVAL_OPTS.outposts && rel >= 3 && rel <= 5) {
         const back = c === WHITE ? -9 : 9;
         const own = (c << 3) | PAWN;
         if (b[s + back - 1] === own || b[s + back + 1] === own) {
@@ -309,10 +312,11 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
   const atkW = attackUnits[WHITE];
   const atkB = attackUnits[BLACK];
   // attacks only become dangerous with several attackers (one piece alone rarely mates)
-  const kingAtk =
-    (((atkW * atkW) >> 2) * ATTACKER_WEIGHT[Math.min(7, attackers[WHITE])]) / 100 -
-    (((atkB * atkB) >> 2) * ATTACKER_WEIGHT[Math.min(7, attackers[BLACK])]) / 100;
-  const rookPass = (rooksBehind[WHITE] - rooksBehind[BLACK]) * 20;
+  const kingAtk = EVAL_OPTS.attackerWeight
+    ? (((atkW * atkW) >> 2) * ATTACKER_WEIGHT[Math.min(7, attackers[WHITE])]) / 100 -
+      (((atkB * atkB) >> 2) * ATTACKER_WEIGHT[Math.min(7, attackers[BLACK])]) / 100
+    : ((atkW * atkW) >> 2) - ((atkB * atkB) >> 2);
+  const rookPass = EVAL_OPTS.rookBehind ? (rooksBehind[WHITE] - rooksBehind[BLACK]) * 20 : 0;
 
   if (phase > PHASE_MAX) phase = PHASE_MAX;
   const ph = phase; // PHASE_MAX = opening, 0 = bare endgame
@@ -343,7 +347,7 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
   const cnt = pos.counts;
   const pieces = (col: number) => cnt[(col << 3) | KNIGHT] + cnt[(col << 3) | BISHOP] + cnt[(col << 3) | ROOK] + cnt[(col << 3) | QUEEN];
   for (let col = 0; col < 2; col++) {
-    if (pieces(col ^ 1) !== 0) continue;
+    if (!EVAL_OPTS.squareRule || pieces(col ^ 1) !== 0) continue;
     for (let i = 0; i < nPassed[col]; i++) {
       const sq0 = passedSq[col][i];
       const promoRank = col === WHITE ? RANKS - 1 : 0;
@@ -361,6 +365,7 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
   let score = (mgScore * ph + egScore * (PHASE_MAX - ph)) / PHASE_MAX;
   // opposite-coloured bishops with no other pieces: very drawish
   if (
+    EVAL_OPTS.drawScaling &&
     cnt[KNIGHT] + cnt[ROOK] + cnt[QUEEN] + cnt[8 | KNIGHT] + cnt[8 | ROOK] + cnt[8 | QUEEN] === 0 &&
     cnt[BISHOP] === 1 &&
     cnt[8 | BISHOP] === 1 &&

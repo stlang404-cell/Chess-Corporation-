@@ -13,7 +13,7 @@ export const money = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
 
 /** Corporate title an opponent of a given strength plausibly holds. */
 export function titleForRating(rating: number, id: number): string {
-  return opponentCareer(id, rating).title;
+  return opponentCareer(id, rating).line;
 }
 
 const ink = '#1d1d1b';
@@ -145,3 +145,7 @@ export const TERMINATION_LABEL: Record<string, string> = {
   agreement: 'by agreement',
   abandoned: 'by abandonment',
 };
+
+export function animMsFor(speed: 'slow' | 'normal' | 'fast' | 'off'): number {
+  return speed === 'off' ? 0 : speed === 'slow' ? 320 : speed === 'fast' ? 110 : 200;
+}

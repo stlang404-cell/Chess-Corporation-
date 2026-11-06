@@ -9,14 +9,18 @@ import { STYLES } from '../engine/ai';
 import { engine, analyst } from './engineClient';
 import { settleMatch, type SettlementReport } from '../game/settle';
 import { type ActiveMatch } from '../game/state';
-import { isUntimed, clocksAfterMove, hasFlagged, botThinkCapMs, timeControlOf } from '../game/clock';
-import { identityOf } from '../game/opponents';
+import { isUntimed, clocksAfterMove, hasFlagged, botThinkCapMs } from '../game/clock';
+import { identityOf, opponentCareer } from '../game/opponents';
 import { rankInfo } from '../game/career';
 import { isProvisional } from '../game/rating';
-import { boardTheme, CrestBadge, PlayerSeal, fmtClock, money, TERMINATION_LABEL, titleForRating, Bar } from './common';
+import { boardTheme, CrestBadge, fmtClock, TERMINATION_LABEL, animMsFor } from './common';
+import { Insignia } from './Insignia';
 import { playSound } from './sound';
-import { startMatch, pickOpponent, nextKind } from './matchFlow';
+import { startMatch } from './matchFlow';
 import { itemById } from '../game/store';
+import { toPgn } from '../game/pgn';
+import { Icon } from './icons';
+import { Results } from './Results';
 
 const toIdx = (s: number) => rankOf(s) * 7 + fileOf(s);
 const toSq = (i: number) => sq(i % 7, Math.floor(i / 7));
@@ -32,12 +36,9 @@ function buildPosition(moves: string[]) {
   }
   return { pos, sans };
 }
+const cellsOf = (pos: Position) => SQUARES.map((s) => pos.board[s]);
 
-function cellsOf(pos: Position) {
-  return SQUARES.map((s) => pos.board[s]);
-}
-
-/** Can `color` still mate with what it has? (FIDE timeout rule) */
+/** Can `color` still mate with what it has? (timed games only: FIDE timeout rule) */
 function canMate(pos: Position, color: number) {
   const c = pos.counts;
   const o = color << 3;
@@ -72,14 +73,18 @@ export function Play() {
 
 function NoGame() {
   return (
-    <div className="empty-play">
-      <p>No game in progress.</p>
-      <button className="btn primary" onClick={() => go('home')}>
-        Go to MATCH
-      </button>
-      <button className="btn" onClick={() => setState({ tab: 'academy' })}>
-        Practice in the Academy
-      </button>
+    <div className="empty-state">
+      <div className="empty-seal">盤</div>
+      <h2 className="display">No game in progress</h2>
+      <p className="muted">Press MATCH on Home for a rated game, or practise in the Academy.</p>
+      <div className="btn-row center">
+        <button className="btn primary" onClick={() => go('home')}>
+          Go to MATCH
+        </button>
+        <button className="btn" onClick={() => setState({ tab: 'academy' })}>
+          Practice
+        </button>
+      </div>
     </div>
   );
 }
@@ -100,13 +105,15 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   const playerColor = m.playerColor;
   const finished = !!m.finished;
   const myTurn = !finished && pos.side === playerColor;
-  const tc = timeControlOf(m);
+  const untimed = isUntimed(m);
   const casual = m.kind === 'casual' || m.kind === 'training';
   const [thinking, setThinking] = useState(false);
   const [promo, setPromo] = useState<{ from: number; to: number } | null>(null);
   const [hint, setHint] = useState<[number, number] | null>(null);
   const [settling, setSettling] = useState<string | null>(null);
-  const [confirmResign, setConfirmResign] = useState(false);
+  const [confirm, setConfirm] = useState<null | 'resign' | 'draw'>(null);
+  const [flipped, setFlipped] = useState(playerColor === 1);
+  const [menu, setMenu] = useState(false);
   const turnStart = useRef(performance.now());
   const [, force] = useState(0);
   const reqToken = useRef(0);
@@ -114,8 +121,8 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   latest.current = m;
   const opp = m.opponent;
   const oppId = identityOf(opp.id);
+  const oppCareer = opponentCareer(opp.id, opp.rating);
 
-  // ---- persistence helper ----
   const persist = useCallback((next: ActiveMatch) => {
     latest.current = next;
     return updateSave((s) => {
@@ -126,14 +133,12 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   const finish = useCallback(
     (cur: ActiveMatch, scoreWhite: number, termination: Termination) => {
       const score = (playerColor === WHITE ? scoreWhite : 1 - scoreWhite) as 0 | 0.5 | 1;
-      const next: ActiveMatch = { ...cur, finished: { score, termination, endedAt: Date.now() } };
       playSound('end', getState().save.settings.sound);
-      return persist(next);
+      return persist({ ...cur, finished: { score, termination, endedAt: Date.now() } });
     },
     [persist, playerColor],
   );
 
-  // ---- apply a move (player or bot) ----
   const applyMove = useCallback(
     (uci: string) => {
       const cur = latest.current;
@@ -154,24 +159,19 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
       if (out) return finish(next, out.result, out.termination);
       return persist(next);
     },
-    [finish, persist, tc.incMs],
+    [finish, persist],
   );
 
-  // ---- bot turn ----
+  // ---- engine turn (runs in a Web Worker; the UI stays responsive) ----
   useEffect(() => {
     if (finished || pos.side === playerColor || thinking) return;
     const token = ++reqToken.current;
     setThinking(true);
     const t0 = performance.now();
     engine
-      .botMove(
-        m.moves,
-        // the bot respects its own clock: never spend more than ~1/25 of its remaining time + most of the increment
-        { tier: opp.tier, style: opp.style, seed: m.seed, maxMs: botThinkCapMs(m, pos.side, getState().save.settings.aiThink) },
-        m.moves.length < 2,
-      )
+      .botMove(m.moves, { tier: opp.tier, style: opp.style, seed: m.seed, maxMs: botThinkCapMs(m, pos.side, getState().save.settings.aiThink) }, m.moves.length < 2)
       .then(async (r) => {
-        const minDelay = 350 + Math.random() * 350;
+        const minDelay = 260 + Math.random() * 240;
         const spent = performance.now() - t0;
         if (spent < minDelay) await new Promise((res) => setTimeout(res, minDelay - spent));
         if (token !== reqToken.current) return;
@@ -183,28 +183,26 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [m.moves.length, finished, playerColor]);
+  useEffect(() => () => void reqToken.current++, []);
 
-  useEffect(() => () => void (reqToken.current++), []);
-
-  // ---- clocks ----
+  // ---- clocks: timed games only ----
   useEffect(() => {
-    if (finished || isUntimed(m)) return;
+    if (finished || untimed) return;
     const id = setInterval(() => {
       const cur = latest.current;
       if (cur.finished || cur.moves.length < 1) return force((x) => x + 1);
-      const { pos: p } = buildPositionCached(cur.moves);
+      const { pos: p } = buildPosition(cur.moves);
       if (hasFlagged(cur, p.side, performance.now() - turnStart.current)) {
-        const other = p.side ^ 1;
-        const scoreWhite = canMate(p, other) ? (p.side === WHITE ? 0 : 1) : 0.5;
+        const scoreWhite = canMate(p, p.side ^ 1) ? (p.side === WHITE ? 0 : 1) : 0.5;
         reqToken.current++;
         setThinking(false);
         const clocks: [number, number] = [...cur.clocks!];
         clocks[p.side] = 0;
         finish({ ...cur, clocks }, scoreWhite, 'timeout');
       } else force((x) => x + 1);
-    }, 100);
+    }, 200);
     return () => clearInterval(id);
-  }, [finished, finish]);
+  }, [finished, finish, untimed]);
 
   // ---- settlement ----
   useEffect(() => {
@@ -223,10 +221,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
       const pm = playerColor === 0 ? Math.ceil(m.moves.length / 2) : Math.floor(m.moves.length / 2);
       if (accuracy === undefined && pm >= 15) {
         try {
-          const res = await Promise.race([
-            analyst.analyze(m.moves, playerColor, 9000),
-            new Promise<null>((r) => setTimeout(() => r(null), 12000)),
-          ]);
+          const res = await Promise.race([analyst.analyze(m.moves, playerColor, 9000), new Promise<null>((r) => setTimeout(() => r(null), 12000))]);
           if (res) accuracy = res.accuracy;
           else analyst.reset();
         } catch {
@@ -247,7 +242,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [m.finished]);
 
-  // ---- user input ----
+  // ---- input ----
   const legal = useMemo(() => {
     const map = new Map<number, number[]>();
     if (!myTurn || thinking) return map;
@@ -272,8 +267,8 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
 
   const resign = () => {
     if (finished) return;
-    if (save.settings.confirmResign && !confirmResign) return setConfirmResign(true);
-    setConfirmResign(false);
+    if (save.settings.confirmResign && confirm !== 'resign') return setConfirm('resign');
+    setConfirm(null);
     reqToken.current++;
     setThinking(false);
     finish(latest.current, playerColor === WHITE ? 0 : 1, 'resignation');
@@ -281,23 +276,23 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
 
   const offerDraw = async () => {
     const cur = latest.current;
+    setConfirm(null);
     if (cur.finished) return;
-    if (!casual && cur.moves.length < 40) return toast('Draw offers open after move 20');
-    if (cur.drawOffers >= 3) return toast('No more draw offers this game');
+    if (!casual && cur.moves.length < 40) return toast('Draw offers open after move 20 in rated games.');
+    if (cur.drawOffers >= 3) return toast('No more draw offers this game.');
     await persist({ ...cur, drawOffers: cur.drawOffers + 1 });
     try {
       const r = await engine.evaluate(cur.moves, 40000);
       const botScore = r.side === playerColor ? -r.score : r.score;
       const ply = cur.moves.length;
-      const style = opp.style;
-      const accept = botScore <= -60 || (Math.abs(botScore) <= 20 && ply >= 80) || (style === 'defender' && botScore <= 15 && ply >= 60);
+      const accept = botScore <= -60 || (Math.abs(botScore) <= 20 && ply >= 80) || (opp.style === 'defender' && botScore <= 15 && ply >= 60);
       if (accept && !latest.current.finished) {
         reqToken.current++;
         setThinking(false);
         finish(latest.current, 0.5, 'agreement');
-      } else toast(`${oppId.name.split(' ')[0]} declines the draw`);
+      } else toast(`${oppId.name.split(' ')[0]} declines the draw.`);
     } catch {
-      toast('Draw offer could not be considered');
+      toast('The draw offer could not be considered.');
     }
   };
 
@@ -321,7 +316,18 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
     if (mentor && r.pv.length) toast('Mentor: ' + r.pv.join(' '));
   };
 
-  // ---- derived display ----
+  const exportGame = async () => {
+    setMenu(false);
+    const pgn = toPgn({ moves: m.moves, color: m.playerColor, score: m.finished?.score ?? 0.5, oppName: oppId.name, oppRating: opp.rating, at: m.startedAt, termination: m.finished?.termination ?? 'abandoned', kind: m.kind, playerName: save.profile.name });
+    try {
+      await navigator.clipboard.writeText(pgn);
+      toast('Game copied as SEVEN-PGN.');
+    } catch {
+      toast('Copy unavailable on this device.');
+    }
+  };
+
+  // ---- display ----
   const now = performance.now();
   const shownClock = (c: number) => {
     if (!m.clocks) return 0;
@@ -336,96 +342,190 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   const pieceSet = save.equipped.pieces;
   const entrance = (itemById(save.equipped.entrance)?.id ?? 'entrance.fade').split('.')[1];
   const series = save.career.series;
-  const rank = rankInfo(save.career.rank);
+  const rank = rankInfo(save.career.rank, save.career.family);
+  const material = materialBalance(pos) * (playerColor === 0 ? 1 : -1);
+  const kindLabel =
+    m.kind === 'series' && series
+      ? `Promotion series · game ${series.games + 1} of ${series.length}`
+      : m.kind === 'cup'
+        ? `Arena Cup · round ${(save.cup.active?.round ?? 0) + 1} of 3`
+        : m.kind === 'ranked'
+          ? 'Rated'
+          : m.kind === 'training'
+            ? 'Training · unrated'
+            : 'Casual · unrated';
+  const status = finished
+    ? 'Game over'
+    : thinking
+      ? `${oppId.name.split(' ')[0]} is thinking`
+      : myTurn
+        ? pos.inCheck()
+          ? 'Your move — you are in check'
+          : 'Your move'
+        : 'Waiting…';
 
   return (
     <div className={`play entrance-${entrance}`}>
-      <div className="player-bar opp">
-        <CrestBadge crest={oppId.crest} size={38} />
-        <div className="pb-id">
-          <div className="pb-name">
-            {oppId.name} {opp.rival && <span className="rival-chip">rival</span>}
-          </div>
-          <div className="pb-sub">
-            {opp.rating} · {STYLES[opp.style].label} · {titleForRating(opp.rating, opp.id)}
-          </div>
-        </div>
-        <Captured list={captured[playerColor]} set={pieceSet} />
-        <div className={`clock ${!finished && pos.side !== playerColor ? 'running' : ''} ${shownClock(1 - playerColor) < 20000 ? 'low' : ''}`}>
-          {thinking && <span className="think-dot" />}
-          {fmtClock(shownClock(1 - playerColor))}
-        </div>
+      <div className="match-head">
+        <span className="kind-chip">{kindLabel}</span>
+        <span className="muted small">{untimed ? 'Untimed — take your time' : 'Timed'}</span>
       </div>
+      <div className="play-grid">
+        <div className="board-col">
+          <PlayerBar
+            side="opp"
+            name={oppId.name}
+            sub={`${opp.rating} · ${STYLES[opp.style].label}`}
+            title={oppCareer.line}
+            avatar={<CrestBadge crest={oppId.crest} size={40} />}
+            captured={captured[playerColor]}
+            advantage={material < 0 ? -material : 0}
+            pieceSet={pieceSet}
+            active={!finished && !myTurn}
+            thinking={thinking}
+            clock={untimed ? null : fmtClock(shownClock(1 - playerColor))}
+            low={!untimed && shownClock(1 - playerColor) < 20000}
+            rival={opp.rival}
+          />
+          <div className="board-wrap">
+            <Board
+              cells={cells}
+              flipped={flipped}
+              legal={legal}
+              onMove={onMove}
+              lastMove={lastMove}
+              checkSq={checkSq}
+              theme={theme}
+              pieceSet={pieceSet}
+              coordinates={save.settings.coordinates}
+              animMs={animMsFor(save.settings.animSpeed)}
+              showLegal={save.settings.showLegal}
+              highContrast={save.settings.highContrast}
+              arrows={hint ? [hint] : undefined}
+            />
+            {promo && (
+              <div className="promo-pick" role="dialog" aria-label="Choose a promotion piece">
+                <div className="promo-title">Promote to</div>
+                <div className="promo-row">
+                  {[QUEEN, ROOK, BISHOP, KNIGHT].map((t) => (
+                    <button
+                      key={t}
+                      aria-label={['', '', 'Knight', 'Bishop', 'Rook', 'Queen'][t]}
+                      onClick={() => {
+                        const mv = pos.legalMoves().find((x) => mFrom(x) === promo.from && mTo(x) === promo.to && mPromo(x) === t);
+                        setPromo(null);
+                        if (mv) applyMove(uciOf(mv));
+                      }}
+                    >
+                      <PieceSvg code={(playerColor << 3) | t} set={pieceSet} />
+                    </button>
+                  ))}
+                </div>
+                <button className="btn ghost small" onClick={() => setPromo(null)}>
+                  Cancel
+                </button>
+              </div>
+            )}
+          </div>
+          <PlayerBar
+            side="me"
+            name={save.profile.name && save.profile.name !== 'You' ? save.profile.name : rank.title}
+            sub={`${Math.round(save.rating.r)}${isProvisional(save.rating) ? '?' : ''} · ${rank.full}`}
+            avatar={<Insignia rank={save.career.rank} family={save.career.family} size={40} />}
+            captured={captured[1 - playerColor]}
+            advantage={material > 0 ? material : 0}
+            pieceSet={pieceSet}
+            active={myTurn}
+            clock={untimed ? null : fmtClock(shownClock(playerColor))}
+            low={!untimed && shownClock(playerColor) < 20000}
+          />
+        </div>
 
-      <div className="board-wrap">
-        <Board
-          cells={cells}
-          flipped={playerColor === 1}
-          legal={legal}
-          onMove={onMove}
-          lastMove={lastMove}
-          checkSq={checkSq}
-          theme={theme}
-          pieceSet={pieceSet}
-          coordinates={save.settings.coordinates}
-          animate={save.settings.animations}
-          showLegal={save.settings.showLegal}
-          arrows={hint ? [hint] : undefined}
-        />
-        {promo && (
-          <div className="promo-pick" role="dialog" aria-label="Choose promotion">
-            {[QUEEN, ROOK, BISHOP, KNIGHT].map((t) => (
-              <button
-                key={t}
-                onClick={() => {
-                  const mv = pos.legalMoves().find((x) => mFrom(x) === promo.from && mTo(x) === promo.to && mPromo(x) === t);
-                  setPromo(null);
-                  if (mv) applyMove(uciOf(mv));
-                }}
-              >
-                <PieceSvg code={(playerColor << 3) | t} set={pieceSet} />
+        <aside className="side-col">
+          <div className={`turn ${myTurn ? 'mine' : ''}`} aria-live="polite">
+            {thinking && <span className="dots" aria-hidden><i /><i /><i /></span>}
+            {status}
+          </div>
+          <div className="controls" role="toolbar" aria-label="Game controls">
+            <button className="ctl" onClick={() => setFlipped(!flipped)} title="Flip board">
+              <Icon name="flip" />
+              <span>Flip</span>
+            </button>
+            {casual && (
+              <button className="ctl" onClick={undo} disabled={finished || m.moves.length < 1}>
+                <Icon name="undo" />
+                <span>Undo</span>
               </button>
-            ))}
+            )}
+            {m.kind === 'training' && (
+              <button className="ctl" onClick={askHint} disabled={!myTurn}>
+                <Icon name="bulb" />
+                <span>Hint</span>
+              </button>
+            )}
+            <button className="ctl" onClick={() => setConfirm(confirm === 'draw' ? null : 'draw')} disabled={finished}>
+              <Icon name="draw" />
+              <span>Draw</span>
+            </button>
+            <button className={`ctl ${confirm === 'resign' ? 'danger' : ''}`} onClick={resign} disabled={finished}>
+              <Icon name="flag" />
+              <span>{confirm === 'resign' ? 'Confirm' : 'Resign'}</span>
+            </button>
+            <button className="ctl" onClick={() => setMenu(!menu)} aria-expanded={menu}>
+              <Icon name="more" />
+              <span>More</span>
+            </button>
           </div>
-        )}
+          {confirm === 'draw' && (
+            <div className="confirm-row">
+              <span>Offer a draw to {oppId.name.split(' ')[0]}?</span>
+              <button className="btn small primary" onClick={offerDraw}>
+                Offer
+              </button>
+              <button className="btn small ghost" onClick={() => setConfirm(null)}>
+                Cancel
+              </button>
+            </div>
+          )}
+          {confirm === 'resign' && (
+            <div className="confirm-row warn">
+              <span>Resign this game? It counts as a loss.</span>
+              <button className="btn small ghost" onClick={() => setConfirm(null)}>
+                Keep playing
+              </button>
+            </div>
+          )}
+          {menu && (
+            <div className="menu-pop">
+              <button onClick={exportGame}>
+                <Icon name="copy" size={16} /> Copy game (SEVEN-PGN)
+              </button>
+              <button
+                onClick={() =>
+                  updateSave((s) => {
+                    s.settings.sound = !s.settings.sound;
+                  })
+                }
+              >
+                <Icon name="sound" size={16} /> Sound {save.settings.sound ? 'on' : 'off'}
+              </button>
+              <button
+                onClick={() =>
+                  updateSave((s) => {
+                    s.settings.coordinates = !s.settings.coordinates;
+                  })
+                }
+              >
+                <Icon name="board" size={16} /> Coordinates {save.settings.coordinates ? 'on' : 'off'}
+              </button>
+            </div>
+          )}
+          <MoveList sans={sans} />
+        </aside>
       </div>
-
-      <div className="player-bar me">
-        <PlayerSeal save={save} size={38} />
-        <div className="pb-id">
-          <div className="pb-name">{rank.full}</div>
-          <div className="pb-sub">
-            {Math.round(save.rating.r)}
-            {isProvisional(save.rating) ? '?' : ''} · {m.kind === 'series' && series ? `Promotion series ${series.games + 1}/${series.length}` : m.kind === 'ranked' ? 'Rated' : m.kind === 'cup' ? `Arena Cup · round ${(save.cup.active?.round ?? 0) + 1}/3` : m.kind === 'training' ? 'Training' : 'Casual'}
-          </div>
-        </div>
-        <Captured list={captured[1 - playerColor]} set={pieceSet} />
-        <div className={`clock ${myTurn ? 'running' : ''} ${shownClock(playerColor) < 20000 ? 'low' : ''}`}>{fmtClock(shownClock(playerColor))}</div>
-      </div>
-
-      <div className="controls">
-        {casual && (
-          <button className="btn" onClick={undo} disabled={finished || m.moves.length < 1}>
-            Undo
-          </button>
-        )}
-        {m.kind === 'training' && (
-          <button className="btn" onClick={askHint} disabled={!myTurn}>
-            Hint
-          </button>
-        )}
-        <button className="btn" onClick={offerDraw} disabled={finished}>
-          Offer draw
-        </button>
-        <button className={`btn ${confirmResign ? 'danger' : ''}`} onClick={resign} disabled={finished}>
-          {confirmResign ? 'Confirm resign' : 'Resign'}
-        </button>
-      </div>
-
-      <MoveList sans={sans} />
 
       {settling && (
-        <div className="overlay settle">
+        <div className="overlay settle" role="status">
           <div className="settle-box">
             <div className="spinner" />
             {settling}
@@ -435,8 +535,8 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
       {report && <Results report={report} onClear={onClear} />}
       {casualResult && (
         <div className="overlay">
-          <div className="results">
-            <div className="res-head">{casualResult.score === 1 ? 'Victory' : casualResult.score === 0 ? 'Defeat' : 'Draw'}</div>
+          <div className="results sheet">
+            <div className={`res-head ${casualResult.score === 1 ? 'win' : ''}`}>{casualResult.score === 1 ? 'Victory' : casualResult.score === 0 ? 'Defeat' : 'Draw'}</div>
             <div className="res-sub">{TERMINATION_LABEL[casualResult.term]} · unrated</div>
             <div className="res-actions">
               <button
@@ -465,20 +565,46 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   );
 }
 
-const cache = new Map<string, ReturnType<typeof buildPosition>>();
-function buildPositionCached(moves: string[]) {
-  const k = moves.join(' ');
-  let v = cache.get(k);
-  if (!v) {
-    cache.clear();
-    v = buildPosition(moves);
-    cache.set(k, v);
-  }
-  return v;
+function PlayerBar(p: {
+  side: 'me' | 'opp';
+  name: string;
+  sub: string;
+  title?: string;
+  avatar: React.ReactNode;
+  captured: number[];
+  advantage: number;
+  pieceSet: string;
+  active: boolean;
+  thinking?: boolean;
+  clock: string | null;
+  low: boolean;
+  rival?: boolean;
+}) {
+  return (
+    <div className={`player-bar ${p.side} ${p.active ? 'active' : ''}`}>
+      <div className="pb-avatar">{p.avatar}</div>
+      <div className="pb-id">
+        <div className="pb-name">
+          {p.name} {p.rival && <span className="rival-chip">rival</span>}
+        </div>
+        <div className="pb-sub">{p.sub}</div>
+        {p.title && <div className="pb-title">{p.title}</div>}
+      </div>
+      <div className="captured" aria-label="captured pieces">
+        {p.captured.map((c, i) => (
+          <span key={i} className="cap-pc">
+            <PieceSvg code={c} set={p.pieceSet} />
+          </span>
+        ))}
+        {p.advantage > 0 && <span className="adv">+{p.advantage}</span>}
+      </div>
+      {p.clock !== null && <div className={`clock ${p.active ? 'running' : ''} ${p.low ? 'low' : ''}`}>{p.clock}</div>}
+      {p.clock === null && p.active && <span className="turn-dot" aria-label={p.thinking ? 'thinking' : 'to move'} />}
+    </div>
+  );
 }
 
 function capturedPieces(pos: Position): [number[], number[]] {
-  // pieces each colour has LOST, by comparing to the starting army (promotions counted as pawns)
   const start = [0, 7, 1, 2, 2, 1, 1];
   const res: [number[], number[]] = [[], []];
   for (let c = 0; c < 2; c++) {
@@ -492,166 +618,34 @@ function capturedPieces(pos: Position): [number[], number[]] {
   }
   return res;
 }
-
-function Captured({ list, set }: { list: number[]; set: string }) {
-  return (
-    <div className="captured" aria-label="captured pieces">
-      {list.map((c, i) => (
-        <span key={i} className="cap-pc">
-          <PieceSvg code={c} set={set} />
-        </span>
-      ))}
-    </div>
-  );
+function materialBalance(pos: Position) {
+  const v = [0, 1, 3, 3, 5, 9, 0];
+  let s = 0;
+  for (let t = 1; t <= 5; t++) s += v[t] * (pos.counts[t] - pos.counts[8 | t]);
+  return s;
 }
 
 function MoveList({ sans }: { sans: string[] }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLOListElement>(null);
   useEffect(() => {
-    ref.current?.scrollTo({ left: 99999, top: 99999 });
+    const el = ref.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [sans.length]);
   const rows = [];
   for (let i = 0; i < sans.length; i += 2)
     rows.push(
-      <span key={i} className="mv">
-        <b>{i / 2 + 1}.</b> {sans[i]} {sans[i + 1] ?? ''}
-      </span>,
+      <li key={i}>
+        <span className="mv-n">{i / 2 + 1}</span>
+        <span className={`mv ${i === sans.length - 1 ? 'cur' : ''}`}>{sans[i]}</span>
+        <span className={`mv ${i + 1 === sans.length - 1 ? 'cur' : ''}`}>{sans[i + 1] ?? ''}</span>
+      </li>,
     );
   return (
-    <div className="movelist" ref={ref}>
-      {rows.length ? rows : <span className="muted">Moves appear here.</span>}
-    </div>
-  );
-}
-
-function useCountUp(target: number, ms = 900) {
-  const [v, setV] = useState(0);
-  useEffect(() => {
-    const t0 = performance.now();
-    let raf = 0;
-    const step = () => {
-      const k = Math.min(1, (performance.now() - t0) / ms);
-      setV(target * (1 - Math.pow(1 - k, 3)));
-      if (k < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [target, ms]);
-  return v;
-}
-
-function Results({ report, onClear }: { report: SettlementReport; onClear: () => void }) {
-  const { save } = useApp();
-  const delta = report.ratingAfter - report.ratingBefore;
-  const d = useCountUp(delta);
-  const dollars = useCountUp(report.dollars, 1200);
-  const head = report.score === 1 ? 'Victory' : report.score === 0 ? 'Defeat' : 'Draw';
-  const ceremony = save.equipped.ceremony;
-  const last = save.history[0];
-  const nextMatch = () => {
-    onClear();
-    setState({ tab: 'home', autoMatch: true });
-  };
-  const rematch = () => {
-    onClear();
-    if (save.career.series) return startMatch(nextKind(), pickOpponent());
-    const o = last ? save.opponents[String(last.oppId)] : null;
-    if (!last || !o) return nextMatch();
-    startMatch('ranked', { id: o.id, tier: o.tier, style: o.style, rating: o.rating, rd: last ? 60 : 60, name: o.name, rival: o.g >= 3 }, (1 - last.color) as 0 | 1);
-  };
-  return (
-    <div className="overlay">
-      {report.promoted && <Ceremony kind={ceremony} title={rankInfo(report.rankAfter).full} />}
-      <div className={`results res-${head.toLowerCase()}`}>
-        <div className="res-head">{head}</div>
-        <div className="res-sub">{TERMINATION_LABEL[report.termination] ?? report.termination}</div>
-        <div className="res-grid">
-          <div className="res-cell">
-            <div className={`res-big ${delta >= 0 ? 'up' : 'down'}`}>
-              {delta >= 0 ? '+' : ''}
-              {Math.round(d)}
-            </div>
-            <div className="res-label">Rating → {Math.round(report.ratingAfter)}</div>
-          </div>
-          <div className="res-cell">
-            <div className="res-big gold">{money(dollars)}</div>
-            <div className="res-label">Earned</div>
-          </div>
-          <div className="res-cell">
-            <div className="res-big">{report.accuracy !== undefined ? Math.round(report.accuracy) + '%' : '—'}</div>
-            <div className="res-label">Accuracy</div>
-          </div>
-        </div>
-        {report.promoted && <div className="banner promo-banner">Promoted to {rankInfo(report.rankAfter).full}</div>}
-        {report.cupResult === 'won' && <div className="banner promo-banner">Arena Cup champion — trophy added to your office</div>}
-        {report.cupResult === 'advanced' && <div className="banner series">Arena Cup: through to round {(report.cupRound ?? 0) + 1} of 3</div>}
-        {report.cupResult === 'eliminated' && <div className="banner warn">Knocked out of the Arena Cup</div>}
-        {report.demoted && <div className="banner warn">Moved down to {rankInfo(report.rankAfter).full}</div>}
-        {report.seriesStarted && report.series && (
-          <div className="banner series">Promotion series unlocked — best of {report.series.length} for {rankInfo(report.series.targetRank).full}</div>
-        )}
-        {report.seriesResult === 'failed' && <div className="banner warn">Promotion series not passed. Regroup and earn another shot.</div>}
-        {report.series && !report.seriesStarted && (
-          <div className="banner series">
-            Series: {report.series.wins} pts after {report.series.games} of {report.series.length}
-          </div>
-        )}
-        {!report.series && !report.promoted && (
-          <div className="res-merit">
-            <div className="promo-head">
-              <span>Merit {report.meritChange >= 0 ? '+' : ''}{report.meritChange}</span>
-              <span>
-                {report.meritAfter} / {report.meritNeeded}
-              </span>
-            </div>
-            <Bar value={report.meritAfter} max={report.meritNeeded} />
-            {report.gateBlocked && <div className="promo-req warn">Promotion requires rating {report.gateBlocked}</div>}
-          </div>
-        )}
-        {report.pay.length > 0 && (
-          <ul className="pay">
-            {report.pay.map((l, i) => (
-              <li key={i}>
-                <span>{l.label}</span>
-                <span>{money(l.amount)}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-        {report.pay.length === 0 && <div className="muted small">No pay: games under 10 moves earn no salary.</div>}
-        <div className="res-actions">
-          <button className="btn primary" onClick={nextMatch}>
-            Next match
-          </button>
-          <button className="btn" onClick={rematch}>
-            {save.career.series ? 'Next series game' : 'Rematch'}
-          </button>
-          <button
-            className="btn"
-            onClick={() => {
-              onClear();
-              setState({ tab: 'academy', academyIntent: { kind: 'review', matchId: report.matchId } });
-            }}
-          >
-            Review
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Ceremony({ kind, title }: { kind: string; title: string }) {
-  const n = kind === 'ceremony.ink' ? 0 : 26;
-  return (
-    <div className={`ceremony ${kind.replace('.', '-')}`} aria-hidden>
-      <div className="stamp">
-        <span>昇</span>
-      </div>
-      <div className="ceremony-title">{title}</div>
-      {Array.from({ length: n }).map((_, i) => (
-        <span key={i} className="flake" style={{ left: `${(i * 37) % 100}%`, animationDelay: `${(i % 9) * 0.18}s` }} />
-      ))}
-    </div>
+    <details className="moves-panel" open>
+      <summary>Moves {sans.length ? `· ${Math.ceil(sans.length / 2)}` : ''}</summary>
+      <ol className="movelist" ref={ref}>
+        {rows.length ? rows : <li className="muted empty">Moves appear here.</li>}
+      </ol>
+    </details>
   );
 }
