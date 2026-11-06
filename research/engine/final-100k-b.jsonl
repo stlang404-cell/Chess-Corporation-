@@ -37,3 +37,6 @@
 {"label":"v02-vs-v01","nodes":100000,"opening":"b2b3 a6a5 c1a3 c6c5","newWhite":true,"scoreNew":1,"term":"checkmate","plies":83}
 {"label":"v02-vs-v01","nodes":100000,"opening":"b2b3 a6a5 c1a3 c6c5","newWhite":false,"scoreNew":1,"term":"checkmate","plies":100}
 {"label":"v02-vs-v01","nodes":100000,"opening":"c2c3 b6b4 b2b3 a6a5","newWhite":true,"scoreNew":0.5,"term":"repetition","plies":93}
+{"label":"v02-vs-v01","nodes":100000,"opening":"c2c3 b6b4 b2b3 a6a5","newWhite":false,"scoreNew":1,"term":"checkmate","plies":84}
+{"label":"v02-vs-v01","nodes":100000,"opening":"b2b4 c6c5 f2f3 d6d4","newWhite":true,"scoreNew":0,"term":"checkmate","plies":92}
+{"label":"v02-vs-v01","nodes":100000,"opening":"b2b4 c6c5 f2f3 d6d4","newWhite":false,"scoreNew":0.5,"term":"repetition","plies":85}

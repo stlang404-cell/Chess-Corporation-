@@ -1,0 +1,9 @@
+23 24 6 balanced balanced
+22 24 6 balanced balanced
+22 23 6 balanced balanced
+21 22 6 balanced balanced
+20 22 6 balanced balanced
+20 21 6 balanced balanced
+19 20 6 balanced balanced
+18 20 6 balanced balanced
+18 19 6 balanced balanced
