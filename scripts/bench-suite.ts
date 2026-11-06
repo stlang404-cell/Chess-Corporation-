@@ -62,7 +62,7 @@ for (const n of budgets) {
 let mates: { fen: string; first: string[] }[] = [];
 try {
   const pz = JSON.parse(readFileSync('src/academy/puzzles.json', 'utf8')) as { fen: string; themes: string[]; steps: { accept: string[] }[] }[];
-  mates = pz.filter((p) => p.themes.some((t) => t.startsWith('mate'))).map((p) => ({ fen: p.fen, first: p.steps[0].accept }));
+  mates = pz.filter((p) => p.themes.some((t) => t.startsWith('mate-in'))).map((p) => ({ fen: p.fen, first: p.steps[0].accept }));
 } catch {
   /* none */
 }

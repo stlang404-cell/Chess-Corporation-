@@ -1,0 +1,14 @@
+{"fen":"5QQ/2n4/2kp3/7/6K/7/7 w - - 1 55","themes":["mate-in-3+","skewer"],"rating":700,"steps":[{"accept":["g7c3"],"reply":"c5b6"},{"accept":["c3b3"],"reply":"c6b4"},{"accept":["b3b4"]}],"eval":29993,"gap":"mate"}
+{"fen":"5Q1/1kn4/3p3/7/2Q3K/7/7 w - - 3 56","themes":["mate-in-3+"],"rating":700,"steps":[{"accept":["c3b3"],"reply":"c6b4"},{"accept":["b3b4"],"reply":"b6c6"},{"accept":["f7b7"]}],"eval":29995,"gap":"mate"}
+{"fen":"7/3p3/3k2K/4b2/2P4/4r2/7 b - - 7 50","themes":["mate-in-2","endgame"],"rating":950,"steps":[{"accept":["d5e5"],"reply":"c3c4"},{"accept":["e2g2"]}],"eval":29997,"gap":"mate"}
+{"fen":"6Q/7/3R1N1/7/1k5/7/6K w - - 1 41","themes":["mate-in-3+"],"rating":2000,"steps":[{"accept":["d5d3"],"reply":"b3c2"},{"accept":["g7c3"],"reply":"c2b1"},{"accept":["d3d1"]}],"eval":29993,"gap":"mate"}
+{"fen":"6r/4k2/5P1/2pPp2/2P4/6p/6K b - - 0 33","themes":["mate-in-3+","endgame"],"rating":700,"steps":[{"accept":["e6f5"],"reply":"d4d5"},{"accept":["f5e5"],"reply":"d5d6"},{"accept":["e5d6"]}],"eval":29991,"gap":"mate"}
+{"fen":"6r/7/3P1k1/2p1p2/2P4/6p/6K b - - 0 34","themes":["mate-in-3+","endgame"],"rating":700,"steps":[{"accept":["f5e5"],"reply":"d5d6"},{"accept":["e5d6"],"reply":"g1f2"},{"accept":["g2g1q"]}],"eval":29993,"gap":"mate"}
+{"fen":"6r/3P3/4k2/2p1p2/2P4/6p/6K b - - 0 35","themes":["mate-in-3+","endgame"],"rating":700,"steps":[{"accept":["e5d6"],"reply":"g1f2"},{"accept":["g2g1q"],"reply":"f2e2"},{"accept":["g7g2"]}],"eval":29995,"gap":"mate"}
+{"fen":"6r/3k3/7/2p1p2/2P4/5Kp/7 b - - 1 36","themes":["mate-in-2","promotion","endgame"],"rating":700,"steps":[{"accept":["g2g1q"],"reply":"f2e2"},{"accept":["g7g2"]}],"eval":29997,"gap":"mate"}
+{"fen":"3k3/4bQ1/4P2/3K3/7/7/7 w - - 3 39","themes":["mate-in-3+"],"rating":700,"steps":[{"accept":["d4c5"],"reply":"d7c7"},{"accept":["f6e6"],"reply":"c7b7"},{"accept":["e6b6"]}],"eval":29995,"gap":"mate"}
+{"fen":"7/4Q2/2k1P2/4K2/7/7/7 w - - 1 41","themes":["mate-in-3+"],"rating":700,"steps":[{"accept":["e6d5"],"reply":"c5b4"},{"accept":["e5e6"],"reply":"b4a4"},{"accept":["d5a2"]}],"eval":29989,"gap":"mate"}
+{"fen":"7/7/3QP2/1k2K2/7/7/7 w - - 3 42","themes":["mate-in-3+"],"rating":700,"steps":[{"accept":["e5e6"],"reply":"b4a4"},{"accept":["d5a2"],"reply":"a4b4"},{"accept":["e6e7q"]}],"eval":29991,"gap":"mate"}
+{"fen":"6r/RPpk2p/4Pp1/2b4/6P/1q1rQK1/6R b - - 0 23","themes":["mate-in-3+"],"rating":1450,"steps":[{"accept":["d6e6"],"reply":"a6a5"},{"accept":["d2e2"],"reply":"f2f3"},{"accept":["e2f2"]}],"eval":29991,"gap":"mate"}
+{"fen":"1Q4r/R1p1k1p/4Pp1/2b4/6P/1q1rQK1/6R b - - 0 24","themes":["mate-in-3+"],"rating":700,"steps":[{"accept":["d2e2"],"reply":"f2f3"},{"accept":["g6g4"],"reply":"f3f4"},{"accept":["b2e5"]}],"eval":29995,"gap":"mate"}
+{"fen":"7/5k1/1b1p3/7/7/3Kp2/r6 b - - 3 71","themes":["mate-in-3+","promotion","endgame"],"rating":700,"steps":[{"accept":["e2e1q"],"reply":"d2c2"},{"accept":["a1a2"],"reply":"c2b3"},{"accept":["b5c4"]}],"eval":29995,"gap":"mate"}

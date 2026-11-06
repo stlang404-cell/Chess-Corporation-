@@ -49,3 +49,4 @@
 {"fen":"2q1kbr/1b1p2p/2pP1pP/4NB1/1R2R2/1P2PP1/Q3KB1 b k - 0 18","themes":["defence","fork"],"rating":1200,"steps":[{"accept":["f7d5"]}],"eval":-1915,"gap":401}
 {"fen":"3qkbr/1p1bp1p/rB1P3/p4p1/B1N4/P1PPQPP/R3K1R b KQk - 3 9","themes":["defence","material"],"rating":1450,"steps":[{"accept":["a5b5"]}],"eval":-610,"gap":401}
 {"fen":"6r/1Q1N2b/3pk2/6p/5P1/P1PP1P1/R3K1R b KQ - 0 17","themes":["defence","material"],"rating":1450,"steps":[{"accept":["g7e7"]}],"eval":-2500,"gap":401}
+{"fen":"rnb3k/p2pq2/4prp/2pp3/P1N2P1/1RPBP2/3QKBR b K - 1 16","themes":["fork"],"rating":700,"steps":[{"accept":["d4c3"]}],"eval":51,"gap":285}

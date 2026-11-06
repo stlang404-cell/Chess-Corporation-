@@ -17,7 +17,8 @@ import { Searcher, MATE, isMateScore } from '../src/engine/search';
 import { boardOutcome, uciOf } from '../src/engine/game';
 import { chooseBotMove, type StyleId } from '../src/engine/ai';
 
-const [gamesS, seedS] = process.argv.slice(2);
+const [gamesS, seedS, mode] = process.argv.slice(2);
+const MATES_ONLY = mode === 'mates';
 let seed = +seedS;
 const rand = () => ((seed = (Math.imul(seed, 1103515245) + 12345) & 0x7fffffff) / 0x7fffffff);
 const VAL = [0, 1, 3, 3, 5, 9, 100];
@@ -129,7 +130,8 @@ for (let g = 0; g < +gamesS; g++) {
       const sc = quick.scores;
       const second = sc.length > 1 ? sc[1][1] : -MATE;
       const gap = isMateScore(quick.score) && quick.score > 0 ? (isMateScore(second) && second > 0 ? 0 : 9999) : quick.score - second;
-      if (sc.length > 1 && gap >= 250 && quick.score < 900) {
+      const quickMate = isMateScore(quick.score) && quick.score > 0;
+      if (sc.length > 1 && gap >= 250 && (quickMate || quick.score < 900) && (!MATES_ONLY || quickMate)) {
         const deep = scoreAll(p, 300000);
         const s2 = deep.scores.length > 1 ? deep.scores[1][1] : -MATE;
         const mate = isMateScore(deep.score) && deep.score > 0;

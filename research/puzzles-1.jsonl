@@ -61,3 +61,5 @@
 {"fen":"1n1qkbr/5p1/1P2p2/4PpP/b3r2/2p1BQ1/3RK2 w k - 0 24","themes":["defence","fork","skewer"],"rating":700,"steps":[{"accept":["d1d7"]}],"eval":-2299,"gap":401}
 {"fen":"rnbq1br/1p2k2/p3p1B/2Q3p/P6/1P2PPP/RN2KBR b KQ - 2 11","themes":["discovered-attack"],"rating":700,"steps":[{"accept":["e6f5"]}],"eval":172,"gap":314}
 {"fen":"rnb2br/1p5/pq2pkB/6p/P6/1P2PPP/RN2KBR w KQ - 0 13","themes":["defence","discovered-attack"],"rating":700,"steps":[{"accept":["e2e4"]}],"eval":-194,"gap":401}
+{"fen":"r1b2br/1p4k/p3p2/7/P1N1P1q/1P1K2P/n1B2BR w - - 0 21","themes":["defence","material"],"rating":700,"steps":[{"accept":["f1d3"]}],"eval":-1111,"gap":269}
+{"fen":"r1b2br/1p4k/p6/4p2/P1NBP1q/1P1K2P/n1B3R w - - 0 22","themes":["defence","material"],"rating":1200,"steps":[{"accept":["c3e4"]}],"eval":-1111,"gap":401}
