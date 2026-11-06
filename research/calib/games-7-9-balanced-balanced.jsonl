@@ -10,3 +10,4 @@
 {"a":"7:balanced","b":"9:balanced","scoreA":0.5,"aWhite":false,"term":"repetition","plies":53}
 {"a":"7:balanced","b":"9:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":38}
 {"a":"7:balanced","b":"9:balanced","scoreA":1,"aWhite":false,"term":"checkmate","plies":156}
+{"a":"7:balanced","b":"9:balanced","scoreA":0.5,"aWhite":true,"term":"repetition","plies":195}
