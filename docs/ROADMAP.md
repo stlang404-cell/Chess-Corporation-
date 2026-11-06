@@ -1,27 +1,28 @@
-# Roadmap
+# Roadmap — v0.3 priorities
 
-Prioritised by impact on the core loop (press MATCH → meaningful game → visible progress).
+Ordered by impact on the core loop (open → MATCH → meaningful untimed game → visible progress).
 
-## Next release (0.2)
+## P0 — Verify on real devices
+1. **iPhone hardware pass**: Add to Home Screen, standalone launch, offline cold start, storage persistence across weeks, update banner flow, touch drag precision on the smallest phones. (v0.2 was tested in Chromium at iPhone sizes only.)
+2. **Windows pass**: run `Launch SEVEN.bat` on Windows 10/11 (Edge app mode, SmartScreen behaviour, file:// IndexedDB persistence).
+3. **Two-version service-worker update** test in CI.
 
-1. **Stronger calibration.** More games per tier pair (especially tiers 9–12), a round-robin rather than adjacent pairings, and style offsets measured at every tier instead of tiers 3 and 7. Publish confidence intervals in-game.
-2. **Engine strength.** Static exchange evaluation for move ordering and quiescence pruning, tuned material values (Texel tuning on self-play positions), a small opening book generated from deep self-play, and pawn-hash caching. Target: +150 Elo at equal nodes.
-3. **Human-calibrated anchor.** Opt-in, local-only export of anonymised results so the SEVEN scale can be related to human play. The scale is internal today.
-4. **Tactics trainer at scale.** Mine thousands of engine-verified puzzles from self-play, with an Elo-rated puzzle ladder separate from the game rating.
-5. **Draw offers from bots** in dead-drawn positions, and claimable draws shown in the UI before they become automatic.
+## P1 — Engine and calibration
+4. **Evaluation tuning**: Texel-style tuning on self-play positions (v0.2's hand-added evaluation terms measured neutral). Target +100 Elo at equal nodes.
+5. **Speed**: recover the ~35% nodes/s lost to SEE (incremental attack maps, cheaper SEE gating) so equal-time strength matches equal-node strength.
+6. **Bigger calibration**: more games for the top tiers and every style at every tier; publish confidence intervals in-game.
+7. **Endgame tablebases** for ≤ 4 pieces on 7×7 (the retrograde solver behind the guide is a starting point).
 
-## Later (0.3+)
+## P2 — Academy
+8. Grow the puzzle library from ~125 to 1,000+ (longer mining runs; mate-in-2/3 focus), with puzzle streaks and daily puzzles.
+9. Guided lessons with interactive steps (currently chapters + exercises), and opening trainer from the variant book.
+10. Review: "retry this position" from any mistake.
 
-6. Seasonal ladders with a monthly reset of *seasonal* standing only (career titles are never reset).
-7. Richer rivalries: rival-specific openings and grudge matches, with a short rivalry history card.
-8. Additional time controls including correspondence-style "office hours" games that persist over days.
-9. Accessibility: full keyboard play, screen-reader move announcements, high-contrast board.
-10. Optional native wrappers (Tauri for Windows/macOS, Capacitor for iOS) for app-store distribution; the web build remains primary.
-11. Ruleset research continues on the *casual* side (e.g. an 8th-file "classic" mode or a Fischer-random back rank) without touching the rated SEVEN-1.0 pool.
+## P3 — Career and economy
+11. Real-player pacing data (opt-in, local export) to tune merit and gates.
+12. Seasonal standings (monthly), without ever resetting earned titles.
+13. Richer rival stories: rival-specific openings, grudge matches.
 
-## Known limitations to address
-
-- The engine's material values and piece-square tables are hand-set, not tuned.
-- Clock time does not run while the app is closed during a rated game (resuming is allowed rather than forfeiting).
-- Bot clocks: very slow devices make top tiers use their wall-clock cap, so they are slightly weaker on old phones than their calibrated rating (calibration is node-based).
-- Opponent "league records" are a statistical abstraction, not simulated games (see `docs/CAREER_ECONOMY.md`).
+## P4 — Platform
+14. Optional native wrappers (Tauri for Windows/macOS, Capacitor for iOS) for store distribution; the web build stays primary.
+15. Optional encrypted cloud backup of the career file to a user-chosen location (still no account).
