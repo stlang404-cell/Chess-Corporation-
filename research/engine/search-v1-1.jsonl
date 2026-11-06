@@ -49,3 +49,7 @@
 {"label":"search-v1","nodes":30000,"opening":"a2a4 d6d4 c2c3 d4d3","newWhite":true,"scoreNew":0.5,"term":"insufficient","plies":109}
 {"label":"search-v1","nodes":30000,"opening":"a2a4 d6d4 c2c3 d4d3","newWhite":false,"scoreNew":0.5,"term":"repetition","plies":190}
 {"label":"search-v1","nodes":30000,"opening":"a2a4 e6e5 b2b4 f6f4","newWhite":true,"scoreNew":1,"term":"checkmate","plies":135}
+{"label":"search-v1","nodes":30000,"opening":"a2a4 e6e5 b2b4 f6f4","newWhite":false,"scoreNew":0.5,"term":"quiet-limit","plies":185}
+{"label":"search-v1","nodes":30000,"opening":"a2a4 b6b5 e2e4 b7c5","newWhite":true,"scoreNew":1,"term":"checkmate","plies":59}
+{"label":"search-v1","nodes":30000,"opening":"a2a4 b6b5 e2e4 b7c5","newWhite":false,"scoreNew":0.5,"term":"insufficient","plies":176}
+{"label":"search-v1","nodes":30000,"opening":"b2b3 b6b4 a2a4 a6a5","newWhite":true,"scoreNew":1,"term":"checkmate","plies":101}

@@ -264,7 +264,7 @@ describe('settlement', () => {
 
 describe('save migration', () => {
   it('fills missing fields and survives garbage', () => {
-    expect(migrate(null).version).toBe(1);
+    expect(migrate(null).version).toBe(2);
     const partial = migrate({ wallet: { balance: 5 } });
     expect(partial.wallet.balance).toBe(5);
     expect(partial.wallet.lifetime).toBe(0);
