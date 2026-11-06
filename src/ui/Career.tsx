@@ -971,7 +971,7 @@ function Settings() {
           </button>
         </div>
       </Card>
-      <p className="muted small center">SEVEN v0.2 · rules SEVEN-1.0 · offline · no accounts, ads or real money.</p>
+      <p className="muted small center">SEVEN v0.3 · rules SEVEN-1.0 · offline · no accounts, ads or real money.</p>
     </>
   );
 }

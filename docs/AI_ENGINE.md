@@ -1,6 +1,23 @@
-# AI Engine Report (v0.2)
+# AI Engine Report (v0.3)
 
 All code is TypeScript in `src/engine/`, runs locally in a Web Worker (browser) or Node (research), and uses no network or paid service. The v0.1 engine is frozen in `research/engine-v01/` so every improvement is measured against it.
+
+## 0. v0.3 — what was tried, and what shipped
+
+Same protocol as below (30,000 nodes per move, 102 openings × both colours = 204 games, 95% CIs).
+
+| Candidate | Result (Elo, 95% CI) | Shipped? |
+|---|---|---|
+| Internal iterative reduction (no hash move at depth ≥ 4 → search one ply shallower) | **−12 [−50, +26]** on vs off | **no** (flag `iir: false`) |
+| "Improving" heuristic (reduce late quiet moves one more ply when our static eval has not risen since our previous move) | **+10 [−30, +51]** on vs off (both sides had IIR on during this test) | **no** (flag `improving: false`) |
+
+**Neither change is a demonstrated improvement, so v0.3 plays exactly like v0.2.** No strength gain is claimed for v0.3. Raw games: `research/engine/ab-iir-*.jsonl`, `ab-improving-*.jsonl`.
+
+Also in v0.3:
+- **Equal-time match v0.3 vs v0.1** (100 ms per move each, 100 openings × both colours = 200 games, shipped configuration): **+47 Elo [+6, +89]** (+86 =55 −59). Raw games: `research/engine/time-100ms-[1-4].jsonl`. This answers the v0.2 caveat that the gain was only shown at equal *nodes* (v0.2 searches ~35% fewer nodes per second).
+- **Root-score fix**: the root score list (used by post-game review and weak-tier move choice) now always starts with the search's best move; previously an early node-cap stop could return an empty list and crash a review.
+- **Review standard rev-3** (`src/engine/analysis.ts`): labels from win-probability loss with played, best and second-best moves scored in the same search; *Brilliant* requires a real sacrifice (SEE < 0) in an undecided position and is **re-verified by a fresh 4× deeper search** (downgraded if it disagrees); forced moves (≤ 2 legal) never earn Great/Brilliant.
+- **Calibration refit** on 865 games, with two disclosed corrections: a single tier step is credited at most +350 (tier 22 swept tiers 20–21 19–0, which bounds the gap only from below, ≈ +300 at 95%), and the ladder is made monotone by pooling adjacent violators. Raw and applied values are both in `research/calibration-report.md`.
 
 ## 1. What changed in v0.2 — and what each change measured
 

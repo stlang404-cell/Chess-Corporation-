@@ -25,6 +25,7 @@ const MAX_PLY = 96;
 const TT_EXACT = 1;
 const TT_LOWER = 2;
 const TT_UPPER = 3;
+const NO_EVAL = -0x40000000;
 
 export interface SearchLimits {
   depth?: number;
@@ -70,7 +71,8 @@ const LMR = new Int8Array(64 * 64);
 for (let d = 1; d < 64; d++) for (let m = 1; m < 64; m++) LMR[d * 64 + m] = Math.floor(0.75 + (Math.log(d) * Math.log(m)) / 2.25);
 
 /** Search feature switches for A/B experiments (research); defaults are what ships. */
-export const SEARCH_OPTS = { lmp: true, qsTT: true, countermove: true };
+/** v0.3 A/B at 30k nodes, 204 games each: iir −12 Elo [−50, +26]; improving +10 [−30, +51]. Neither significant → both shipped off. */
+export const SEARCH_OPTS = { lmp: true, qsTT: true, countermove: true, iir: false, improving: false };
 
 const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
 
@@ -88,6 +90,8 @@ export class Searcher {
   private pvTable = new Int32Array(MAX_PLY * MAX_PLY);
   private pvLen = new Int32Array(MAX_PLY);
   private quietTried = new Int32Array(MAX_PLY * 64);
+  /** static eval per ply (NO_EVAL when in check) for the improving heuristic */
+  private evalStack = new Int32Array(MAX_PLY + 4).fill(NO_EVAL);
   /** countermove table: best quiet reply indexed by the previous move's from/to */
   private counterMove = new Int32Array(1 << 14);
   private rootSide = WHITE;
@@ -279,6 +283,7 @@ export class Searcher {
 
     const inCheck = pos.inCheck();
     if (inCheck) depth++;
+    if (inCheck) this.evalStack[ply] = NO_EVAL;
     if (depth <= 0) return this.qsearch(pos, alpha, beta, ply, 0);
 
     // TT probe
@@ -296,9 +301,16 @@ export class Searcher {
       }
     }
 
+    // internal iterative reduction (v0.3): no hash move at a deep node → search it one ply shallower
+    if (SEARCH_OPTS.iir && !ttMove && depth >= 4) depth--;
+
     let staticEval = 0;
+    let improving = true;
     if (!inCheck) {
       staticEval = this.evalPos(pos);
+      this.evalStack[ply] = staticEval;
+      // "improving": our static eval rose since our previous move (unknown → assume improving)
+      if (SEARCH_OPTS.improving && ply >= 2 && this.evalStack[ply - 2] !== NO_EVAL) improving = staticEval > this.evalStack[ply - 2];
       // reverse futility pruning
       if (!isPv && depth <= 3 && staticEval - 100 * depth >= beta && Math.abs(beta) < MATE - 200) return staticEval;
       // null move pruning
@@ -347,6 +359,7 @@ export class Searcher {
           if (isPv) red--;
           if (m === this.killers[ply * 2] || m === this.killers[ply * 2 + 1]) red--;
           if (this.history[b[mFrom(m)] * 99 + mTo(m)] > 4000) red--;
+          if (!improving) red++;
           if (red > depth - 2) red = depth - 2;
           if (red < 0) red = 0;
         }
