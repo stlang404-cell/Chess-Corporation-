@@ -115,12 +115,16 @@ export function Board(props: BoardProps) {
   const prevFlipped = useRef(flipped);
   const suppress = useRef<number | null>(null);
 
+  // identity of the position by CONTENT (callers may rebuild identical arrays every render)
+  const cellsKey = cells.join(',');
+  const lastKey = lastMove ? `${lastMove[0]}-${lastMove[1]}` : '';
   const placed = useMemo(() => {
     const { placed: next, gone } = assignKeys(placedRef.current, cells, lastMove);
     goneRef.current = placedRef.current.length ? gone : [];
     placedRef.current = next;
     return next;
-  }, [cells, lastMove]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cellsKey, lastKey]);
 
   const vis = (i: number) => {
     const f = i % 7;
@@ -168,7 +172,7 @@ export function Board(props: BoardProps) {
     const t = setTimeout(() => setGhosts([]), (ghosts[0]?.delay ?? 0) + 260);
     return () => clearTimeout(t);
   }, [ghosts]);
-  useEffect(() => setSel(null), [cells]);
+  useEffect(() => setSel(null), [cellsKey]);
 
   const targets = sel !== null ? legal?.get(sel) ?? [] : [];
   const interactive = !!legal && !!onMove;

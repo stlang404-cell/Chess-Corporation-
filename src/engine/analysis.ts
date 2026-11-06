@@ -66,7 +66,7 @@ export function classify(opts: { played: number; best: number; bestScore: number
 }
 
 function scorePosition(s: Searcher, pos: Position, m: number, nodes: number) {
-  const r = s.search(pos, { nodes }, { rootScores: true, rootMargin: 600 });
+  const r = s.search(pos, { nodes }, { rootScores: true, rootMargin: 350 });
   const scores = r.rootScores ?? [[r.move, r.score]];
   const bestScore = scores[0][1];
   const best = scores[0][0];

@@ -229,7 +229,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
         try {
           const deadline = new Promise<null>((r) => setTimeout(() => r(null), 45000));
           const res = await Promise.race([
-            analyst.analyze(m.moves, playerColor, 12000, (p) => setSettling(`Reviewing your game · ${Math.round(p * 100)}%`)),
+            analyst.analyze(m.moves, playerColor, 9000, (p) => setSettling(`Reviewing your game · ${Math.round(p * 100)}%`)),
             deadline,
           ]);
           if (res) {

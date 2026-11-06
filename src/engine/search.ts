@@ -183,12 +183,10 @@ export class Searcher {
       this.stopped = false;
       this.deadline = Infinity;
       this.nodeLimit = this.nodes + Math.max(2000, (limits.nodes ?? 100000) * 2);
-      const rs: [number, number][] = [];
+      // the main search's choice is always first, even if the scoring budget runs out early
+      const rs: [number, number][] = [[best.move, best.score]];
       for (const m of legal) {
-        if (m === best.move) {
-          rs.push([m, best.score]);
-          continue;
-        }
+        if (m === best.move) continue;
         pos.make(m);
         const sc = -this.negamax(pos, d - 1, -hi, -lo, 1, true);
         pos.unmake();

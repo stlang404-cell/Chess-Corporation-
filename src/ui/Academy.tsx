@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useApp, updateSave, setState, toast } from './appState';
+import { useApp, updateSave } from './appState';
 import { Board, sqIndex } from './Board';
 import { Position, SQUARES, fileOf, rankOf, mFrom, mTo, mPromo, sq } from '../engine/board';
 import { OFFICIAL, startFen } from '../engine/rules';
-import { moveToSan, sanToMove, uciOf, uciToMove } from '../engine/game';
+import { moveToSan, sanToMove } from '../engine/game';
 import { STYLES, STYLE_IDS, TIERS, type StyleId } from '../engine/ai';
-import { analyst } from './engineClient';
-import type { MoveAnalysis } from '../engine/analysis';
-import { boardTheme, Card, Segmented, animMsFor } from './common';
+import { boardTheme, Card, Segmented } from './common';
 import { Puzzles } from './Puzzles';
+import { Review } from './Review';
 
-const QUALITY_LABEL: Record<string, string> = { brilliant: 'Brilliant', great: 'Great', best: 'Best', excellent: 'Excellent', good: 'Good', inaccuracy: 'Inaccuracy', mistake: 'Mistake', blunder: 'Blunder' };
 import { parseMarkdown, Inline, blockText, type Block } from './markdown';
 import { botRating, botRd } from '../game/bots';
 import { identityOf } from '../game/opponents';
@@ -469,164 +467,6 @@ function ExerciseList() {
         ))}
       </ul>
     </>
-  );
-}
-
-// ---------------- Review ----------------
-function Review() {
-  const { save, academyIntent } = useApp();
-  const [id, setId] = useState<string | null>(academyIntent?.kind === 'review' ? academyIntent.matchId : save.history[0]?.id ?? null);
-  const game = save.history.find((h) => h.id === id);
-  const [ply, setPly] = useState(0);
-  const [an, setAn] = useState<{ moves: MoveAnalysis[]; accuracy: number } | null>(null);
-  const [progress, setProgress] = useState<number | null>(null);
-  useEffect(() => {
-    if (academyIntent) setState({ academyIntent: null });
-    setAn(null);
-    setPly(game?.moves.length ?? 0);
-  }, [id]);
-  const { pos, last } = useMemo(() => {
-    const p = Position.fromFen(startFen(OFFICIAL), OFFICIAL);
-    let last = 0;
-    for (let i = 0; i < ply && game; i++) {
-      const m = uciToMove(p, game.moves[i]);
-      if (!m) break;
-      p.make(m);
-      last = m;
-    }
-    return { pos: p, last };
-  }, [ply, game]);
-  const sans = useMemo(() => {
-    if (!game) return [];
-    const p = Position.fromFen(startFen(OFFICIAL), OFFICIAL);
-    return game.moves.map((u) => {
-      const m = uciToMove(p, u);
-      const s = moveToSan(p, m);
-      p.make(m);
-      return s;
-    });
-  }, [game]);
-  if (!game) return <p className="muted">Finished games appear here for review.</p>;
-  const run = async () => {
-    setProgress(0);
-    try {
-      const r = await analyst.analyze(game.moves, null, save.owned.includes('amenity.desk') ? 90000 : 30000, setProgress);
-      setAn(r);
-    } catch {
-      toast('Analysis interrupted');
-    }
-    setProgress(null);
-  };
-  const cur = an?.moves[ply - 1];
-  return (
-    <>
-      <select className="game-pick" value={id ?? ''} onChange={(e) => setId(e.target.value)}>
-        {save.history.map((h) => (
-          <option key={h.id} value={h.id}>
-            {new Date(h.at).toLocaleDateString()} · {h.score === 1 ? 'W' : h.score === 0 ? 'L' : 'D'} vs {h.oppName} ({h.oppRating})
-          </option>
-        ))}
-      </select>
-      <Board
-        cells={cellsOf(pos)}
-        theme={boardTheme(save)}
-        pieceSet={save.equipped.pieces}
-        flipped={game.color === 1}
-        lastMove={last ? [toIdx(mFrom(last)), toIdx(mTo(last))] : null}
-        coordinates={save.settings.coordinates}
-        arrows={cur && cur.tag !== 'best' && cur.bestSan !== cur.san ? arrowForSan(game.moves, ply - 1, cur.bestSan) : undefined}
-        animMs={animMsFor(save.settings.animSpeed)}
-      />
-      <div className="btn-row">
-        <button className="btn small" onClick={() => setPly(0)}>⏮</button>
-        <button className="btn small" onClick={() => setPly(Math.max(0, ply - 1))}>◀</button>
-        <button className="btn small" onClick={() => setPly(Math.min(game.moves.length, ply + 1))}>▶</button>
-        <button className="btn small" onClick={() => setPly(game.moves.length)}>⏭</button>
-        {!an && (
-          <button className="btn small primary" onClick={run} disabled={progress !== null}>
-            {progress !== null ? `Analysing ${Math.round(progress * 100)}%` : 'Engine analysis'}
-          </button>
-        )}
-      </div>
-      {an && <EvalGraph moves={an.moves} ply={ply} onPick={setPly} />}
-      {an && (
-        <div className="muted small">
-          White accuracy {acc(an.moves, 0)}% · Black accuracy {acc(an.moves, 1)}%
-        </div>
-      )}
-      {an && cur && (
-        <div className="review-move">
-          <b>{cur.san}</b> <span className={`qual q-${cur.quality}`}>{QUALITY_LABEL[cur.quality]}</span>
-          {!['best', 'great', 'brilliant'].includes(cur.quality) && <span className="muted small"> · engine preferred {cur.bestSan}</span>}
-          {cur.lowConfidence && <span className="muted small"> · low confidence (shallow search)</span>}
-        </div>
-      )}
-      {an && (
-        <div className="qual-summary">
-          {(['brilliant', 'great', 'best', 'excellent', 'good', 'inaccuracy', 'mistake', 'blunder'] as const).map((q) => {
-            const nW = an.moves.filter((m) => m.ply % 2 === 0 && m.quality === q).length;
-            const nB = an.moves.filter((m) => m.ply % 2 === 1 && m.quality === q).length;
-            return (
-              <div key={q} className={`qs q-${q}`}>
-                <span>{QUALITY_LABEL[q]}</span>
-                <span>
-                  {nW} · {nB}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <div className="movelist wrap">
-        {sans.map((s, i) => (
-          <span key={i} className={`mv ${i === ply - 1 ? 'cur' : ''} ${an?.moves[i] ? 'q-' + an.moves[i].quality : ''}`} onClick={() => setPly(i + 1)}>
-            {i % 2 === 0 && <b>{i / 2 + 1}.</b>} {s}
-          </span>
-        ))}
-      </div>
-      <p className="muted small">Analysis is for review only and is never available during rated games.</p>
-    </>
-  );
-}
-
-function acc(ms: MoveAnalysis[], color: number) {
-  const mine = ms.filter((m) => m.ply % 2 === color);
-  if (!mine.length) return '—';
-  return Math.round(mine.reduce((a, m) => a + m.accuracy, 0) / mine.length);
-}
-
-function arrowForSan(moves: string[], plyIndex: number, san: string): [number, number][] | undefined {
-  const p = Position.fromFen(startFen(OFFICIAL), OFFICIAL);
-  for (let i = 0; i < plyIndex; i++) p.make(uciToMove(p, moves[i]));
-  const m = sanToMove(p, san);
-  if (!m) return undefined;
-  const u = uciOf(m);
-  return [[sqIndex(u.slice(0, 2)), sqIndex(u.slice(2, 4))]];
-}
-
-function EvalGraph({ moves, ply, onPick }: { moves: MoveAnalysis[]; ply: number; onPick: (p: number) => void }) {
-  const w = 320;
-  const h = 70;
-  const y = (cp: number) => h / 2 - (Math.max(-600, Math.min(600, cp)) / 600) * (h / 2);
-  const pts = moves.map((m, i) => `${((i + 1) / moves.length) * w},${y(m.evalWhite)}`).join(' ');
-  return (
-    <svg
-      viewBox={`0 0 ${w} ${h}`}
-      className="evalgraph"
-      preserveAspectRatio="none"
-      onClick={(e) => {
-        const r = (e.currentTarget as SVGElement).getBoundingClientRect();
-        onPick(Math.max(0, Math.min(moves.length, Math.round(((e.clientX - r.left) / r.width) * moves.length))));
-      }}
-    >
-      <rect width={w} height={h / 2} className="eg-top" />
-      <rect y={h / 2} width={w} height={h / 2} className="eg-bot" />
-      <polyline points={`0,${h / 2} ${pts}`} className="eg-line" vectorEffect="non-scaling-stroke" />
-      {moves.map((m, i) =>
-        m.tag === 'blunder' || m.tag === 'mistake' ? <circle key={i} cx={((i + 1) / moves.length) * w} cy={y(m.evalWhite)} r="2.5" fill={m.tag === 'blunder' ? '#b5452f' : '#c69a3c'} /> : null,
-      )}
-      <line x1={(ply / Math.max(1, moves.length)) * w} x2={(ply / Math.max(1, moves.length)) * w} y1="0" y2={h} stroke="#b5452f" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-    </svg>
   );
 }
 

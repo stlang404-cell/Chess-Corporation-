@@ -34,12 +34,11 @@ export function expandReview(r: CompactReview): ExpandedMove[] {
   }));
 }
 
-/** Biggest swings in White's win probability: the game's critical moments. */
+/** Critical moments: the moves that gave away the most win probability (≥ 15 points). */
 export function turningPoints(moves: ExpandedMove[], n = 3): number[] {
-  const wWhite = (m: ExpandedMove) => (m.ply % 2 === 0 ? m.winAfter : 100 - m.winAfter);
-  const swings = moves.map((m, i) => ({ ply: i, d: Math.abs(wWhite(m) - (i ? wWhite(moves[i - 1]) : 50)) }));
-  return swings
-    .filter((s) => s.d >= 12)
+  return moves
+    .map((m) => ({ ply: m.ply, d: m.winBefore - m.winAfter }))
+    .filter((s) => s.d >= 15)
     .sort((a, b) => b.d - a.d)
     .slice(0, n)
     .map((s) => s.ply)
