@@ -99,6 +99,10 @@ for (let i = 0; i < MB_SIZE; i++) {
 }
 
 const MAX_HIST = 2048;
+export const SEE_VAL = [0, 100, 320, 330, 500, 950, 20000, 0];
+const SEE_GAIN = new Int32Array(40);
+const SEE_LIFT = new Int32Array(40);
+const SEE_LIFT_PC = new Int32Array(40);
 
 export class Position {
   board = new Int8Array(MB_SIZE);
@@ -683,6 +687,101 @@ export class Position {
       if (colors !== 3) return true;
     }
     return false;
+  }
+
+  /**
+   * Static exchange evaluation of a capture (or quiet move) on its target
+   * square, in centipawns from the mover's view. Pieces are temporarily
+   * lifted from the board so sliders x-ray through, then restored.
+   */
+  see(m: number): number {
+    const b = this.board;
+    const from = mFrom(m);
+    const to = mTo(m);
+    const flag = mFlag(m);
+    if (flag === FLAG_CASTLE) return 0;
+    let victimVal = flag === FLAG_EP ? SEE_VAL[PAWN] : SEE_VAL[b[to] & 7];
+    const promo = mPromo(m);
+    let attackerVal = SEE_VAL[b[from] & 7];
+    if (promo) {
+      victimVal += SEE_VAL[promo] - SEE_VAL[PAWN];
+      attackerVal = SEE_VAL[promo];
+    }
+    const gain = SEE_GAIN;
+    const lifted = SEE_LIFT;
+    const liftedPc = SEE_LIFT_PC;
+    let nl = 0;
+    lifted[nl] = from;
+    liftedPc[nl++] = b[from];
+    b[from] = EMPTY;
+    let epSq = 0;
+    if (flag === FLAG_EP) {
+      epSq = to - ((b[to] === EMPTY && (liftedPc[0] >> 3) === WHITE) ? 9 : -9);
+      lifted[nl] = epSq;
+      liftedPc[nl++] = b[epSq];
+      b[epSq] = EMPTY;
+    }
+    let side = (liftedPc[0] >> 3) ^ 1;
+    let d = 0;
+    gain[0] = victimVal;
+    while (true) {
+      const a = this.leastAttacker(to, side);
+      if (!a) break;
+      d++;
+      gain[d] = attackerVal - gain[d - 1];
+      if (Math.max(-gain[d - 1], gain[d]) < 0) break;
+      attackerVal = SEE_VAL[b[a] & 7];
+      lifted[nl] = a;
+      liftedPc[nl++] = b[a];
+      b[a] = EMPTY;
+      side ^= 1;
+    }
+    for (; d > 0; d--) gain[d - 1] = -Math.max(-gain[d - 1], gain[d]);
+    for (let i = nl - 1; i >= 0; i--) b[lifted[i]] = liftedPc[i];
+    return gain[0];
+  }
+
+  /** Square of the least valuable piece of `side` attacking s (0 if none). */
+  private leastAttacker(s: number, side: number): number {
+    const b = this.board;
+    if (side === WHITE) {
+      if (b[s - 8] === PAWN) return s - 8;
+      if (b[s - 10] === PAWN) return s - 10;
+    } else {
+      if (b[s + 8] === (8 | PAWN)) return s + 8;
+      if (b[s + 10] === (8 | PAWN)) return s + 10;
+    }
+    const n = (side << 3) | KNIGHT;
+    for (let i = 0; i < 8; i++) if (b[s + KNIGHT_D[i]] === n) return s + KNIGHT_D[i];
+    let bishopSq = 0;
+    let rookSq = 0;
+    let queenSq = 0;
+    for (let i = 0; i < 4; i++) {
+      const d = DIAG_D[i];
+      let t = s + d;
+      while (b[t] === EMPTY) t += d;
+      const pc = b[t];
+      if (pc !== OFF && pc >> 3 === side) {
+        if ((pc & 7) === BISHOP) bishopSq = t;
+        else if ((pc & 7) === QUEEN) queenSq = t;
+      }
+    }
+    if (bishopSq) return bishopSq;
+    for (let i = 0; i < 4; i++) {
+      const d = ORTH_D[i];
+      let t = s + d;
+      while (b[t] === EMPTY) t += d;
+      const pc = b[t];
+      if (pc !== OFF && pc >> 3 === side) {
+        if ((pc & 7) === ROOK) rookSq = t;
+        else if ((pc & 7) === QUEEN) queenSq = t;
+      }
+    }
+    if (rookSq) return rookSq;
+    if (queenSq) return queenSq;
+    const k = (side << 3) | KING;
+    for (let i = 0; i < 8; i++) if (b[s + KING_D[i]] === k) return s + KING_D[i];
+    return 0;
   }
 
   perft(depth: number): number {

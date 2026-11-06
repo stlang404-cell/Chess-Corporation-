@@ -110,6 +110,9 @@ for (const k of SQUARES)
 const PASSED_MG = [0, 4, 10, 20, 36, 60, 0];
 const PASSED_EG = [0, 12, 24, 44, 80, 130, 0];
 
+const ATTACKER_WEIGHT = [0, 25, 60, 85, 100, 110, 115, 120];
+const passedSq = [new Int32Array(8), new Int32Array(8)];
+const nPassed = [0, 0];
 const pawnFiles = [new Int8Array(FILES + 2), new Int8Array(FILES + 2)];
 const pawnMinRank = [new Int8Array(FILES + 2), new Int8Array(FILES + 2)];
 const pawnMaxRank = [new Int8Array(FILES + 2), new Int8Array(FILES + 2)];
@@ -123,6 +126,7 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
   let mobEg = 0;
   const bishops = [0, 0];
 
+  nPassed[0] = nPassed[1] = 0;
   // pawn file maps (files shifted by +1 for sentinel neighbours)
   for (let c = 0; c < 2; c++) {
     pawnFiles[c].fill(0);
@@ -147,6 +151,9 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
   let passMg = 0;
   let passEg = 0;
   const attackUnits = [0, 0];
+  const attackers = [0, 0];
+  const bishopColors = [0, 0]; // bit 1 = dark-square bishop, bit 2 = light
+  const rooksBehind = [0, 0];
   const kz = [pos.kingSq[WHITE], pos.kingSq[BLACK]];
 
   for (let i = 0; i < SQUARES.length; i++) {
@@ -183,6 +190,14 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
         if (c === WHITE ? pawnMaxRank[e][ff] > r : pawnMinRank[e][ff] < r) passed = false;
       }
       if (passed) {
+        // rook behind its own passed pawn
+        const back = c === WHITE ? -9 : 9;
+        for (let t2 = s + back; b[t2] !== OFF; t2 += back) {
+          if (b[t2] === EMPTY) continue;
+          if (b[t2] === ((c << 3) | ROOK)) rooksBehind[c]++;
+          break;
+        }
+        passedSq[c][nPassed[c]++] = s;
         let bm = PASSED_MG[rel];
         let be = PASSED_EG[rel];
         const stop = s + (c === WHITE ? 9 : -9);
@@ -215,6 +230,22 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
       }
       mob += sign * (m - 4) * 4;
       mobEg += sign * (m - 4) * 4;
+      // outpost: advanced, pawn-supported, cannot be chased by enemy pawns
+      const rel = c === WHITE ? rankOf(s) : RANKS - 1 - rankOf(s);
+      if (rel >= 3 && rel <= 5) {
+        const back = c === WHITE ? -9 : 9;
+        const own = (c << 3) | PAWN;
+        if (b[s + back - 1] === own || b[s + back + 1] === own) {
+          const f = fileOf(s) + 1;
+          const e = c ^ 1;
+          let chased = false;
+          for (const ff of [f - 1, f + 1]) {
+            if (!pawnFiles[e][ff]) continue;
+            if (c === WHITE ? pawnMaxRank[e][ff] > rankOf(s) : pawnMinRank[e][ff] < rankOf(s)) chased = true;
+          }
+          if (!chased) mob += sign * 18;
+        }
+      }
     } else {
       const D = t === BISHOP ? DIAG_D : t === ROOK ? ORTH_D : KING_D;
       for (let j = 0; j < D.length; j++) {
@@ -231,6 +262,7 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
       }
       if (t === BISHOP) {
         bishops[c]++;
+        bishopColors[c] |= (fileOf(s) + rankOf(s)) % 2 === 0 ? 1 : 2;
         mob += sign * (m - 5) * 4;
         mobEg += sign * (m - 5) * 4;
       } else if (t === ROOK) {
@@ -244,6 +276,7 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
       }
     }
     attackUnits[c] += att * (t === QUEEN ? 4 : t === ROOK ? 3 : 2);
+    if (att) attackers[c]++;
   }
 
   if (bishops[WHITE] >= 2) {
@@ -275,7 +308,11 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
   }
   const atkW = attackUnits[WHITE];
   const atkB = attackUnits[BLACK];
-  const kingAtk = ((atkW * atkW) >> 2) - ((atkB * atkB) >> 2);
+  // attacks only become dangerous with several attackers (one piece alone rarely mates)
+  const kingAtk =
+    (((atkW * atkW) >> 2) * ATTACKER_WEIGHT[Math.min(7, attackers[WHITE])]) / 100 -
+    (((atkB * atkB) >> 2) * ATTACKER_WEIGHT[Math.min(7, attackers[BLACK])]) / 100;
+  const rookPass = (rooksBehind[WHITE] - rooksBehind[BLACK]) * 20;
 
   if (phase > PHASE_MAX) phase = PHASE_MAX;
   const ph = phase; // PHASE_MAX = opening, 0 = bare endgame
@@ -288,7 +325,7 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
     passMg * pers.passedPawns +
     shelter * pers.kingSafety +
     kingAtk * pers.kingAttack;
-  let egScore = eg + pstEg * pers.centre * (0.5 + 0.5 * pers.endgame) + mobEg * pers.mobility + pawnsEg * pers.pawnStructure + passEg * pers.passedPawns;
+  let egScore = eg + rookPass + pstEg * pers.centre * (0.5 + 0.5 * pers.endgame) + mobEg * pers.mobility + pawnsEg * pers.pawnStructure + passEg * pers.passedPawns;
 
   // mop-up: drive the lone enemy king to the edge when far ahead
   const matDiff = eg;
@@ -302,9 +339,45 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
     egScore += strong === WHITE ? mop : -mop;
   }
 
+  // pawn endings: a passed pawn the enemy king cannot catch (rule of the square)
+  const cnt = pos.counts;
+  const pieces = (col: number) => cnt[(col << 3) | KNIGHT] + cnt[(col << 3) | BISHOP] + cnt[(col << 3) | ROOK] + cnt[(col << 3) | QUEEN];
+  for (let col = 0; col < 2; col++) {
+    if (pieces(col ^ 1) !== 0) continue;
+    for (let i = 0; i < nPassed[col]; i++) {
+      const sq0 = passedSq[col][i];
+      const promoRank = col === WHITE ? RANKS - 1 : 0;
+      let dist = Math.abs(promoRank - rankOf(sq0));
+      if (rankOf(sq0) === (col === WHITE ? 1 : RANKS - 2) && pos.rules.pawnDouble) dist--;
+      const ek = kz[col ^ 1];
+      const kd = Math.max(Math.abs(fileOf(ek) - fileOf(sq0)), Math.abs(promoRank - rankOf(ek)));
+      if (kd - (pos.side === col ? 0 : 1) > dist) {
+        egScore += col === WHITE ? 400 : -400;
+        break;
+      }
+    }
+  }
+
   let score = (mgScore * ph + egScore * (PHASE_MAX - ph)) / PHASE_MAX;
+  // opposite-coloured bishops with no other pieces: very drawish
+  if (
+    cnt[KNIGHT] + cnt[ROOK] + cnt[QUEEN] + cnt[8 | KNIGHT] + cnt[8 | ROOK] + cnt[8 | QUEEN] === 0 &&
+    cnt[BISHOP] === 1 &&
+    cnt[8 | BISHOP] === 1 &&
+    bishopColors[WHITE] !== bishopColors[BLACK]
+  )
+    score *= 0.5;
+  // K+B+N vs K with a light-squared bishop cannot force mate: every 7×7 corner is dark
+  for (let col = 0; col < 2; col++) {
+    const o = col << 3;
+    if (
+      cnt[o | BISHOP] === 1 && cnt[o | KNIGHT] === 1 && cnt[o | PAWN] + cnt[o | ROOK] + cnt[o | QUEEN] === 0 &&
+      pieces(col ^ 1) + cnt[((col ^ 1) << 3) | PAWN] === 0 && bishopColors[col] === 2
+    )
+      score /= 16;
+  }
   // drawish material: no pawns and small advantage
-  const c = pos.counts;
+  const c = cnt;
   if (score > 0 && c[PAWN] === 0 && MAT_EG[ROOK] > matDiff) score /= 4;
   if (score < 0 && c[8 | PAWN] === 0 && -MAT_EG[ROOK] < matDiff) score /= 4;
   score = score | 0;

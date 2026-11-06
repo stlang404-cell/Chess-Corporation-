@@ -6,7 +6,6 @@
 import {
   Position,
   WHITE,
-  KING,
   PAWN,
   QUEEN,
   EMPTY,
@@ -66,6 +65,10 @@ export class TranspositionTable {
   }
 }
 
+/** Late-move-reduction table: round(0.75 + ln(depth)·ln(moveNumber)/2.25). */
+const LMR = new Int8Array(64 * 64);
+for (let d = 1; d < 64; d++) for (let m = 1; m < 64; m++) LMR[d * 64 + m] = Math.floor(0.75 + (Math.log(d) * Math.log(m)) / 2.25);
+
 const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
 
 export class Searcher {
@@ -81,6 +84,7 @@ export class Searcher {
   private scoreBuf = new Int32Array(MAX_PLY * 256);
   private pvTable = new Int32Array(MAX_PLY * MAX_PLY);
   private pvLen = new Int32Array(MAX_PLY);
+  private quietTried = new Int32Array(MAX_PLY * 64);
   private rootSide = WHITE;
   /** optional deterministic eval noise amplitude (cp) for weaker tiers */
   noise = 0;
@@ -212,7 +216,11 @@ export class Searcher {
       else {
         const victim = mFlag(m) === FLAG_EP ? PAWN : pieceType(b[mTo(m)]);
         const promo = mPromo(m);
-        if (victim) sc = 1_000_000 + MAT_MG[victim] * 10 - MAT_MG[pieceType(b[mFrom(m)])] / 10;
+        if (victim) {
+          const mvv = MAT_MG[victim] * 10 - MAT_MG[pieceType(b[mFrom(m)])] / 10;
+          // winning/equal captures first; losing captures (SEE < 0) after quiet moves
+          sc = MAT_MG[pieceType(b[mFrom(m)])] <= MAT_MG[victim] || pos.see(m) >= 0 ? 1_000_000 + mvv : -200_000 + mvv;
+        }
         else if (promo === QUEEN) sc = 900_000;
         else if (m === k1) sc = 800_000;
         else if (m === k2) sc = 700_000;
@@ -308,6 +316,7 @@ export class Searcher {
     let bestMove = 0;
     const origAlpha = alpha;
     const b = pos.board;
+    let nQuiet = 0;
     for (let i = base; i < n; i++) {
       this.pickNext(i, n);
       const m = this.moveBuf[i];
@@ -322,12 +331,15 @@ export class Searcher {
         continue;
       }
       let s: number;
+      if (isQuiet && nQuiet < 64) this.quietTried[ply * 64 + nQuiet++] = m;
       if (legal === 1) s = -this.negamax(pos, depth - 1, -beta, -alpha, ply + 1, true);
       else {
         let red = 0;
         if (depth >= 3 && isQuiet && !inCheck && !givesCheck && legal > 3) {
-          red = 1 + (legal > 8 ? 1 : 0) + (depth > 7 ? 1 : 0);
+          red = LMR[Math.min(depth, 63) * 64 + Math.min(legal, 63)];
           if (isPv) red--;
+          if (m === this.killers[ply * 2] || m === this.killers[ply * 2 + 1]) red--;
+          if (this.history[b[mFrom(m)] * 99 + mTo(m)] > 4000) red--;
           if (red > depth - 2) red = depth - 2;
           if (red < 0) red = 0;
         }
@@ -355,6 +367,11 @@ export class Searcher {
               const hi = b[mFrom(m)] * 99 + mTo(m);
               this.history[hi] += depth * depth;
               if (this.history[hi] > 500_000) for (let k = 0; k < this.history.length; k++) this.history[k] >>= 1;
+              // history malus for the quiet moves tried before the cutoff move
+              for (let q = 0; q < nQuiet - 1; q++) {
+                const qm = this.quietTried[ply * 64 + q];
+                this.history[b[mFrom(qm)] * 99 + mTo(qm)] -= depth * depth;
+              }
             }
             break;
           }
@@ -406,9 +423,9 @@ export class Searcher {
         const victim = mFlag(m) === FLAG_EP ? PAWN : pieceType(b[mTo(m)]);
         const gain = MAT_MG[victim] + (mPromo(m) ? MAT_MG[QUEEN] - MAT_MG[PAWN] : 0);
         if (best + gain + 200 < alpha && !mPromo(m)) continue;
-        // skip obviously losing captures: big piece takes defended pawn (cheap SEE-lite)
+        // skip captures that lose material by static exchange
         const attacker = pieceType(b[mFrom(m)]);
-        if (attacker !== KING && MAT_MG[attacker] > MAT_MG[victim] + 50 && this.defended(pos, mTo(m))) continue;
+        if (MAT_MG[attacker] > MAT_MG[victim] && !mPromo(m) && pos.see(m) < 0) continue;
       }
       if (!pos.make(m)) continue;
       legal++;
@@ -425,10 +442,6 @@ export class Searcher {
     }
     if (inCheck && legal === 0) return -MATE + ply;
     return best;
-  }
-
-  private defended(pos: Position, s: number): boolean {
-    return pos.isAttacked(s, pos.side ^ 1);
   }
 }
 

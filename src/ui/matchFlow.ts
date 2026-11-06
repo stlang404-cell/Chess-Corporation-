@@ -1,6 +1,7 @@
 import { getState, updateSave, go } from './appState';
 import { TIME_CONTROLS, type ActiveMatch, type MatchKind, type OpponentSpec } from '../game/state';
 import { findOpponent } from '../game/matchmaking';
+import { initialClocks } from '../game/clock';
 
 export function newMatchId() {
   const r = crypto.getRandomValues(new Uint32Array(2));
@@ -24,7 +25,7 @@ export async function startMatch(kind: MatchKind, opponent: OpponentSpec, color?
     opponent,
     playerColor: c,
     moves: [],
-    clocks: [tc.baseMs, tc.baseMs],
+    clocks: initialClocks(tc.id),
     tc: tc.id,
     startedAt: Date.now(),
     seed: crypto.getRandomValues(new Uint32Array(1))[0] & 0x7fffffff,

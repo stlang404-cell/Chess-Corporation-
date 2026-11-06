@@ -8,7 +8,8 @@ import { boardOutcome, moveToSan, uciOf, uciToMove, type Termination } from '../
 import { STYLES } from '../engine/ai';
 import { engine, analyst } from './engineClient';
 import { settleMatch, type SettlementReport } from '../game/settle';
-import { TIME_CONTROLS, type ActiveMatch } from '../game/state';
+import { type ActiveMatch } from '../game/state';
+import { isUntimed, clocksAfterMove, hasFlagged, botThinkCapMs, timeControlOf } from '../game/clock';
 import { identityOf } from '../game/opponents';
 import { rankInfo } from '../game/career';
 import { isProvisional } from '../game/rating';
@@ -99,7 +100,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   const playerColor = m.playerColor;
   const finished = !!m.finished;
   const myTurn = !finished && pos.side === playerColor;
-  const tc = TIME_CONTROLS.find((t) => t.id === m.tc) ?? TIME_CONTROLS[0];
+  const tc = timeControlOf(m);
   const casual = m.kind === 'casual' || m.kind === 'training';
   const [thinking, setThinking] = useState(false);
   const [promo, setPromo] = useState<{ from: number; to: number } | null>(null);
@@ -142,8 +143,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
       if (!mv) return;
       const side = p.side;
       const now = performance.now();
-      const clocks: [number, number] = [...cur.clocks];
-      if (cur.moves.length >= 1) clocks[side] = clocks[side] - (now - turnStart.current) + tc.incMs;
+      const clocks = clocksAfterMove(cur, side, now - turnStart.current);
       turnStart.current = now;
       const isCap = p.board[mTo(mv)] !== 0;
       p.make(mv);
@@ -167,7 +167,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
       .botMove(
         m.moves,
         // the bot respects its own clock: never spend more than ~1/25 of its remaining time + most of the increment
-        { tier: opp.tier, style: opp.style, seed: m.seed, maxMs: Math.max(150, m.clocks[pos.side] / 25 + tc.incMs * 0.7) },
+        { tier: opp.tier, style: opp.style, seed: m.seed, maxMs: botThinkCapMs(m, pos.side, getState().save.settings.aiThink) },
         m.moves.length < 2,
       )
       .then(async (r) => {
@@ -188,18 +188,17 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
 
   // ---- clocks ----
   useEffect(() => {
-    if (finished) return;
+    if (finished || isUntimed(m)) return;
     const id = setInterval(() => {
       const cur = latest.current;
       if (cur.finished || cur.moves.length < 1) return force((x) => x + 1);
       const { pos: p } = buildPositionCached(cur.moves);
-      const left = cur.clocks[p.side] - (performance.now() - turnStart.current);
-      if (left <= 0) {
+      if (hasFlagged(cur, p.side, performance.now() - turnStart.current)) {
         const other = p.side ^ 1;
         const scoreWhite = canMate(p, other) ? (p.side === WHITE ? 0 : 1) : 0.5;
         reqToken.current++;
         setThinking(false);
-        const clocks: [number, number] = [...cur.clocks];
+        const clocks: [number, number] = [...cur.clocks!];
         clocks[p.side] = 0;
         finish({ ...cur, clocks }, scoreWhite, 'timeout');
       } else force((x) => x + 1);
@@ -325,6 +324,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   // ---- derived display ----
   const now = performance.now();
   const shownClock = (c: number) => {
+    if (!m.clocks) return 0;
     if (finished || m.moves.length < 1 || pos.side !== c) return m.clocks[c];
     return Math.max(0, m.clocks[c] - (now - turnStart.current));
   };

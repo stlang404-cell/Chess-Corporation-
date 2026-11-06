@@ -3,7 +3,7 @@ import { START_RATING } from './rating';
 import type { StyleId } from '../engine/ai';
 import type { Termination } from '../engine/game';
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 
 export type MatchKind = 'ranked' | 'series' | 'cup' | 'casual' | 'training';
 export const isRatedKind = (k: MatchKind) => k === 'ranked' || k === 'series' || k === 'cup';
@@ -26,7 +26,10 @@ export interface TimeControl {
   baseMs: number;
   incMs: number;
 }
+/** 'untimed' is the default for every match type: no clock, no timeout, ever. */
+export const UNTIMED = 'untimed';
 export const TIME_CONTROLS: TimeControl[] = [
+  { id: UNTIMED, label: 'Untimed', baseMs: 0, incMs: 0 },
   { id: '5+3', label: 'Standard 5+3', baseMs: 5 * 60_000, incMs: 3000 },
   { id: '3+2', label: 'Brisk 3+2', baseMs: 3 * 60_000, incMs: 2000 },
   { id: '10+5', label: 'Classical 10+5', baseMs: 10 * 60_000, incMs: 5000 },
@@ -39,7 +42,8 @@ export interface ActiveMatch {
   opponent: OpponentSpec;
   playerColor: 0 | 1;
   moves: string[];
-  clocks: [number, number]; // ms remaining [white, black]
+  /** ms remaining [white, black]; null = untimed (never interpreted as zero) */
+  clocks: [number, number] | null;
   tc: string;
   startedAt: number;
   seed: number;
@@ -126,6 +130,13 @@ export interface SaveData {
     sound: boolean;
     tc: string;
     confirmResign: boolean;
+    /** AI thinking budget cap: standard ≈4 s, strong ≈10 s per move (strength stays node-calibrated) */
+    aiThink: 'standard' | 'strong';
+    theme: 'light' | 'dark' | 'auto';
+    animSpeed: 'slow' | 'normal' | 'fast' | 'off';
+    highContrast: boolean;
+    flipBoard: boolean;
+    onboarded: boolean;
   };
   settled: string[];
   active: ActiveMatch | null;
@@ -175,7 +186,20 @@ export function newSave(now = Date.now()): SaveData {
       ceremony: 'ceremony.ink',
       entrance: 'entrance.fade',
     },
-    settings: { coordinates: true, showLegal: true, animations: true, sound: false, tc: '5+3', confirmResign: true },
+    settings: {
+      coordinates: true,
+      showLegal: true,
+      animations: true,
+      sound: false,
+      tc: UNTIMED,
+      confirmResign: true,
+      aiThink: 'standard',
+      theme: 'auto',
+      animSpeed: 'normal',
+      highContrast: false,
+      flipBoard: false,
+      onboarded: false,
+    },
     settled: [],
     active: null,
     rematch: null,
@@ -191,6 +215,7 @@ export function migrate(raw: unknown): SaveData {
   const base = newSave();
   if (!raw || typeof raw !== 'object') return base;
   const s = raw as Partial<SaveData>;
+  const fromVersion = typeof s.version === 'number' ? s.version : 1;
   // version 1 is current; fill any missing fields from defaults (forward-compatible)
   const merged: SaveData = {
     ...base,
@@ -209,6 +234,12 @@ export function migrate(raw: unknown): SaveData {
   for (const o of base.owned) if (!merged.owned.includes(o)) merged.owned.push(o);
   if (!Array.isArray(merged.settled)) merged.settled = [];
   if (!Array.isArray(merged.history)) merged.history = [];
+  if (fromVersion < 2) {
+    // v0.1 → v0.2: untimed becomes the default; a timed game in progress keeps its clocks.
+    merged.settings.tc = UNTIMED;
+    merged.settings.onboarded = true; // existing players skip the first-run tour
+  }
+  if (merged.active && merged.active.clocks === undefined) merged.active.clocks = null;
   return merged;
 }
 
