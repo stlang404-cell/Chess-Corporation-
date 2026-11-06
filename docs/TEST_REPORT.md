@@ -1,3 +1,28 @@
+# Test Report — SEVEN v0.3
+
+## v0.3 results (this release)
+
+- `npm test`: **12 files, 226 tests, all passing**. New in v0.3:
+  - `paycheck.test.ts` (11): pay-3 lines, caps and decay, contracts, no double pay.
+  - `collections.test.ts` (5): earned-only items can't be bought, collection rewards are granted once, distinction thresholds.
+- Browser e2e, local release build (`tests/e2e/run-all.sh`): smoke, resume, **animation**, **review**, offline + responsive, and the `file://` build all pass.
+- Browser e2e, **live site**: smoke, offline + 28 responsive checks, review (pay-3 paycheck, review strip, Full review, Retry) and animation all pass.
+- `tests/e2e/animation.mjs` (new) checks that the drawn board equals the authoritative position:
+  - after tap moves where the AI reply lands mid-animation;
+  - after 30 rapid taps;
+  - after a slow drag (no snap-back);
+  - after a flip (no animation);
+  - after a reload/resume (same position, no mount animation);
+  - under reduced motion (instant moves).
+
+  It found two real defects: slow drags were ignored, and reduce-motion was not honoured. Both are fixed.
+- Visual run: 112 screenshots, no horizontal overflow, no touch target under 32 px, no page errors. Key v0.3 screens are in `docs/screenshots/v03-*.png`.
+- Engine:
+  - A/B at 30k nodes, 204 games each: IIR −12 [−50, +26], "improving" +10 [−30, +51]. Both rejected.
+  - Equal time vs v0.1 (100 ms/move, 200 games): **+47 [+6, +89]**.
+
+The v0.2 report follows unchanged.
+
 # Test Report — SEVEN v0.2
 
 Actual results from this release's test runs. Nothing here is projected; failures and limits are listed explicitly.

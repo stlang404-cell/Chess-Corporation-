@@ -6,6 +6,17 @@
 
 SEVEN is chess on a **7×7 board**. Press **MATCH**, play an **untimed** rated game against an AI opponent with a real identity and style, and watch your rating, your fictional salary and your corporate career move — from *Finance Intern* to *Chief Financial Officer*, *Chief Executive Officer* of Seven Meridian, and then the head of ever-larger institutions in a corporate universe that keeps expanding.
 
+## v0.3 — The Prestige Update
+
+- **Every rated game is reviewed by the engine.** Accuracy, an evaluation bar and graph, turning points, Brilliant/Great/Best…/Blunder labels, missed wins, the best alternative as an arrow, and *Retry this move* on any mistake. Brilliant moves are re-verified by a 4× deeper search before they are awarded. No engine help is ever shown during rated play.
+- **A paycheck driven by how you played** (formula pay-3): base pay, an accuracy bonus, Great/Brilliant bonuses, result and upset bonuses, and capped deductions for blunders, itemised on the results sheet and paid exactly once.
+- **Smooth, trustworthy animation.** Pieces glide (115–240 ms, or instantly with *reduce motion*), captures fade, and tap and drag both work. A browser test proves the drawn board always matches the real position.
+- **Three new piece sets** (Imperial, Modern, Executive) and a richer palette with colours that carry meaning.
+- **Career hooks.** Performance contracts, rivals, career records, six rare honours that each unlock an earned-only cosmetic, and four store collections.
+- **Engine.** v0.3 plays like v0.2. It now has a measured equal-time result against v0.1: **+47 Elo [+6, +89]** at 100 ms per move. Two new search ideas were tested and left off because neither showed a significant gain.
+
+See [`docs/RELEASE_v0.3.md`](docs/RELEASE_v0.3.md) for what was verified.
+
 ## v0.2 — The Ascension Overhaul
 
 - **Untimed chess everywhere.** No clocks, no timeouts; leave mid-game and resume later. (Optional timed play remains in Settings.)
