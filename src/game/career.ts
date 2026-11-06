@@ -1,3 +1,4 @@
+import { CALIBRATION } from '../engine/calibration';
 /**
  * The corporate ladder: authored titles × grades, then a deterministic,
  * unbounded procedural continuation. A rank is identified by a single integer
@@ -169,14 +170,18 @@ export function meritNeeded(n: number): number {
  * The curve tops out at MASTERY_GATE, a level only the strongest calibrated
  * tiers reach; beyond it, procedural ranks keep the mastery gate plus series.
  */
-export const MASTERY_GATE = 1950;
+// Gates follow the MEASURED bot scale: the curve starts near the strength of a
+// low tier and ends a little below the strongest calibrated tier, so the top of
+// the authored ladder demands near-engine strength on the SEVEN scale.
+const TR = CALIBRATION.tierRatings;
+export const GATE_LOW = Math.round((TR[3] ?? 700) / 10) * 10;
+export const MASTERY_GATE = Math.round((TR[TR.length - 1] - 200) / 10) * 10;
 export function ratingGate(n: number): number {
   const ti = rankInfo(n).titleIndex;
   if (ti <= 5) return 0;
   if (ti >= TITLES.length) return MASTERY_GATE;
-  // smooth curve from 450 (title 6) to MASTERY_GATE (last authored title)
   const x = (ti - 6) / (TITLES.length - 1 - 6);
-  return Math.round(450 + (MASTERY_GATE - 450) * Math.pow(x, 1.15));
+  return Math.round((GATE_LOW + (MASTERY_GATE - GATE_LOW) * Math.pow(x, 1.15)) / 10) * 10;
 }
 
 /** Promotion series length (best of N) required to enter rank n, 0 if none. */

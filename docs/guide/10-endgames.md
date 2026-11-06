@@ -78,11 +78,11 @@ explanation: Ke3 takes f2, f3 and f4 away. If 1...Kg3, 2.Rg6 is mate at once. Th
 
 > **Established:** king and two bishops against king, with the bishops on opposite colours, is a forced win in general on 7×7. The longest forced mate takes **16 moves** (19 on 8×8).
 
-> **Established:** king, bishop and knight against king is a forced win in general. The longest forced mate takes **21 moves** (33 on 8×8). Mate is only possible in a corner of the bishop's colour. Every corner on the 7×7 board is dark, so **only the dark-squared bishop can force mate with the knight**. With the light-squared bishop, bishop and knight cannot mate a lone king that defends correctly.
+> **Established:** king, **dark-squared** bishop and knight against king is a forced win from 99.3% of legal positions with White to move. The exceptions are immediate captures and stalemates. The longest forced mate takes **21 moves** (33 on 8×8). With the **light-squared** bishop, only 0.1% of positions are wins, all of them mates in one or two where the king is already trapped. As in chess, mate is forced in a corner of the bishop's colour, and **every corner on the 7×7 board is dark**.
 
 > **Established:** king and two knights against king cannot force mate. Our solver found forced wins only in positions that are already mate in one.
 
-The last-but-one point is the most surprising fact in this chapter. In chess, B+N mates in one pair of corners whatever the bishop's colour. In SEVEN, a bishop-and-knight ending is a win with the dark-squared bishop and only a draw (with correct defence) with the light-squared one.
+The bishop-and-knight result is the most surprising fact in this chapter. In chess, B+N always has a pair of corners to mate in, whatever the bishop's colour. In SEVEN, the same ending is a win with the dark-squared bishop and a draw with the light-squared one.
 
 > **Hypothesis:** this is one more reason to keep the dark-squared bishop. Trading it can turn a won minor-piece ending into a draw.
 

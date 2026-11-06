@@ -57,11 +57,13 @@ With so little room, which material can still force mate? We checked every posit
 
 > **Established:** king and queen against king, and king and rook against king, are wins from every legal position with the stronger side to move. The longest forced mate takes **8 moves** with the queen (10 on 8×8) and **14 moves** with the rook (16 on 8×8).
 
-> **Established:** king and two bishops (on opposite colours) against king, and king, bishop and knight against king, are forced wins in general. The longest forced mates take **16 moves** with the bishops (19 on 8×8) and **21 moves** with bishop and knight (33 on 8×8). The 50-move rule from chess becomes SEVEN's 80-ply rule, and both endings fit comfortably inside it.
+> **Established:** king and two bishops (on opposite colours) against king is a forced win. The longest forced mate takes **16 moves** (19 on 8×8).
+
+> **Established:** king, bishop and knight against king is a forced win only with the **dark-squared** bishop (99.3% of positions; longest mate 21 moves, against 33 on 8×8). With the light-squared bishop it is a draw except in a handful of positions where the king is already trapped. All four corners of the 7×7 board are dark, and a lone king can only be mated by B+N in a corner of the bishop's colour.
 
 > **Established:** king and knight against king, and king and bishop against king, are dead draws. King and two knights cannot force mate either, except in rare positions where the defending king is already trapped.
 
-So the small board makes bishop and knight against king *much* easier than in chess: 21 moves at most against 33. It is still not trivial, and the endgame chapter shows the technique.
+So the small board makes bishop and knight against king *much* easier than in chess, at most 21 moves against 33, but only if you kept the right bishop. See the Endgames chapter.
 
 ## The exchange and other trades
 

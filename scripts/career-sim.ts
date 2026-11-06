@@ -14,6 +14,7 @@ import { expectedScore } from '../src/game/rating';
 import { rankInfo, TITLES, AUTHORED_RANKS } from '../src/game/career';
 import { STORE } from '../src/game/store';
 import { writeFileSync } from 'node:fs';
+import { CALIBRATION } from '../src/engine/calibration';
 
 const GAMES = +(process.argv[2] ?? 3000);
 const PER = +(process.argv[3] ?? 8);
@@ -99,7 +100,9 @@ function simulate(strength: number, behaviour: 'normal' | 'resign10' = 'normal',
   };
 }
 
-const strengths = [500, 800, 1100, 1400, 1700, 2000, 2300];
+// simulated true strengths span the calibrated bot scale
+const TRS = CALIBRATION.tierRatings;
+const strengths = [2, 6, 10, 14, 18, 22, 24].map((t) => TRS[t]);
 const rows: string[] = [];
 const median = (a: number[]) => {
   const b = a.slice().sort((x, y) => x - y);
@@ -132,9 +135,9 @@ rows.push(`|---|${MILESTONES.map(() => '---').join('|')}|`);
 rows.push(...msRows);
 
 // exploit checks
-const honest = simulate(1100, 'normal', 300);
-const resign = simulate(1100, 'resign10', 300);
-rows.push('', '## Exploit checks (300 matches, true strength 1100)', '');
+const honest = simulate(TRS[10], 'normal', 300);
+const resign = simulate(TRS[10], 'resign10', 300);
+rows.push('', '## Exploit checks (300 matches, true strength ' + TRS[10] + ')', '');
 rows.push(`- Playing normally: lifetime $${honest.lifetime.toLocaleString('en-US')}, rank ${honest.finalRank}.`);
 rows.push(`- Resigning every game at move 10 (salary farming): lifetime $${resign.lifetime.toLocaleString('en-US')}, rank ${resign.finalRank}, rating ${resign.finalRating}.`);
 const storeTotal = STORE.reduce((a, i) => a + i.price, 0);
