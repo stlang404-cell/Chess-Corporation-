@@ -101,6 +101,12 @@ for (const s of SQUARES) {
 const MIRROR = new Int8Array(99);
 for (const s of SQUARES) MIRROR[s] = sq(fileOf(s), RANKS - 1 - rankOf(s));
 
+/** NEAR[k*99+s] = 1 when s is within one king step of k */
+const NEAR = new Uint8Array(99 * 99);
+for (const k of SQUARES)
+  for (const t of SQUARES)
+    if (Math.abs(fileOf(k) - fileOf(t)) <= 1 && Math.abs(rankOf(k) - rankOf(t)) <= 1) NEAR[k * 99 + t] = 1;
+
 const PASSED_MG = [0, 4, 10, 20, 36, 60, 0];
 const PASSED_EG = [0, 12, 24, 44, 80, 130, 0];
 
@@ -198,38 +204,30 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
     // mobility & king attack for pieces
     let m = 0;
     let att = 0;
-    const ekf = fileOf(enemyK);
-    const ekr = rankOf(enemyK);
+    const zone = enemyK * 99;
     if (t === KNIGHT) {
       for (let j = 0; j < 8; j++) {
         const to = s + KNIGHT_D[j];
         const tp = b[to];
         if (tp === OFF) continue;
         if (tp === EMPTY || tp >> 3 !== c) m++;
-        if (Math.abs(fileOf(to) - ekf) <= 1 && Math.abs(rankOf(to) - ekr) <= 1) att++;
+        att += NEAR[zone + to];
       }
       mob += sign * (m - 4) * 4;
       mobEg += sign * (m - 4) * 4;
     } else {
-      const dirs = t === BISHOP ? DIAG_D : t === ROOK ? ORTH_D : null;
-      const scan = (D: number[]) => {
-        for (let j = 0; j < 4; j++) {
-          const d = D[j];
-          let to = s + d;
-          while (true) {
-            const tp = b[to];
-            if (tp === OFF) break;
-            if (tp === EMPTY || tp >> 3 !== c) m++;
-            if (Math.abs(fileOf(to) - ekf) <= 1 && Math.abs(rankOf(to) - ekr) <= 1) att++;
-            if (tp !== EMPTY) break;
-            to += d;
-          }
+      const D = t === BISHOP ? DIAG_D : t === ROOK ? ORTH_D : KING_D;
+      for (let j = 0; j < D.length; j++) {
+        const d = D[j];
+        let to = s + d;
+        while (true) {
+          const tp = b[to];
+          if (tp === OFF) break;
+          if (tp === EMPTY || tp >> 3 !== c) m++;
+          att += NEAR[zone + to];
+          if (tp !== EMPTY) break;
+          to += d;
         }
-      };
-      if (dirs) scan(dirs);
-      else {
-        scan(DIAG_D);
-        scan(ORTH_D);
       }
       if (t === BISHOP) {
         bishops[c]++;

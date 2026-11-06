@@ -71,8 +71,17 @@ export const CANDIDATES: Ruleset[] = [
   },
 ];
 
-export let OFFICIAL: Ruleset = CANDIDATES[1];
-/** For research scripts only. Never call from game code. */
-export function _setOfficialForResearch(r: Ruleset) {
-  OFFICIAL = r;
-}
+/**
+ * OFFICIAL RATED RULES — SEVEN-1.0. Locked. Selected from CANDIDATES by the
+ * self-play study in docs/RESEARCH.md. Any change requires a new id and a
+ * new rating pool; never edit this object in place.
+ */
+export const OFFICIAL: Ruleset = Object.freeze({
+  id: 'SEVEN-1.0',
+  name: 'SEVEN 1.0',
+  backRank: 'RNBQKBR',
+  pawnDouble: true,
+  castling: Object.freeze({ shortKing: 6, shortRook: 5, longKing: 2, longRook: 3 }),
+  stalemate: 'draw',
+  quietPlyLimit: 80,
+}) as Ruleset;
