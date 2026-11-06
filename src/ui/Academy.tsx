@@ -503,7 +503,7 @@ function Review() {
   const run = async () => {
     setProgress(0);
     try {
-      const r = await analyst.analyze(game.moves, null, 30000, setProgress);
+      const r = await analyst.analyze(game.moves, null, save.owned.includes('amenity.desk') ? 90000 : 30000, setProgress);
       setAn(r);
     } catch {
       toast('Analysis interrupted');

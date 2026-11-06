@@ -316,8 +316,10 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
 
   const askHint = async () => {
     if (m.kind !== 'training' || !myTurn) return;
-    const r = await engine.evaluate(m.moves, 150000);
+    const mentor = save.owned.includes('amenity.mentor');
+    const r = await engine.evaluate(m.moves, mentor ? 450000 : 150000);
     setHint([sqIndex(r.move.slice(0, 2)), sqIndex(r.move.slice(2, 4))]);
+    if (mentor && r.pv.length) toast('Mentor: ' + r.pv.join(' '));
   };
 
   // ---- derived display ----

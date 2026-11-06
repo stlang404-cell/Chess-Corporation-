@@ -1,5 +1,5 @@
 /** Cosmetic store. Nothing here affects move quality, opponents, or rating. */
-export type ItemKind = 'board' | 'pieces' | 'crest' | 'frame' | 'office' | 'ceremony' | 'entrance' | 'trophy';
+export type ItemKind = 'board' | 'pieces' | 'crest' | 'frame' | 'office' | 'ceremony' | 'entrance' | 'trophy' | 'amenity';
 
 export interface StoreItem {
   id: string;
@@ -22,6 +22,7 @@ export const KIND_LABEL: Record<ItemKind, string> = {
   ceremony: 'Promotion ceremony',
   entrance: 'Match entrance',
   trophy: 'Trophy cabinet',
+  amenity: 'Study amenities',
 };
 
 export const STORE: StoreItem[] = [
@@ -70,6 +71,10 @@ export const STORE: StoreItem[] = [
   { id: 'trophy.koi', kind: 'trophy', name: 'Koi Scroll', price: 18000, desc: 'Koi climbing the waterfall.', data: { glyph: '鯉' } },
   { id: 'trophy.fuji', kind: 'trophy', name: 'Fuji Woodblock', price: 36000, minRank: 70, desc: 'A first-edition print.', data: { glyph: '富' } },
   { id: 'trophy.castle', kind: 'trophy', name: 'Castle Model', price: 120000, minRank: 150, desc: 'A lacquered castle keep.', data: { glyph: '城' } },
+
+  // Study amenities: affect ONLY post-game review and unrated training games.
+  { id: 'amenity.desk', kind: 'amenity', name: 'Analysis Desk', price: 8000, desc: 'Post-game review searches 3× deeper.' },
+  { id: 'amenity.mentor', kind: 'amenity', name: 'Training Mentor', price: 12000, desc: 'Training-game hints search 3× deeper and show the main line.' },
 ];
 
 export const itemById = (id: string) => STORE.find((i) => i.id === id);

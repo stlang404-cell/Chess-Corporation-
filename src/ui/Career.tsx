@@ -326,7 +326,7 @@ function Store() {
       s.wallet.balance -= it.price;
       s.wallet.spent += it.price;
       s.owned.push(it.id);
-      if (it.kind !== 'trophy') s.equipped[it.kind] = it.id;
+      if (it.kind !== 'trophy' && it.kind !== 'amenity') s.equipped[it.kind] = it.id;
     });
     toast(`Purchased ${it.name}`);
   };
@@ -375,13 +375,15 @@ function Store() {
                   </div>
                 )}
                 {it.kind === 'office' && <div className="office-preview" style={{ backgroundImage: motifUrl(it.data?.motif ?? 'plain', '#1d1d1b', 0.25) }} />}
-                {(it.kind === 'ceremony' || it.kind === 'entrance') && <div className="glyph-preview">{it.kind === 'ceremony' ? '昇' : '入'}</div>}
+                {(it.kind === 'ceremony' || it.kind === 'entrance' || it.kind === 'amenity') && (
+                  <div className="glyph-preview">{it.kind === 'ceremony' ? '昇' : it.kind === 'entrance' ? '入' : it.id === 'amenity.desk' ? '机' : '師'}</div>
+                )}
               </div>
               <div className="si-name">{it.name}</div>
               <div className="muted small">{it.desc}</div>
               {owned ? (
-                it.kind === 'trophy' ? (
-                  <span className="muted small">In your office</span>
+                it.kind === 'trophy' || it.kind === 'amenity' ? (
+                  <span className="muted small">{it.kind === 'trophy' ? 'In your office' : 'Active'}</span>
                 ) : (
                   <button className="btn small" disabled={equipped} onClick={() => equip(it.id)}>
                     {equipped ? 'Equipped' : 'Equip'}
