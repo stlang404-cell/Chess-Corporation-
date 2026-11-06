@@ -254,7 +254,9 @@ export function Exercise({ f }: { f: Record<string, string> }) {
   const norm = (s: string) => s.replace(/[+#!?]/g, '');
   const onMove = (a: number, b: number) => {
     const cands = pos.legalMoves().filter((m) => mFrom(m) === toSq(a) && mTo(m) === toSq(b));
-    const m = cands.find((c) => !mPromo(c) || mPromo(c) === 5) ?? cands[0];
+    // promotions: if the expected move is an underpromotion, honour it; otherwise queen
+    const want = norm(solution[step] ?? '');
+    const m = cands.find((c) => norm(moveToSan(pos, c)) === want) ?? cands.find((c) => !mPromo(c) || mPromo(c) === 5) ?? cands[0];
     if (!m) return;
     const san = moveToSan(pos, m);
     if (norm(san) !== norm(solution[step])) {
