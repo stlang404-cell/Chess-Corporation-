@@ -44,7 +44,6 @@ function idWithStyle(style: StyleId, rand: Rand): number {
 export function matchTarget(save: SaveData, rand: Rand): number {
   const R = save.rating.r;
   if (save.career.series) {
-    // promotion board: at least as strong as the gate being contested
     // promotion board: opponents sit at the bar being tested (the gate), so the
     // series checks that the player genuinely meets it
     const gate = ratingGate(save.career.series.targetRank);

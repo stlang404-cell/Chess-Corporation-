@@ -20,9 +20,13 @@ export interface Chapter {
   title: string;
   blocks: Block[];
 }
-export const CHAPTERS: Chapter[] = Object.keys(RAW)
-  .sort()
+import RULES_MD from '../../docs/RULES.md?raw';
+export const CHAPTERS: Chapter[] = ['__rules__', ...Object.keys(RAW).sort()]
   .map((file) => {
+    if (file === '__rules__') {
+      const blocks = parseMarkdown(RULES_MD);
+      return { file: 'RULES.md', title: 'Official Rules (SEVEN-1.0)', blocks };
+    }
     const blocks = parseMarkdown(RAW[file]);
     const h = blocks.find((b) => b.t === 'h') as { text: string } | undefined;
     return { file: file.split('/').pop()!, title: h?.text ?? file, blocks };
