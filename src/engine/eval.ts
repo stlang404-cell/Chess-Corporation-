@@ -45,6 +45,8 @@ export interface Personality {
   contempt: number;
   /** root-only preference for captures and checks, in centipawns */
   aggression: number;
+  /** multiplier on pawn material (gambit players value pawns less than activity) */
+  pawnValue: number;
 }
 
 export const NEUTRAL: Personality = {
@@ -57,6 +59,7 @@ export const NEUTRAL: Personality = {
   endgame: 1,
   contempt: 0,
   aggression: 0,
+  pawnValue: 1,
 };
 
 // Material values (mg, eg). Indexed by piece type.
@@ -167,8 +170,9 @@ export function evaluate(pos: Position, pers: Personality = NEUTRAL): number {
     const c = pc >> 3;
     const sign = c === WHITE ? 1 : -1;
     const ps = c === WHITE ? s : MIRROR[s];
-    mg += sign * MAT_MG[t];
-    eg += sign * MAT_EG[t];
+    const pv = t === PAWN ? pers.pawnValue : 1;
+    mg += sign * MAT_MG[t] * pv;
+    eg += sign * MAT_EG[t] * pv;
     phase += PHASE_W[t];
     pst += sign * PST_MG[t][ps];
     pstEg += sign * PST_EG[t][ps];

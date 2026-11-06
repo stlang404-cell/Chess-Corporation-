@@ -10,3 +10,7 @@
 16 16 8 endgame balanced
 8 8 10 wildcard balanced
 16 16 8 wildcard balanced
+8 8 10 gambiteer balanced
+16 16 8 gambiteer balanced
+8 8 10 technician balanced
+16 16 8 technician balanced

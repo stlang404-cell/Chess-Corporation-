@@ -1,70 +1,60 @@
-# AI Engine Report
+# AI Engine Report (v0.2)
 
-## Architecture
+All code is TypeScript in `src/engine/`, runs locally in a Web Worker (browser) or Node (research), and uses no network or paid service. The v0.1 engine is frozen in `research/engine-v01/` so every improvement is measured against it.
 
-All code is TypeScript in `src/engine/`, runs locally (Web Worker in the browser, Node for research) and uses no network or paid service.
+## 1. What changed in v0.2 — and what each change measured
 
-**Board (`board.ts`).** 9×11 mailbox (one sentinel column each side, two sentinel rows top and bottom so knight jumps never wrap). Pieces are 4-bit codes; moves are packed 20-bit integers (from, to, promotion, flag). Incremental make/unmake with an undo stack, 2×32-bit Zobrist hashing (piece-square, side, castling, en-passant — the ep square is only hashed when a capture is actually possible, keeping repetition detection exact), legality by make-and-test.
+Every experiment is an equal-node-budget match (30,000 nodes per move for both sides), 102 openings played with both colours (204 games), openings from four random near-best plies with reproducible seeds, 95% confidence intervals from the per-game score variance (`scripts/engine-match.ts`, `scripts/ab-match.ts`, `scripts/match-stats.ts`; raw games in `research/engine/`).
 
-**Correctness.** Perft from the start position: 16 / 249 / 4,506 / 79,417 / 1,606,599 / 31,757,845. The move generator is checked against an **independent reference generator** (`tests/refgen.ts`: 2-D arrays, string parsing, king-capture legality, no shared code) at perft 4 for all five candidate rulesets and perft 3 over 150 random positions with castling, en passant and promotions; plus incremental-hash vs recomputed-hash checks along random games.
+| Step | Change | Result (Elo, 95% CI) | Kept? |
+|---|---|---|---|
+| A | **Search I**: static exchange evaluation (SEE) for capture ordering — losing captures after quiet moves — and SEE pruning of losing captures in quiescence; logarithmic late-move-reduction table with killer/history adjustments; history malus for quiet moves that failed to cut | **+74 [+33, +118]** vs v0.1 | yes |
+| B | **Evaluation**: king attack weighted by number of attackers; knight outposts; rook behind passed pawn; rule of the square in pawn endings; opposite-bishop and K+B+N (light bishop) draw scaling | **+7 [−34, +48]** on vs off (same search) — no measurable effect | kept for endgame correctness, reported as neutral |
+| C | **Search II**: late-move pruning at depth ≤ 3, transposition-table cut-offs in quiescence, countermove heuristic | **+69 [+28, +112]** on vs off | yes |
+| — | **v0.2 total vs v0.1** (A + B + C) | **+119 [+61, +185]** (100 games, 30k nodes) | — |
+| — | v0.2 vs v0.1 at 100k nodes | see `research/engine/final-100k-*.jsonl` (fewer games; wider interval) | — |
 
-**Search (`search.ts`).** Negamax alpha-beta with principal-variation search; iterative deepening with aspiration windows (±40 cp, widening); transposition table (2^18–2^20 entries, depth-preferred with exact-score override, mate scores ply-adjusted); null-move pruning (R = 2 + depth/4, disabled with only pawns); reverse futility pruning (depth ≤ 3) and frontier futility pruning of quiet moves; late-move reductions (1–3 plies, re-search on fail-high); check extension; mate-distance pruning; quiescence search over captures and queen promotions with delta pruning, a cheap "don't capture a defended pawn with a big piece" filter and check evasions in the first 4 quiescence plies. Move ordering: TT move, MVV-LVA captures, queen promotions, two killers per ply, history heuristic. Draws (repetition, 80-ply rule, dead material) are scored in-search with optional contempt.
+The +150 internal-Elo target is **inside the confidence interval but not demonstrated**; the measured point estimate is +119.
 
-**Budgeting.** Bots are limited by **nodes**, not time, so a bot's strength — and therefore its calibrated rating — is the same on any device. The search only starts an iteration that is predicted to fit the node budget (iteration cost ≈ 2.5× the previous), after a calibration run showed partial iterations were wasted. In live games a wall-clock cap derived from the bot's own clock (≈ remaining/25 + 0.7·increment) prevents slow devices from flagging.
+Also fixed in v0.2: a root-choice instability where re-searched alternative moves could outrank the main search's best move (weak tiers occasionally played arbitrary moves); node budgets now only start an iteration predicted to finish.
 
-**Evaluation (`eval.ts`).** Tapered middlegame/endgame score: material (P 88/115, N 315/290, B 320/320, R 470/520, Q 900/940), geometry-generated piece-square tables for the 7×7 board, mobility, bishop pair (+25/+40), rook on open/semi-open file, pawn structure (doubled, isolated, passed pawns with rank-scaled bonuses and king-proximity in endgames), king shelter and open files near the king, a quadratic king-attack term from pieces bearing on the king zone, endgame mop-up, drawish-material scaling, tempo. Values are hand-set (tuning is on the roadmap).
+## 2. Architecture
 
-## Strength tiers (`ai.ts`)
+**Board** (`board.ts`): 9×11 mailbox, packed moves, incremental make/unmake, 2×32-bit Zobrist hashing, `see()` with x-ray attacker discovery. Perft from the start: 16 / 249 / 4,506 / 79,417 / 1,606,599 / 31,757,845, cross-checked against an independent reference generator (`tests/refgen.ts`).
 
-| Tier | Node budget | Eval noise (cp) | Soft-max temperature (cp) | Candidate margin (cp) |
-|---|---|---|---|---|
-| 0 | 60 | 220 | 120 | 500 |
-| 1 | 150 | 160 | 90 | 350 |
-| 2 | 400 | 120 | 70 | 260 |
-| 3 | 1,000 | 90 | 55 | 200 |
-| 4 | 2,500 | 65 | 40 | 150 |
-| 5 | 6,000 | 45 | 28 | 110 |
-| 6 | 14,000 | 30 | 18 | 75 |
-| 7 | 32,000 | 18 | 10 | 45 |
-| 8 | 70,000 | 8 | 5 | 25 |
-| 9 | 150,000 | 0 | 3 | 10 |
-| 10 | 300,000 | 0 | 2 | 8 |
-| 11 | 600,000 | 0 | 0 | 0 |
-| 12 | 1,200,000 | 0 | 0 | 0 |
+**Search** (`search.ts`): negamax PVS with iterative deepening and aspiration windows; transposition table (depth-preferred, ply-adjusted mates) used in the main search and quiescence; null-move pruning; reverse-futility and frontier futility pruning; late-move pruning; log-table LMR; check extension; mate-distance pruning; quiescence with SEE and delta pruning and check evasions; ordering = TT move → winning/equal captures (MVV-LVA, SEE ≥ 0) → queen promotions → killers → countermove → history (with malus) → losing captures. Repetition, 80-ply rule and dead material are scored in-search, with optional contempt.
 
-Weaker tiers are weaker because they search less **and** because they choose among near-best root moves with a soft-max (scored inside a window around the best move), with deterministic, hash-seeded evaluation noise that is stable within a game (so a bot is consistently "wrong" about a position rather than randomly flickering). A forced mate is never thrown away, and moves walking into a forced mate are excluded when an alternative exists. All tiers vary their first three moves within 15 cp so games differ.
+**Evaluation** (`eval.ts`): tapered material + geometry-generated piece-square tables, mobility, bishop pair, rooks on open files, pawn structure, passed pawns (rank-scaled, king proximity, rook support, rule of the square), knight outposts, king shelter, attacker-count-weighted king attack, mop-up, and draw scaling. Feature switches (`EVAL_OPTS`, `SEARCH_OPTS`) exist only for A/B research; production uses all features on.
 
-## Playing styles
+**Opening book** (`book.json`, `scripts/make-book.ts`): generated for the 7×7 variant by searching each position 1.2M nodes deep from the start position, breadth-first to 4 plies, keeping moves within 20 cp of the best. No 8×8 theory is imported. Used by tiers ≥ 12 for their first three moves (chosen by the game seed, so games still vary).
 
-Styles change what the engine *values* (evaluation weights) and, where root scores are available, add a preference for forcing moves:
+**Analysis** (`analysis.ts`): every position is searched once with root scores for all moves inside a ±600 cp window, so played, best and second-best moves are compared at the same depth. Labels by win-probability loss: best/excellent (< 2)/good (< 10)/inaccuracy (10–20)/mistake (20–30)/blunder (≥ 30); **great** = best and every alternative loses ≥ 15 W%; **brilliant** = great *and* a genuine sacrifice (SEE < 0) *and* not already winning (W% between 30 and 85). Depth < 7 is shown as low confidence.
 
-| Style | Distinguishing weights |
-|---|---|
-| Balanced | neutral |
-| Attacker | king attack ×2.2, mobility ×1.3, own shelter ×0.6, +30 cp for captures/checks, contempt +25 |
-| Strategist | pawn structure ×1.8, centre ×1.4, passed pawns ×1.3, avoids forcing lines (−10 cp) |
-| Defender | own king shelter ×2.0, king attack ×0.6, contempt −30 (content to draw) |
-| Tactician | mobility ×1.5, king attack ×1.4, +45 cp for captures/checks |
-| Endgame specialist | endgame technique ×1.8, passed pawns ×1.6, prefers simplification |
-| Wildcard | ×2.2 choice temperature and ×1.3 noise — unpredictable but legal |
+## 3. Strength tiers and styles
 
-`tests/ai.test.ts` verifies that attacker, defender and wildcard choose different moves from balanced in multiple test positions. Each style's strength offset relative to balanced is **measured** (below) and added to its rating, so an opponent's displayed rating already accounts for its style.
+25 tiers interpolate between 13 anchor parameter sets (node budget 60 → 1.2M, evaluation noise 220 → 0 cp, soft-max temperature 120 → 0 cp, candidate margin 500 → 0 cp). Bots are limited by **nodes**, not time, so their calibrated strength is the same on any device; a wall-clock cap (≈ 4 s, or 10 s with *Stronger analysis*) only protects slow phones. Top tiers make no artificial mistakes.
 
-## Calibration
+Nine-style personalities change what the engine values and, through root scoring, what it plays: Balanced, Attacker, Strategist, Defender, Tactician, Endgame specialist, Wildcard (see `ai.ts`). Each style's strength offset is measured (not assumed) and added to its displayed rating.
 
-See `research/calibration-report.md` (generated by `npm run fit` from `research/calib/*.jsonl`).
+**Maximum-strength challenge** (Academy → Practice, unrated): top tier, 8M-node budget, up to 15 s per move, with an explicit warning.
 
-Method: colour-reversed game pairs between tiers *t* and *t+1* and *t* and *t+2* (15 pairs per matchup for tiers 0–8, 8 pairs above), plus each style against balanced at tiers 3 and 7 (10 pairs). Ratings are fitted by maximum likelihood (Bradley–Terry with draws as half points), with a weak prior on adjacent-tier gaps so that 100% scores do not diverge; the scale is anchored at tier 0 = 400. RD shown to the rating system = the fit's standard error clamped to 40–150.
+## 4. Calibration
 
-CALIBRATION_RESULTS_PLACEHOLDER
+Tier and style ratings are measured by colour-reversed engine tournaments and fitted by maximum likelihood (Bradley–Terry, draws = ½, weak prior on adjacent gaps), anchored at tier 0 = 400: `research/calibration-report.md`, generated by `npm run fit`; values in `src/engine/calibration.ts`. Career rating gates are derived from these measured ratings.
 
-## Performance
+The scale is **internal** (bot-vs-bot). Engine-only scales tend to stretch the gaps between weak, noisy players; human ratings will settle on this scale through play, but it is **not** a FIDE rating, and no claim of master or superhuman strength is made.
 
-Measured on the build machine (single core, Node 22): ≈ 650 k nodes/s in middlegames, depth 11–13 from the start position in 3 s. Browser performance in a Web Worker is similar on desktop; phones are typically 2–4× slower, which only affects tiers whose node budget exceeds their clock-derived time cap (tiers 11–12 in fast games).
+## 5. Benchmark suite
 
-## Known limitations
+`npx tsx scripts/bench-suite.ts` → `research/engine-bench.md`: tactics (the 49 engine-validated guide exercises) at 5k/20k/100k nodes, mate finding on mined mate puzzles, draw recognition (K+B+N with the light bishop, opposite bishops, R vs B, N vs K), search speed and determinism, for v0.1 and v0.2.
 
-- No independent strength reference exists for a new variant: the scale is internal. **No claim of master or superhuman strength is made.** Against humans, the strongest tier is expected to be challenging for experienced chess players, but this is unmeasured.
-- Calibration samples are modest (tens of games per pairing); uncertainties are reported, and the largest are at the top tiers.
-- Style offsets were measured at two tiers and assumed constant across tiers.
-- Hand-set evaluation; no SEE; no opening book; no endgame tablebases.
+## 6. Performance and resources
+
+One worker per role (opponent, analysis) so the UI never blocks; workers are terminated and recreated to cancel work (undo, leaving a game). Transposition tables are 2^19 entries (~6 MB) per worker. Node 22 on the build machine reaches ≈ 600–700 k nodes/s; phones are typically 2–4× slower, which affects only tiers whose node budget exceeds the wall-clock cap.
+
+## 7. Known limitations
+
+- Hand-set evaluation weights (an automated tuning pass is on the roadmap); evaluation additions measured neutral.
+- No endgame tablebases (the guide's retrograde analysis of K+Q/K+R/K+B+B/K+B+N on 7×7 is used for teaching, not in search).
+- Calibration samples are tens of games per pairing; the top tiers have the widest intervals.
+- Style offsets measured at two tiers and assumed constant across tiers.

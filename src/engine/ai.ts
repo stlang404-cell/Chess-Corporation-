@@ -23,7 +23,7 @@ export function bookMove(pos: Position, seed: number): number {
   return uciToMove(pos, pick[0]);
 }
 
-export type StyleId = 'balanced' | 'attacker' | 'strategist' | 'defender' | 'tactician' | 'endgame' | 'wildcard';
+export type StyleId = 'balanced' | 'attacker' | 'strategist' | 'defender' | 'tactician' | 'endgame' | 'wildcard' | 'gambiteer' | 'technician';
 
 export interface StyleDef {
   id: StyleId;
@@ -70,6 +70,20 @@ export const STYLES: Record<StyleId, StyleDef> = {
     blurb: 'Simplifies into technical endings it knows well.',
     pers: { ...NEUTRAL, endgame: 1.8, passedPawns: 1.6, pawnStructure: 1.2, kingAttack: 0.8, contempt: 5, aggression: -15 },
     tempMul: 0.9,
+  },
+  gambiteer: {
+    id: 'gambiteer',
+    label: 'Gambiteer',
+    blurb: 'Gives pawns for time and open lines.',
+    pers: { ...NEUTRAL, pawnValue: 0.72, mobility: 1.6, kingAttack: 1.5, centre: 1.2, pawnStructure: 0.6, contempt: 20, aggression: 25 },
+    tempMul: 1,
+  },
+  technician: {
+    id: 'technician',
+    label: 'Solid Technician',
+    blurb: 'Safe, tidy, low-risk chess; punishes loose play.',
+    pers: { ...NEUTRAL, pawnStructure: 1.5, kingSafety: 1.4, passedPawns: 1.2, kingAttack: 0.8, aggression: -25, contempt: 0 },
+    tempMul: 0.55,
   },
   wildcard: {
     id: 'wildcard',

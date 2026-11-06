@@ -57,3 +57,7 @@
 {"fen":"rn2kbr/5p1/2p1p2/p4pP/P1QP3/3RPB1/1q2KBR w Kk - 3 22","themes":["material"],"rating":700,"steps":[{"accept":["d2d1"]}],"eval":0,"gap":424}
 {"fen":"3k3/3n3/2p1Qp1/p5R/P2PBq1/4R2/1r1K3 w - - 1 37","themes":["material"],"rating":700,"steps":[{"accept":["d1d2"]}],"eval":110,"gap":345}
 {"fen":"3k3/3n3/2p1Qp1/p5R/P2PBq1/3KR2/1r5 b - - 2 37","themes":["material"],"rating":1450,"steps":[{"accept":["f3g4"]}],"eval":-160,"gap":349}
+{"fen":"3k2r/b2p1pp/b5r/7/2p1P2/2K2P1/7 w - - 0 27","themes":["defence","endgame"],"rating":700,"steps":[{"accept":["e3e4"]}],"eval":-2647,"gap":403}
+{"fen":"1n1qkbr/5p1/1P2p2/4PpP/b3r2/2p1BQ1/3RK2 w k - 0 24","themes":["defence","fork","skewer"],"rating":700,"steps":[{"accept":["d1d7"]}],"eval":-2299,"gap":401}
+{"fen":"rnbq1br/1p2k2/p3p1B/2Q3p/P6/1P2PPP/RN2KBR b KQ - 2 11","themes":["discovered-attack"],"rating":700,"steps":[{"accept":["e6f5"]}],"eval":172,"gap":314}
+{"fen":"rnb2br/1p5/pq2pkB/6p/P6/1P2PPP/RN2KBR w KQ - 0 13","themes":["defence","discovered-attack"],"rating":700,"steps":[{"accept":["e2e4"]}],"eval":-194,"gap":401}
