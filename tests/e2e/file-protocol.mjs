@@ -17,7 +17,7 @@ await p.waitForSelector(MY_TURN, { timeout: 20000 });
 await playAnyMove(p);
 await p.waitForSelector(MY_TURN, { timeout: 20000 });
 const ml = (await p.textContent('.movelist')).replace(/\s+/g, ' ').trim();
-const plies = (ml.match(/[a-gx=+#O-]{2,}/gi) ?? []).length;
+const plies = await p.$$eval('.movelist .mv', (els) => els.filter((e) => e.textContent.trim()).length);
 console.log(JSON.stringify({ movelist: ml, plies, errors: errs }));
 await p.screenshot({ path: process.argv[3] ?? 'file-protocol.png' });
 await b.close();

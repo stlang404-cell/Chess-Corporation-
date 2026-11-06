@@ -347,8 +347,10 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   const rank = rankInfo(save.career.rank, save.career.family);
   const material = materialBalance(pos) * (playerColor === 0 ? 1 : -1);
   const kindLabel =
-    m.kind === 'series' && series
-      ? `Promotion series · game ${series.games + 1} of ${series.length}`
+    m.kind === 'series'
+      ? series && !finished
+        ? `Promotion series · game ${series.games + 1} of ${series.length}`
+        : 'Promotion series'
       : m.kind === 'cup'
         ? `Arena Cup · round ${(save.cup.active?.round ?? 0) + 1} of 3`
         : m.kind === 'ranked'
