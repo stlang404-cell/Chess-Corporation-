@@ -10,6 +10,18 @@
 import { Position, EMPTY, mTo, mFlag, mPromo, FLAG_EP } from './board';
 import { NEUTRAL, type Personality } from './eval';
 import { Searcher, isMateScore } from './search';
+import BOOK from './book.json';
+import { uciToMove } from './game';
+
+const OPENING_BOOK = BOOK as Record<string, [string, number][]>;
+/** Book move for strong tiers (variant-specific book, scripts/make-book.ts), chosen by seed. */
+export function bookMove(pos: Position, seed: number): number {
+  const k = pos.toFen().split(' ').slice(0, 2).join(' ');
+  const entries = OPENING_BOOK[k];
+  if (!entries || !entries.length) return 0;
+  const pick = entries[(seed >>> 0) % entries.length];
+  return uciToMove(pos, pick[0]);
+}
 
 export type StyleId = 'balanced' | 'attacker' | 'strategist' | 'defender' | 'tactician' | 'endgame' | 'wildcard';
 
@@ -144,6 +156,10 @@ function mulberry(seed: number) {
 
 export function chooseBotMove(pos: Position, spec: BotSpec, searcher: Searcher): BotMoveInfo {
   const tier = TIERS[Math.max(0, Math.min(TIERS.length - 1, spec.tier))];
+  if (tier.tier >= 12 && pos.fullmove <= 3) {
+    const bm = bookMove(pos, (spec.seed ^ pos.hashLo) >>> 0);
+    if (bm) return { move: bm, score: 0, depth: 0, nodes: 0, candidates: 1 };
+  }
   const style = STYLES[spec.style] ?? STYLES.balanced;
   searcher.pers = style.pers;
   searcher.noise = tier.noise * (spec.style === 'wildcard' ? 1.3 : 1);

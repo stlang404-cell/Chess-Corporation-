@@ -1,106 +1,139 @@
-# Career & Economy Design
+# Career & Economy Design (v0.2)
 
-Three numbers describe a SEVEN career and they are deliberately kept **separate**:
+Four numbers describe a SEVEN player, and they are deliberately **separate**:
 
-| | What it measures | Can go down? | Can be bought? |
+| | Measures | Can go down? | Can be bought? |
 |---|---|---|---|
-| **Rating** | playing strength (Glicko-2, Elo-style scale) | yes | never |
-| **Title / rank** | earned career standing | rarely (within a title only) | never |
-| **Dollars** | fictional compensation | spent on cosmetics | n/a |
+| **Rating** | chess skill (Glicko-2, Elo-style scale) | yes | never |
+| **Career rank** | earned seniority and appointments | rarely, within a title only | never |
+| **Arena** | competitive career stage (follows the rank) | with the rank | never |
+| **Dollars** | fictional wealth | spent on cosmetics | n/a |
 
-Code: `src/game/career.ts`, `rating.ts`, `matchmaking.ts`, `economy.ts`, `settle.ts`, `store.ts`.
+**Honours** (cups, honorary board seats, long service, seasonal seals) are a fifth, separate record: distinctions, never job titles.
 
-## 1. Rating — Glicko-2
+A promotion never changes the rating; a high rating never grants a title by itself; dollars never buy either.
 
-Why Glicko-2 rather than plain Elo: a new player's rating needs to move fast (high uncertainty) and settle as evidence accumulates; Glicko-2's rating deviation (RD) does exactly that and also handles opponents of known reliability (bots carry the RD of their calibration). The number shown is the Glicko rating on a familiar Elo-like scale.
+Code: `src/game/careerData.ts` (authored data), `career.ts` (rank functions), `rating.ts`, `matchmaking.ts`, `economy.ts`, `settle.ts`, `store.ts`, `migrateV1.ts`.
 
-- Start: 1000, RD 300 → shown with a "?" while RD > 110 (provisional).
-- One game = one rating period. τ = 0.5. RD floor 45 so the rating stays responsive over thousands of games; volatility capped at 0.12.
-- Opponent rating/RD = the bot's **measured** rating and calibration uncertainty (`src/engine/calibration.ts`).
-- The SEVEN scale is anchored at tier-0 bot = 400. It is not a FIDE rating and the game never claims otherwise.
+---
+
+## 1. Why the v0.1 ladder was rebuilt
+
+v0.1 used one list of 50 titles that mixed functions, governance offices and honours, e.g. *Chief of Staff → Chief Strategy Officer → Chief Operating Officer*, *CEO → Vice Chairman → Chairman*, *Board Trustee → Governor → Chancellor → Regent*. Its procedural continuation produced strings such as *Steward of Kyoto, Order of the Pine* — not corporate offices at all. v0.2 separates five dimensions:
+
+| Dimension | What it is | Where |
+|---|---|---|
+| **A. Seniority** | an ordered responsibility level | `STEPS` (14 functional steps), then management, then institutions |
+| **B. Job function** | Finance, Legal, Engineering … (23 families) | `FAMILIES` — chosen by the player, cosmetic |
+| **C. Organisational scope** | team → department → division → business unit → company → group → enterprise | `STEPS[].scope`, `GM_TITLES[].scope` |
+| **D. Formal appointment** | the actual title held, e.g. *Director of Finance* or *Chief Executive Officer, Kitahama Industrial Company* | `rankInfo(rank, family)` |
+| **E. Honours** | cups, honorary board seats, long service | `save.honors` |
+
+Board offices (chair, director) are **governance**, not a rung above management, so they appear only as honours (an honorary board seat for every three Arena Cups).
 
 ## 2. The ladder
 
-### Authored section
-50 titles × 3–5 grades = **215 authored ranks**, from *Intern I* to *Elder of the House V*: clerical (Intern → Senior Analyst, 3 grades), professional (Specialist → Managing Director, 4 grades), executive (AVP → Chairman, 5 grades) and the board (Executive Chairman → Elder of the House, 5 grades).
+### 2.1 Functional careers (ranks 0–55)
+Every family has 14 seniority steps with realistic titles; the player sees the ladder of the family they chose (changeable at any time — titles change wording, seniority does not).
 
-### Procedural continuation (unbounded)
-Rank *n* ≥ 215 maps to a procedural title *k* = ⌊(n−215)/5⌋ with grade (n−215) mod 5. Title *k* is a mixed-radix count over **6 offices × 30 jurisdictions × 12 prestige orders**, with a *Seal* numeral every full cycle:
+| Step | Scope | Grades | Finance | Engineering | Legal |
+|---|---|---|---|---|---|
+| 0 Intern | team | 3 | Finance Intern | Engineering Intern | Legal Intern |
+| 1 Junior | team | 3 | Junior Financial Analyst | Junior Developer | Paralegal |
+| 2 Professional | team | 3 | Financial Analyst | Software Engineer | Legal Counsel |
+| 3 Senior | team | 3 | Senior Financial Analyst | Senior Software Engineer | Senior Legal Counsel |
+| 4 Lead | team | 4 | Lead Financial Analyst | Staff Engineer | Lead Counsel |
+| 5 Team lead | team | 4 | Finance Team Lead | Engineering Team Lead | Legal Team Lead |
+| 6 Manager ★ | department | 4 | Finance Manager | Engineering Manager | Legal Manager |
+| 7 Senior manager | department | 4 | Senior Finance Manager | Senior Engineering Manager | Senior Legal Manager |
+| 8 Director ★ | division | 4 | Director of Finance | Director of Engineering | Director of Legal Affairs |
+| 9 Senior director | division | 4 | Senior Director of Finance | Senior Director of Engineering | Senior Director of Legal Affairs |
+| 10 Vice president ★ | business unit | 5 | Vice President of Finance | Vice President of Engineering | Vice President of Legal Affairs |
+| 11 Senior VP | business unit | 5 | Senior Vice President of Finance | Senior Vice President of Engineering | Senior Vice President of Legal Affairs |
+| 12 Executive VP ★ | company | 5 | Executive Vice President of Finance | Executive Vice President of Technology | Executive Vice President and General Counsel |
+| 13 Chief officer ★ | company | 5 | Chief Financial Officer | Chief Technology Officer | Chief Legal Officer |
 
-> *Steward of Kyoto, Order of the Pine — I* → … → *Elder of Sydney, Order of the Tide — V* → *Steward of Kyoto, Order of the Pine · Seal II — I* …
+★ = major appointment (promotion series). Families: Finance, Accounting, Treasury, Operations, Supply Chain, Procurement, Strategy, Research, Legal, Human Resources, Engineering, Information Technology, Data & Analytics, Security, Marketing, Sales, Communications, Risk & Compliance, Customer Experience, Administration, Design, Quality, Sustainability.
 
-Names never repeat (tested over 20,000 ranks) and are a pure function of *n*, so every rank has a stable identity forever. This avoids the "Supreme Ultra Mega CEO" problem: higher ranks are *places and orders*, not adjectives.
+### 2.2 General management (ranks 56–75)
+A chief officer moves into general management at the home company, **Seven Meridian Corporation**: Business Unit President → Group President → President → Chief Executive Officer (5 grades each).
 
-### Arenas
-18 authored arenas (Mailroom Annex 始 → House of Elders 院), each covering 2–3 titles, with its own kanji, accent colour and traditional pattern (seigaiha, asanoha, kikkō, shippō, ichimatsu, uroko, yagasuri). Beyond them, procedural arenas each cover 3 procedural titles: *{Jurisdiction} {Hall/Pavilion/Tower/…}* with a deterministic muted colour and pattern.
+### 2.3 Institutions (ranks 76–535, authored)
+A CEO is appointed to lead successively larger institutions: **President**, then **Chief Executive Officer** (5 grades each) of 46 authored institutions, in five scale classes — 10 regional companies, 12 national groups, 12 international groups, 8 multinational groups and 4 global holding companies (*Kitahama Industrial Company, Osaka* … *Meridian World Holdings, Tokyo*).
 
-### Requirements for promotion from rank *n* to *n + 1*
+### 2.4 Beyond (ranks 536 and up, procedural, unbounded)
+A real company does not have infinitely many CEOs, so SEVEN's corporate universe **expands** instead: every further appointment is President and then CEO of a newly founded institution with a higher **enterprise scale** number. Names come from a validated grammar — `root + region + institution type`, e.g. *Aokawa Pacific Holdings*, *Kestrel Nordic Logistics Group* — over 60 × 24 × 10 = 14,400 distinct names visited in a coprime stride, after which a charter number is appended (*… (charter 2)*). No inflation words (*Supreme, Eternal, Imperial, Grand …*) are possible.
 
-1. **Merit** ≥ `meritNeeded(n) = round(50 + 6·n^0.8)` (50 at Intern I; ~290 around rank 100; ~490 at the end of the authored ladder).
-2. **Rating gate** `ratingGate(n+1)`: 0 for the first six titles, then a smooth curve to the **mastery gate** for the last authored title; procedural ranks keep the mastery gate. All grades of a title share its gate.
-3. **Promotion series** when entering a *major* title (Supervisor, Manager, Director, Managing Director, VP, EVP, CSO, COO, President, CEO, Vice Chairman, Chairman and every board title, and the first grade of every procedural title): best-of-3, or best-of-5 from President upwards, against opponents rated at the gate being tested. Pass → promoted with a large bonus. Fail → merit drops to 60% of the requirement and the player earns another shot.
+### 2.5 Scale (tested)
+- **326 distinct authored job titles** and **1,768 authored grades** (23 families × 56 + 20 management + 460 institutional).
+- **64 authored arenas**: 14 functional floors (Mailroom Annex → C-Suite Terrace), 4 management floors, and the 46 institutions' headquarters; then one procedural arena per further institution.
+- A player's own authored path is 536 grades long; titles they cannot see are other families' equivalents.
 
-### Merit per rated game (E = expected score)
-- win: 24 + 16·(1−E); draw: 12 + 12·(0.5−E) (never negative); loss: −(6 + 12·E).
-- **Fast-track:** positive merit is multiplied by `clamp(1 + (rating − gate(next) − 100)/250, 1, 3)`. A player whose rating is well above the next gate climbs up to 3× faster, until the gates catch up.
+### 2.6 Numeric range and identity
+A rank is a single integer `0 ≤ rank ≤ Number.MAX_SAFE_INTEGER` (≈ 9 × 10¹⁵); every function is closed-form (no search loops or ceilings) and is tested at the boundary. Each rank has a stable id (`R-` + base 36). At one promotion per match a player would need ~9 quadrillion matches to reach the limit; ranks are clamped there rather than overflowing.
 
-### Setbacks
-Merit can fall to zero. Three further losses at zero merit drop the player **one grade**, never below grade I of the current title — titles, once earned, are permanent.
+Promotion history stores the **title text at the time** (e.g. *"Finance Manager I"*), so earned titles never change wording later — including titles earned under v0.1, which are kept verbatim.
 
-### Why this works over 10,000 matches
-- Merit is what any persistent player earns; **gates are what skill earns**. A player at their plateau keeps collecting grades until the next gate, then keeps a reason to improve.
-- Above the mastery gate, progress continues forever but stays expensive (merit requirements keep growing sublinearly; every procedural title begins with a series).
-- Long-term, non-rating goals continue at any level: achievements (27), Arena Cups, seasonal honours (monthly peak-rating seals), rivals, the store and the headquarters tower.
+## 3. Promotion requirements
 
-## 3. Matchmaking
+From rank *n* to *n + 1*:
 
-Target opponent rating = player rating + N(0, 95) (N(0, 140) while provisional), tilted −45 after three straight losses or +35 after three straight wins. The nearest calibrated (tier, style) is chosen; the last two styles faced are avoided; 15% of the time a rival (≥ 3 previous games, still within 180 points) is chosen instead. The opponent's measured rating is shown with your expected score before the game. The tilt only changes *who* you meet — ratings and results are never adjusted.
+1. **Merit** ≥ `50 + 6·n^0.8`, earned per rated game: win `24 + 16(1−E)`, draw `12 + 12(0.5−E)` (never negative), loss `−(6 + 12E)`. Positive merit is multiplied by the **fast-track** factor `clamp(1 + (rating − gate − 100)/250, 1, 3)`.
+2. **Rating gate** for the title of rank *n + 1*: none for steps 0–4, then a smooth curve from the rating of calibrated tier 3 to the **mastery gate** (top calibrated tier − 200) at the end of the authored path; the mastery gate thereafter. Gates are recomputed from the *measured* bot scale, never assumed.
+3. **Promotion series** for major appointments: best of 3 (manager, director, VP, EVP) or best of 5 (chief officer and above, and every institutional appointment) against opponents rated at the gate.
 
-## 4. Compensation
+Setbacks: merit can fall to zero; three further losses at zero drop one **grade**, never below grade I of the current title. Earned titles are never lost.
 
-`S = salary(rank) = round(60·√(1+rank))` — $60 for an Intern, $1,200 at rank 399, $6,000 at rank 9,999: growth is sublinear by design.
+**Plateaued players.** Merit is what persistence earns; gates are what skill earns. A player at a stable rating keeps collecting grades until the next gate, then has non-rating goals: Arena Cups and the honours they bring, achievements, seasonal seals, rivals, puzzle rating, the store and an endlessly tall headquarters tower. Ratings are never inflated to keep progression moving.
+
+## 4. Matchmaking
+
+Target rating = player rating + N(0, 95) (N(0, 140) while provisional), tilted −45 after three straight losses or +35 after three wins; series opponents sit at the gate being tested; Arena Cup rounds at −60/+60/+170. The nearest calibrated (tier, style) is chosen, avoiding the last two styles; 15% of matches are rivals (≥ 3 games played, still within 180 points). The opponent's measured rating and the player's expected score are shown before the game. Colours alternate. Ratings and results are never adjusted.
+
+Opponents have stable identities generated from an id: name (10 cultural regions), crest, style, job family, a title consistent with their rating, an affiliation with one of the institutions, an arena, a league record (a statistical abstraction: N games at an expected 50% around their rating), and a head-to-head record once met.
+
+## 5. Compensation
+
+`S = salary(rank) = round(60 · √(1 + rank))` — sublinear: $60 for an intern, ≈ $1,390 at the end of the authored path, ≈ $6,000 at rank 10,000.
 
 | Line | Amount |
 |---|---|
-| Base salary | 0.4·S |
-| Victory bonus | 1.0·S·f |
-| Draw bonus | 0.35·S·f |
-| Upset bonus (win with E < 0.4) | 3·(0.4−E)·S |
-| Performance bonus (≥ 15 moves, accuracy ≥ 60%) | 0.6·S·((acc−60)/40)^1.5 (×0.3 in a loss) |
-| Promotion | 4·S(new) (×12 for a major title) |
-| Arena Cup champion | 25·S |
-| Achievements | fixed $50–$100,000 |
+| Base salary | 0.4 S |
+| Victory bonus | 1.0 S · f |
+| Draw compensation | 0.35 S · f |
+| Upset bonus (win, E < 0.4) | 3 (0.4 − E) S |
+| Performance bonus (≥ 15 moves, accuracy ≥ 60%) | 0.6 S ((acc − 60)/40)^1.5 (× 0.3 in a loss) |
+| Promotion bonus | 4 S(new) (× 12 for a major appointment) |
+| Arena Cup prize | 25 S |
+| Achievements | $50 – $100,000 |
 
-All match lines (not promotions/achievements) are also multiplied by the **rematch decay** (1, 0.85, 0.70, 0.55, then 0.4 for consecutive games against the same opponent).
+All match lines are multiplied by the **rematch decay** (1, 0.85, 0.70, 0.55, then 0.4 for consecutive games against the same opponent). `f = clamp(1 + (opponent − player)/600, 0.35, 1.3)`.
 
-`f = clamp(1 + (opponent − player)/600, 0.35, 1.3)` scales pay by opponent strength.
+**Accuracy** is the engine's per-move win-probability loss converted to accuracy (Lichess-style curve) and averaged as the mean of the arithmetic and harmonic means, computed after the game in a background worker. If analysis is unavailable, no performance bonus is paid.
 
-**Accuracy** is computed after the game by the engine in a background worker (9,000 nodes per position): per-move win-probability loss converted to an accuracy score (Lichess-style curve), and averaged as the mean of the arithmetic and harmonic means so a single blunder matters. Analysis is only run when the game has ≥ 15 player moves; if it times out (12 s), no performance bonus is paid rather than guessing.
-
-### Anti-exploitation safeguards
+### Anti-exploitation
 | Exploit | Countermeasure |
 |---|---|
-| Quick resignations to farm salary | Games with < 10 player moves pay nothing. Simulated "resign at move 10 every game": $13k over 300 games vs $198k for honest play, and the rating collapses. |
-| Intentional losses / sandbagging | Losses pay only 0.4·S (+ a small accuracy share); matchmaking follows the rating down, and weaker opponents pay less (f). |
-| Farming weak opponents | f falls to 0.35 against much weaker bots; matchmaking does not offer them. |
-| Rematch farming | Rematch decay to 40%. |
-| Prolonging games | Nothing is paid per move or per minute. |
-| Unsound "brilliant" sacrifices | The performance bonus uses engine accuracy, which *drops* for unsound moves. |
-| Pre-arranged draws | Draw offers are only possible from move 20 in rated games, max 3, and the bot accepts only when its evaluation justifies it. |
-| Duplicate rewards | Settlement is a pure function keyed by match id, and the save is written in one IndexedDB transaction (tests: duplicate settlement, reload). |
-| Buying rank | Impossible: the store only sells cosmetics. |
+| Thinking forever (untimed) | Pay is per game, never per move or per minute; long games earn nothing extra. |
+| Quick resignations / abandoning | Under 10 player moves → no pay; the result is still a rated loss. |
+| Intentional losses / sandbagging | Losses pay 0.4 S; matchmaking follows the rating down and weaker opponents pay less. |
+| Farming weak opponents | f → 0.35; matchmaking does not offer them. |
+| Rematch farming | Decay to 40%. |
+| Unsound "brilliant" sacrifices | Performance pay uses engine accuracy, which drops for unsound moves. |
+| Pre-arranged draws | Draw offers only from move 20 in rated games, max 3, accepted only when the engine's evaluation justifies it. |
+| Duplicate rewards | Settlement is a pure function keyed by match id, committed in one IndexedDB transaction (tested across reloads). |
+| Buying rank | Impossible: the store sells cosmetics and review/training amenities only. |
 
-## 5. Spending
+## 6. Spending and records
 
-The store (`src/game/store.ts`) sells boards, piece sets (including shogi-style kanji tiles), crests, profile frames, office wallpapers, promotion-ceremony styles, match-entrance effects and desk trophies; some are prestige-locked behind a highest-rank requirement. The **headquarters tower** is an unlimited sink: floor *k* costs `3000·1.13^k` (rounded), so wealth translates into a visibly taller tower with logarithmic growth. Net worth = balance + tower value. Nothing purchasable affects play.
+The store sells boards (plus one free board per arena reached), piece sets, portraits, crests, profile frames, office wallpapers, promotion-ceremony styles, match entrances, desk trophies and two study amenities that only affect post-game review and unrated training. The **headquarters tower** is an unlimited sink (floor *k* costs ≈ 3,000 · 1.13^k).
 
-## 6. Balancing evidence
+**Finance** shows balance, lifetime earnings, match earnings, promotion bonuses, tournament prizes, achievement rewards, highest single-match payout, current salary, total purchases and net worth (balance + tower + purchases).
 
-`scripts/career-sim.ts` runs simulated careers through the real code (matchmaking, Glicko-2, merit, gates, series, pay, achievements), sampling each game from the Elo expectation with a ~22% draw rate. Results: `research/career-sim.md`.
+## 7. Migration from v0.1
 
-Changes made because of the simulation:
-1. **Fast-track merit.** Without it, players of true strength 1100 and 2000 climbed at the *same* speed (merit is earned at ~50% win rates whatever your level). With it, stronger players reach their level much sooner.
-2. **Salary down 40%, store prices doubled, headquarters sink added.** The first simulation produced ≈$1.2 M lifetime earnings by game 1,500 against a $276 k catalogue.
-3. **Series opponents at the gate**, not above the player — strong players were failing series ~40 times per 1,500 games while fighting opponents stronger than the bar being tested.
+`migrateCareerV1` maps each v0.1 rank to the equivalent seniority (monotone; several v0.1 titles that collapse into one v0.2 title spread their grades across it), keeps the merit *fraction*, keeps every v0.1 title verbatim in the promotion history and in `career.legacy`, and sets the job family to Strategy (changeable). Rating, history, dollars, purchases, achievements, Arena Cup state and any game in progress (with its clocks, if timed) are untouched. Tested with a save produced by the actual v0.1 code (`tests/fixtures/save-v0.1.json`).
 
-Limitations: the simulation assumes a player's strength is fixed and that results follow the Elo model; real players improve, tilt and stop. Pacing should be re-tuned with real play data.
+## 8. Balancing evidence
+
+`scripts/career-sim.ts` drives the real matchmaking, rating, career, series and economy code with game results sampled from the Elo expectation (≈ 22% draws in even games), for players of fixed true strength spread across the calibrated bot scale. Results, including plateaued players and the exploit checks: `research/career-sim.md` (regenerated after every calibration).

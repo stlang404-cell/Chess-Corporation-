@@ -90,15 +90,15 @@ A game is drawn automatically when:
 4. **Dead position:** neither side can possibly checkmate — king vs king; king and one minor piece vs king; or kings and bishops only, all bishops on one square colour.
 5. **Agreement:** a draw offer is accepted. In rated games, draw offers are available from move 20 onwards (anti-collusion), at most three per game.
 
-## 7. Clocks
+## 7. Time
 
-- The standard rated time control is **5 minutes per side plus a 3-second increment per move** ("5+3"). Brisk 3+2 and Classical 10+5 are also available.
-- A player whose clock reaches zero **loses**, unless the opponent has no way to checkmate (only a king, or a king and a single minor piece), in which case the game is drawn.
-- The clock starts with each side's first move.
+- **Untimed is the standard for every match type** — rated, promotion series, Arena Cup, casual and training. There is no clock, no countdown and no loss on time: a player may think as long as they like, leave, close the app and resume later.
+- The engine's own thinking is bounded separately (by its strength tier's search budget and a per-move time cap), so an opponent never stalls a game.
+- *Optional timed play* (advanced setting): 5+3, 3+2 or 10+5 (minutes + seconds increment). In timed games only, a player whose clock reaches zero loses, unless the opponent has no way to checkmate (only a king, or a king and a single minor piece), in which case the game is drawn. A timed game in progress from v0.1 keeps its clocks.
 
 ## 8. Resignation and abandonment
 
-A player may resign at any time; the game is lost. In rated play, a game in progress is saved after every move and resumes when the app is reopened (the clock pauses while the app is closed).
+A player may resign at any time (with confirmation); the game is lost. A game in progress is saved after every move and resumes when the app is reopened.
 
 ## 9. Fair-play rules for rated games
 
@@ -139,3 +139,21 @@ From the starting position: 16, 249, 4,506, 79,417, 1,606,599, 31,757,845 positi
 ## 12. Why these rules
 
 The setup was chosen by automated self-play among five candidate rulesets; see `docs/RESEARCH.md`. In short: dropping one knight (rather than the queen or a bishop) kept the game decisive and the first-move advantage close to orthodox chess, the double step keeps openings fast on a board with only three empty ranks, and castling materially reduced draws compared with the same setup without castling.
+
+## 13. Game records (SEVEN-PGN)
+
+Games export as standard PGN with three variant tags so any reader knows the board is 7×7:
+
+```
+[Variant "SEVEN-1.0"]
+[SetUp "1"]
+[FEN "rnbqkbr/ppppppp/7/7/7/PPPPPPP/RNBQKBR w KQkq - 0 1"]
+```
+
+Moves are standard SAN on files a–g and ranks 1–7 (`O-O` = king to g1, `O-O-O` = king to c1). The FEN uses 7-character ranks. Implementation: `src/game/pgn.ts`.
+
+## 14. Version history
+
+| Version | Status | Changes |
+|---|---|---|
+| SEVEN-1.0 | current, rated | Initial ruleset (selected by self-play, v0.1). v0.2 changed only *time controls* (untimed default); the chess rules are unchanged and the rating pool continues. |

@@ -37,3 +37,11 @@
 {"fen":"1r2kbr/p5p/n2p3/2p4/P1PP3/2K1P2/3Qbq1 w k - 0 20","themes":["defence","material"],"rating":700,"steps":[{"accept":["a3a4"]}],"eval":-2570,"gap":402}
 {"fen":"r1b1kbr/p1pqppp/2n4/2Q4/PpPpB2/1P3PP/RN2KBR b KQkq - 1 8","themes":["material"],"rating":700,"steps":[{"accept":["c7b6"]}],"eval":197,"gap":264}
 {"fen":"2kr1br/pbp1ppp/2q4/5Q1/PpPp3/1P1K1PP/RN3BR b - - 1 11","themes":["material"],"rating":700,"steps":[{"accept":["e6e5"]}],"eval":686,"gap":263}
+{"fen":"7/7/P2k3/1b1p1pP/7/4b2/6K w - - 0 37","themes":["defence","endgame"],"rating":700,"steps":[{"accept":["g1f2"]}],"eval":-1869,"gap":28111}
+{"fen":"7/7/b2k2P/5p1/3p3/4bK1/7 w - - 0 39","themes":["defence","endgame"],"rating":700,"steps":[{"accept":["g5g6"]}],"eval":-2092,"gap":401}
+{"fen":"4k1r/r1bnqp1/7/p1pBP2/P1N1K1p/RPQ3P/5R1 b k - 6 24","themes":["promotion"],"rating":700,"steps":[{"accept":["c6e4"]}],"eval":35,"gap":252}
+{"fen":"4k2/r1bn2r/3P1p1/p2B3/Pp2KRp/R1Q3P/7 b - - 0 28","themes":["material"],"rating":700,"steps":[{"accept":["b3c2"]}],"eval":548,"gap":370}
+{"fen":"2r2R1/r5k/5RB/p6/P5K/6P/7 w - - 1 43","themes":["material"],"rating":700,"steps":[{"accept":["f7c7"]}],"eval":498,"gap":283}
+{"fen":"2R4/r5k/5RB/p6/P5K/6P/7 b - - 0 43","themes":["defence","endgame"],"rating":700,"steps":[{"accept":["g6f5"]}],"eval":-499,"gap":401}
+{"fen":"7/7/p6/6k/4K2/R4p1/7 b - - 1 46","themes":["promotion","endgame"],"rating":700,"steps":[{"accept":["f2f1q"]}],"eval":599,"gap":471}
+{"fen":"7/7/p6/R5k/4K2/7/5q1 b - - 1 47","themes":["material"],"rating":700,"steps":[{"accept":["g4g3"]}],"eval":604,"gap":473}

@@ -96,3 +96,5 @@
 {"label":"v02-vs-v01","nodes":30000,"opening":"c2c3 a6a4 e2e4 a4a3","newWhite":false,"scoreNew":0.5,"term":"repetition","plies":103}
 {"label":"v02-vs-v01","nodes":30000,"opening":"d2d3 c6c5 c1e3 c5c4","newWhite":true,"scoreNew":1,"term":"checkmate","plies":93}
 {"label":"v02-vs-v01","nodes":30000,"opening":"d2d3 c6c5 c1e3 c5c4","newWhite":false,"scoreNew":1,"term":"checkmate","plies":110}
+{"label":"v02-vs-v01","nodes":30000,"opening":"c2c3 d6d4 d1b3 b7c5","newWhite":true,"scoreNew":0,"term":"checkmate","plies":68}
+{"label":"v02-vs-v01","nodes":30000,"opening":"c2c3 d6d4 d1b3 b7c5","newWhite":false,"scoreNew":1,"term":"checkmate","plies":86}
