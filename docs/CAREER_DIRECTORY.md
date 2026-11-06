@@ -13,15 +13,15 @@
 | 2 | Professional | Team | 3 |  | 6 | — | $159 |
 | 3 | Senior professional | Team | 3 |  | 9 | — | $190 |
 | 4 | Lead | Team | 4 |  | 12 | — | $216 |
-| 5 | Team lead | Team | 4 |  | 16 | 760 | $247 |
-| 6 | Manager | Department | 4 | Bo3 | 20 | 790 | $275 |
-| 7 | Senior manager | Department | 4 |  | 24 | 810 | $300 |
-| 8 | Director | Division | 4 | Bo3 | 28 | 840 | $323 |
-| 9 | Senior director | Division | 4 |  | 32 | 860 | $345 |
-| 10 | Vice president | Business unit | 5 | Bo3 | 36 | 880 | $365 |
-| 11 | Senior vice president | Business unit | 5 |  | 41 | 910 | $389 |
-| 12 | Executive vice president | Company | 5 | Bo3 | 46 | 940 | $411 |
-| 13 | Chief officer | Company | 5 | Bo5 | 51 | 960 | $433 |
+| 5 | Team lead | Team | 4 |  | 16 | 780 | $247 |
+| 6 | Manager | Department | 4 | Bo3 | 20 | 810 | $275 |
+| 7 | Senior manager | Department | 4 |  | 24 | 840 | $300 |
+| 8 | Director | Division | 4 | Bo3 | 28 | 870 | $323 |
+| 9 | Senior director | Division | 4 |  | 32 | 890 | $345 |
+| 10 | Vice president | Business unit | 5 | Bo3 | 36 | 920 | $365 |
+| 11 | Senior vice president | Business unit | 5 |  | 41 | 950 | $389 |
+| 12 | Executive vice president | Company | 5 | Bo3 | 46 | 980 | $411 |
+| 13 | Chief officer | Company | 5 | Bo5 | 51 | 1000 | $433 |
 
 ## 2. Job families (functional titles by step)
 
@@ -121,61 +121,61 @@
 
 | Title | Scope | First rank | Gate | Series |
 |---|---|---|---|---|
-| Business Unit President | Business unit | 56 | 990 | Bo5 |
-| Group President | Group | 61 | 1020 | Bo5 |
-| President | Company | 66 | 1040 | Bo5 |
-| Chief Executive Officer | Company | 71 | 1070 | Bo5 |
+| Business Unit President | Business unit | 56 | 1030 | Bo5 |
+| Group President | Group | 61 | 1060 | Bo5 |
+| President | Company | 66 | 1090 | Bo5 |
+| Chief Executive Officer | Company | 71 | 1120 | Bo5 |
 
 ## 4. Institutions (authored)
 
 | # | Institution | City | Headquarters | Sector | Scale class | President from rank | CEO from rank | Gate |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Kitahama Industrial Company | Osaka | Kitahama Tower | Manufacturing | Regional company | 76 | 81 | 1090 |
-| 2 | Hakata Harbour Logistics | Fukuoka | Harbour House | Logistics | Regional company | 86 | 91 | 1140 |
-| 3 | Sendai Precision Works | Sendai | Aoba Works | Engineering | Regional company | 96 | 101 | 1190 |
-| 4 | Kanazawa Lacquer & Craft | Kanazawa | Kenroku Hall | Consumer goods | Regional company | 106 | 111 | 1240 |
-| 5 | Hokkaido Northern Foods | Sapporo | Odori Building | Food | Regional company | 116 | 121 | 1290 |
-| 6 | Setouchi Shipping Company | Hiroshima | Ujina Wharf Offices | Shipping | Regional company | 126 | 131 | 1330 |
-| 7 | Nagoya Motor Components | Nagoya | Sakae Plaza | Automotive | Regional company | 136 | 141 | 1380 |
-| 8 | Kobe Pearl Trading | Kobe | Meriken House | Trading | Regional company | 146 | 151 | 1430 |
-| 9 | Nara Heritage Hotels | Nara | Deer Park Lodge | Hospitality | Regional company | 156 | 161 | 1470 |
-| 10 | Shizuoka Green Tea Company | Shizuoka | Tea Exchange Hall | Agriculture | Regional company | 166 | 171 | 1520 |
-| 11 | Marunouchi Financial Group | Tokyo | Marunouchi Tower | Banking | National group | 176 | 181 | 1560 |
-| 12 | Shinjuku Media Group | Tokyo | West Gate Building | Media | National group | 186 | 191 | 1610 |
-| 13 | Yokohama Port Holdings | Yokohama | Minato Mirai Center | Infrastructure | National group | 196 | 201 | 1650 |
-| 14 | Kansai Electric Railways | Kyoto | Karasuma Station Offices | Transport | National group | 206 | 211 | 1700 |
-| 15 | Nihon Steel & Alloy | Kitakyushu | Yawata Works | Steel | National group | 216 | 221 | 1740 |
-| 16 | Sakura Insurance Group | Tokyo | Hibiya Building | Insurance | National group | 226 | 231 | 1790 |
-| 17 | Aozora Telecom | Tokyo | Shiodome Tower | Telecommunications | National group | 236 | 241 | 1830 |
-| 18 | Mizuho Valley Pharmaceuticals | Osaka | Doshomachi Laboratory | Pharmaceuticals | National group | 246 | 251 | 1870 |
-| 19 | Tohoku Energy Group | Sendai | Hirose Power Building | Energy | National group | 256 | 261 | 1920 |
-| 20 | Japan Coastal Construction | Chiba | Makuhari Offices | Construction | National group | 266 | 271 | 1960 |
-| 21 | Tsukiji Food Distribution | Tokyo | Toyosu Market Offices | Distribution | National group | 276 | 281 | 2000 |
-| 22 | Hikari Electronics | Kawasaki | Lightfield Campus | Electronics | National group | 286 | 291 | 2050 |
-| 23 | Pacific Rim Capital Group | Singapore | Marina Tower | Asset management | International group | 296 | 301 | 2090 |
-| 24 | Seoul Han River Industries | Seoul | Yeouido Center | Industrials | International group | 306 | 311 | 2130 |
-| 25 | Taipei Semiconductor Alliance | Taipei | Xinyi Fab Offices | Semiconductors | International group | 316 | 321 | 2170 |
-| 26 | Mumbai Coastal Trading | Mumbai | Nariman Point House | Trading | International group | 326 | 331 | 2220 |
-| 27 | Sydney Harbour Resources | Sydney | Circular Quay Tower | Mining | International group | 336 | 341 | 2260 |
-| 28 | Jakarta Archipelago Logistics | Jakarta | Sudirman Plaza | Logistics | International group | 346 | 351 | 2300 |
-| 29 | Vancouver Pacific Timber | Vancouver | Burrard Inlet Offices | Forestry | International group | 356 | 361 | 2340 |
-| 30 | Istanbul Bosphorus Trading | Istanbul | Levent Tower | Trading | International group | 366 | 371 | 2380 |
-| 31 | Nairobi Highlands Agritech | Nairobi | Westlands Campus | Agritech | International group | 376 | 381 | 2430 |
-| 32 | Lisbon Atlantic Shipping | Lisbon | Tagus Quay House | Shipping | International group | 386 | 391 | 2470 |
-| 33 | Mexico City Andina Foods | Mexico City | Reforma Tower | Food | International group | 396 | 401 | 2510 |
-| 34 | Cairo Nile Infrastructure | Cairo | Zamalek Building | Infrastructure | International group | 406 | 411 | 2550 |
-| 35 | Meridian Pacific Holdings | Hong Kong | Victoria Harbour Tower | Diversified | Multinational group | 416 | 421 | 2590 |
-| 36 | Northern Lights Energy | Oslo | Fjord House | Energy | Multinational group | 426 | 431 | 2630 |
-| 37 | Rhine Valley Chemicals | Frankfurt | Main Tower Offices | Chemicals | Multinational group | 436 | 441 | 2670 |
-| 38 | Atlantic Meridian Bank | London | Thames Court | Banking | Multinational group | 446 | 451 | 2720 |
-| 39 | São Paulo Continental Group | São Paulo | Paulista Tower | Diversified | Multinational group | 456 | 461 | 2760 |
-| 40 | Zürich Alpine Assurance | Zürich | Paradeplatz House | Insurance | Multinational group | 466 | 471 | 2800 |
-| 41 | Lagos Gulf Industries | Lagos | Victoria Island Tower | Industrials | Multinational group | 476 | 481 | 2840 |
-| 42 | New York Hudson Capital | New York | Hudson Yards Tower | Private equity | Multinational group | 486 | 491 | 2880 |
-| 43 | Seven Seas Global Holdings | Tokyo | Seven Seas Tower | Holding company | Global holding company | 496 | 501 | 2920 |
-| 44 | Orion Worldwide Holdings | Singapore | Orion Tower | Holding company | Global holding company | 506 | 511 | 2960 |
-| 45 | Continental Alliance Holdings | Geneva | Lakeside Palais | Holding company | Global holding company | 516 | 521 | 3000 |
-| 46 | Meridian World Holdings | Tokyo | Meridian Summit | Holding company | Global holding company | 526 | 531 | 3040 |
+| 1 | Kitahama Industrial Company | Osaka | Kitahama Tower | Manufacturing | Regional company | 76 | 81 | 1150 |
+| 2 | Hakata Harbour Logistics | Fukuoka | Harbour House | Logistics | Regional company | 86 | 91 | 1200 |
+| 3 | Sendai Precision Works | Sendai | Aoba Works | Engineering | Regional company | 96 | 101 | 1250 |
+| 4 | Kanazawa Lacquer & Craft | Kanazawa | Kenroku Hall | Consumer goods | Regional company | 106 | 111 | 1310 |
+| 5 | Hokkaido Northern Foods | Sapporo | Odori Building | Food | Regional company | 116 | 121 | 1360 |
+| 6 | Setouchi Shipping Company | Hiroshima | Ujina Wharf Offices | Shipping | Regional company | 126 | 131 | 1410 |
+| 7 | Nagoya Motor Components | Nagoya | Sakae Plaza | Automotive | Regional company | 136 | 141 | 1460 |
+| 8 | Kobe Pearl Trading | Kobe | Meriken House | Trading | Regional company | 146 | 151 | 1510 |
+| 9 | Nara Heritage Hotels | Nara | Deer Park Lodge | Hospitality | Regional company | 156 | 161 | 1560 |
+| 10 | Shizuoka Green Tea Company | Shizuoka | Tea Exchange Hall | Agriculture | Regional company | 166 | 171 | 1610 |
+| 11 | Marunouchi Financial Group | Tokyo | Marunouchi Tower | Banking | National group | 176 | 181 | 1660 |
+| 12 | Shinjuku Media Group | Tokyo | West Gate Building | Media | National group | 186 | 191 | 1710 |
+| 13 | Yokohama Port Holdings | Yokohama | Minato Mirai Center | Infrastructure | National group | 196 | 201 | 1760 |
+| 14 | Kansai Electric Railways | Kyoto | Karasuma Station Offices | Transport | National group | 206 | 211 | 1810 |
+| 15 | Nihon Steel & Alloy | Kitakyushu | Yawata Works | Steel | National group | 216 | 221 | 1860 |
+| 16 | Sakura Insurance Group | Tokyo | Hibiya Building | Insurance | National group | 226 | 231 | 1910 |
+| 17 | Aozora Telecom | Tokyo | Shiodome Tower | Telecommunications | National group | 236 | 241 | 1960 |
+| 18 | Mizuho Valley Pharmaceuticals | Osaka | Doshomachi Laboratory | Pharmaceuticals | National group | 246 | 251 | 2000 |
+| 19 | Tohoku Energy Group | Sendai | Hirose Power Building | Energy | National group | 256 | 261 | 2050 |
+| 20 | Japan Coastal Construction | Chiba | Makuhari Offices | Construction | National group | 266 | 271 | 2100 |
+| 21 | Tsukiji Food Distribution | Tokyo | Toyosu Market Offices | Distribution | National group | 276 | 281 | 2150 |
+| 22 | Hikari Electronics | Kawasaki | Lightfield Campus | Electronics | National group | 286 | 291 | 2190 |
+| 23 | Pacific Rim Capital Group | Singapore | Marina Tower | Asset management | International group | 296 | 301 | 2240 |
+| 24 | Seoul Han River Industries | Seoul | Yeouido Center | Industrials | International group | 306 | 311 | 2290 |
+| 25 | Taipei Semiconductor Alliance | Taipei | Xinyi Fab Offices | Semiconductors | International group | 316 | 321 | 2330 |
+| 26 | Mumbai Coastal Trading | Mumbai | Nariman Point House | Trading | International group | 326 | 331 | 2380 |
+| 27 | Sydney Harbour Resources | Sydney | Circular Quay Tower | Mining | International group | 336 | 341 | 2430 |
+| 28 | Jakarta Archipelago Logistics | Jakarta | Sudirman Plaza | Logistics | International group | 346 | 351 | 2470 |
+| 29 | Vancouver Pacific Timber | Vancouver | Burrard Inlet Offices | Forestry | International group | 356 | 361 | 2520 |
+| 30 | Istanbul Bosphorus Trading | Istanbul | Levent Tower | Trading | International group | 366 | 371 | 2570 |
+| 31 | Nairobi Highlands Agritech | Nairobi | Westlands Campus | Agritech | International group | 376 | 381 | 2610 |
+| 32 | Lisbon Atlantic Shipping | Lisbon | Tagus Quay House | Shipping | International group | 386 | 391 | 2660 |
+| 33 | Mexico City Andina Foods | Mexico City | Reforma Tower | Food | International group | 396 | 401 | 2700 |
+| 34 | Cairo Nile Infrastructure | Cairo | Zamalek Building | Infrastructure | International group | 406 | 411 | 2750 |
+| 35 | Meridian Pacific Holdings | Hong Kong | Victoria Harbour Tower | Diversified | Multinational group | 416 | 421 | 2790 |
+| 36 | Northern Lights Energy | Oslo | Fjord House | Energy | Multinational group | 426 | 431 | 2840 |
+| 37 | Rhine Valley Chemicals | Frankfurt | Main Tower Offices | Chemicals | Multinational group | 436 | 441 | 2880 |
+| 38 | Atlantic Meridian Bank | London | Thames Court | Banking | Multinational group | 446 | 451 | 2930 |
+| 39 | São Paulo Continental Group | São Paulo | Paulista Tower | Diversified | Multinational group | 456 | 461 | 2970 |
+| 40 | Zürich Alpine Assurance | Zürich | Paradeplatz House | Insurance | Multinational group | 466 | 471 | 3020 |
+| 41 | Lagos Gulf Industries | Lagos | Victoria Island Tower | Industrials | Multinational group | 476 | 481 | 3060 |
+| 42 | New York Hudson Capital | New York | Hudson Yards Tower | Private equity | Multinational group | 486 | 491 | 3110 |
+| 43 | Seven Seas Global Holdings | Tokyo | Seven Seas Tower | Holding company | Global holding company | 496 | 501 | 3150 |
+| 44 | Orion Worldwide Holdings | Singapore | Orion Tower | Holding company | Global holding company | 506 | 511 | 3200 |
+| 45 | Continental Alliance Holdings | Geneva | Lakeside Palais | Holding company | Global holding company | 516 | 521 | 3240 |
+| 46 | Meridian World Holdings | Tokyo | Meridian Summit | Holding company | Global holding company | 526 | 531 | 3290 |
 
 ## 5. Arenas (authored)
 

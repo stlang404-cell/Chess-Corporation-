@@ -54,6 +54,35 @@ for (const g of tierGames) {
 const se = info.map((v, i) => (i === 0 ? 0 : Math.round(1 / Math.sqrt(Math.max(v, 1e-6)))));
 const rd = se.map((s) => Math.max(40, Math.min(150, s)));
 
+// Applied ladder. Two honest corrections to the raw fit, both reported below:
+// (1) a perfect score between neighbouring tiers has no finite maximum-likelihood
+//     gap, so no single tier step is credited more than STEP_CAP Elo (a 19–0 sweep
+//     only bounds the true gap from below, at ≈ +300 with 95% confidence);
+// (2) pool adjacent violators so a stronger configuration never rates below a weaker one.
+const STEP_CAP = 350;
+const applied = [...ratings];
+const capped: string[] = [];
+for (let i = 1; i < N; i++) {
+  const gap = applied[i] - applied[i - 1];
+  if (gap > STEP_CAP) {
+    capped.push(`${i - 1}→${i}: raw +${ratings[i] - ratings[i - 1]} capped at +${STEP_CAP}`);
+    for (let j = i; j < N; j++) applied[j] -= gap - STEP_CAP;
+  }
+}
+{
+  const blocks: { sum: number; n: number }[] = [];
+  for (const v of applied) {
+    blocks.push({ sum: v, n: 1 });
+    while (blocks.length > 1 && blocks[blocks.length - 2].sum / blocks[blocks.length - 2].n > blocks[blocks.length - 1].sum / blocks[blocks.length - 1].n) {
+      const b = blocks.pop()!;
+      blocks[blocks.length - 1].sum += b.sum;
+      blocks[blocks.length - 1].n += b.n;
+    }
+  }
+  let k = 0;
+  for (const b of blocks) for (let j = 0; j < b.n; j++) applied[k++] = Math.round(b.sum / b.n);
+}
+
 // style offsets
 const styles: Record<string, number[]> = {};
 const styleRows: string[] = [];
@@ -85,7 +114,7 @@ writeFileSync(
 export const CALIBRATION = {
   generated: 'measured ${date}',
   games: ${games.length},
-  tierRatings: ${JSON.stringify(ratings)},
+  tierRatings: ${JSON.stringify(applied)},
   tierRd: ${JSON.stringify(rd)},
   styleOffsets: ${JSON.stringify(offsets)} as Record<string, number>,
 };
@@ -105,9 +134,11 @@ const lines = [
   '',
   '## Fitted tier ratings (anchor: tier 0 = 400)',
   '',
-  '| Tier | Rating | ± (1 s.e.) |',
-  '|---|---|---|',
-  ...ratings.map((x, i) => `| ${i} | ${x} | ${i === 0 ? 'anchor' : se[i]} |`),
+  '| Tier | Raw fit | Applied | ± (1 s.e.) |',
+  '|---|---|---|---|',
+  ...ratings.map((x, i) => `| ${i} | ${x} | ${applied[i]} | ${i === 0 ? 'anchor' : se[i]} |`),
+  '',
+  `Applied = raw fit with each single-tier step capped at +${STEP_CAP} (a perfect score gives only a lower bound) and made monotone by pooling adjacent violators.${capped.length ? ' Capped: ' + capped.join('; ') + '.' : ''}`,
   '',
   '## Pairwise results (score of the first-named tier)',
   '',

@@ -5,8 +5,8 @@
  */
 export const CALIBRATION = {
   generated: 'measured 2026-11-06',
-  games: 787,
-  tierRatings: [400, 520, 640, 760, 880, 1000, 1120, 1240, 1360, 1480, 1600, 1720, 1840, 1960, 2080, 2200, 2320, 2440, 2560, 2680, 2800, 2920, 3040, 3160, 3280],
-  tierRd: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-  styleOffsets: {"balanced":0,"attacker":-84,"defender":71,"endgame":18,"strategist":74,"tactician":-27,"wildcard":-314} as Record<string, number>,
+  games: 865,
+  tierRatings: [400,500,682,778,1004,1203,1262,1464,1581,1654,1958,2078,2239,2402,2587,2731,2861,2953,3012,3012,3089,3169,3519,3531,3531],
+  tierRd: [40,60,47,61,49,60,47,61,47,64,51,60,48,62,48,71,58,73,57,90,66,118,78,71,78],
+  styleOffsets: {"balanced":0,"attacker":-59,"defender":71,"endgame":47,"gambiteer":68,"strategist":-7,"tactician":-146,"technician":74,"wildcard":-211} as Record<string, number>,
 };

@@ -1,6 +1,7 @@
 /**
  * Old-vs-new engine match at EQUAL NODE BUDGETS.
- * Usage: tsx scripts/engine-match.ts <nodes> <openings> <seed> [label]
+ * Usage: tsx scripts/engine-match.ts <nodes|tMS> <openings> <seed> [label]
+ * A budget written as t<ms> (e.g. t100) gives both engines EQUAL TIME per move instead.
  * Both engines play every opening with both colours (2 games per opening).
  * Openings: 4 random plies chosen among moves within 60 cp of best (v0.1 engine,
  * 20k nodes), seeded and reproducible. Emits one JSON line per game.
@@ -14,7 +15,9 @@ import { Searcher as OldSearcher } from '../research/engine-v01/search';
 import { uciOf as oldUci, uciToMove as oldUciToMove } from '../research/engine-v01/game';
 
 const [nodesS, openS, seedS, label = 'new-vs-v01'] = process.argv.slice(2);
-const nodes = +nodesS;
+const timeMs = nodesS.startsWith('t') ? +nodesS.slice(1) : 0;
+const nodes: number | string = timeMs ? nodesS : +nodesS;
+const lim = timeMs ? { timeMs } : { nodes: nodes as number };
 let seed = +seedS;
 const rand = () => ((seed = (Math.imul(seed, 1103515245) + 12345) & 0x7fffffff) / 0x7fffffff);
 
@@ -46,8 +49,8 @@ function play(opening: string[], newIsWhite: boolean) {
     if (out) return { result: out.result, term: out.termination, plies: pn.ply };
     const newToMove = (pn.side === 0) === newIsWhite;
     let u: string;
-    if (newToMove) u = uciOf(sn.search(pn, { nodes }).move);
-    else u = oldUci(so.search(po, { nodes }).move);
+    if (newToMove) u = uciOf(sn.search(pn, lim).move);
+    else u = oldUci(so.search(po, lim).move);
     pn.make(uciToMove(pn, u));
     po.make(oldUciToMove(po, u));
   }
