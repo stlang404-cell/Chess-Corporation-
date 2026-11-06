@@ -12,21 +12,34 @@ p.on('pageerror', (e) => errors.push(String(e)));
 await p.goto(url);
 await finishOnboarding(p);
 await startRated(p);
+// A random mover can lose before move 10, and short games are neither paid nor
+// reviewed by design, so play up to four games until one is long enough to review.
 let moves = 0;
-for (let i = 0; i < 150; i++) {
-  if (await p.$('.results, .settle')) break;
-  try {
-    await p.waitForSelector(`${MY_TURN}, .results, .settle`, { timeout: 25000 });
-  } catch {
-    break;
+let games = 0;
+for (; games < 4; games++) {
+  if (games > 0) {
+    await p.click('.results button:has-text("NEXT MATCH")');
+    await p.waitForSelector('.opp-card');
+    await p.click('.begin');
+    await p.waitForSelector('.play .board', { timeout: 10000 });
   }
-  if (await p.$('.results, .settle')) break;
-  if (!(await playAnyMove(p))) break;
-  moves++;
+  moves = 0;
+  for (let i = 0; i < 150; i++) {
+    if (await p.$('.results, .settle')) break;
+    try {
+      await p.waitForSelector(`${MY_TURN}, .results, .settle`, { timeout: 25000 });
+    } catch {
+      break;
+    }
+    if (await p.$('.results, .settle')) break;
+    if (!(await playAnyMove(p))) break;
+    moves++;
+  }
+  await p.waitForSelector('.results', { timeout: 90000 });
+  if (await p.$('.ceremony .skip')) await p.click('.ceremony .skip');
+  await p.waitForTimeout(1500);
+  if (moves >= 10) break;
 }
-await p.waitForSelector('.results', { timeout: 90000 });
-if (await p.$('.ceremony .skip')) await p.click('.ceremony .skip');
-await p.waitForTimeout(1500);
 const strip = !!(await p.$('.review-strip'));
 const payText = (await p.textContent('.pay'))?.replace(/\s+/g, ' ') ?? '';
 await p.screenshot({ path: `${out}/v03-results.png`, fullPage: true });
@@ -62,6 +75,6 @@ if (await p.$('button:has-text("Retry this move")')) {
   await p.screenshot({ path: `${out}/v03-retry.png` });
 }
 const retryText = (await p.$('.move-card.retry')) ? (await p.textContent('.move-card.retry')).replace(/\s+/g, ' ') : null;
-console.log(JSON.stringify({ moves, reviewStrip: strip, payText: payText.slice(0, 300), retried, retryText, errors }, null, 1));
+console.log(JSON.stringify({ games: games + 1, moves, reviewStrip: strip, payText: payText.slice(0, 300), retried, retryText, errors }, null, 1));
 await b.close();
 process.exit(errors.length || !strip ? 1 : 0);

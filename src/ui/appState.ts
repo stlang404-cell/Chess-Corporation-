@@ -42,13 +42,22 @@ export function useApp(): AppState {
 
 let writeChain: Promise<void> = Promise.resolve();
 /** Replace the save and persist it. Writes are serialised in order. */
+let pendingWrites = 0;
 export function commit(save: SaveData): Promise<void> {
   state = { ...state, save };
   emit();
-  writeChain = writeChain.then(() => writeSave(save)).catch((e) => {
-    console.error('save failed', e);
-    toast('Could not save progress — storage unavailable');
-  });
+  pendingWrites++;
+  if (typeof document !== 'undefined') document.documentElement.dataset.saving = '1';
+  writeChain = writeChain
+    .then(() => writeSave(save))
+    .catch((e) => {
+      console.error('save failed', e);
+      toast('Could not save progress — storage unavailable');
+    })
+    .finally(() => {
+      // html[data-saving] marks writes in flight (tests and diagnostics wait on it)
+      if (--pendingWrites === 0 && typeof document !== 'undefined') delete document.documentElement.dataset.saving;
+    });
   return writeChain;
 }
 export function updateSave(fn: (s: SaveData) => void): Promise<void> {

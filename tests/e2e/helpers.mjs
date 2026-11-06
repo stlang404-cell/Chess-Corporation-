@@ -8,6 +8,12 @@ export async function finishOnboarding(p) {
     await p.click('.onboarding .btn.primary');
     await p.waitForSelector('.onboarding', { state: 'detached' });
   }
+  await waitSaved(p);
+}
+
+/** Wait until every save write in flight has reached storage. */
+export async function waitSaved(p) {
+  await p.waitForFunction(() => !document.documentElement.dataset.saving, null, { timeout: 10000 });
 }
 
 export async function startRated(p) {
