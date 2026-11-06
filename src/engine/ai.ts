@@ -13,7 +13,7 @@ import { Searcher, isMateScore } from './search';
 import BOOK from './book.json';
 import { uciToMove } from './game';
 
-const OPENING_BOOK = BOOK as Record<string, [string, number][]>;
+const OPENING_BOOK = BOOK as unknown as Record<string, [string, number][]>;
 /** Book move for strong tiers (variant-specific book, scripts/make-book.ts), chosen by seed. */
 export function bookMove(pos: Position, seed: number): number {
   const k = pos.toFen().split(' ').slice(0, 2).join(' ');

@@ -1,61 +1,62 @@
 # Launching SEVEN
 
-SEVEN is fully local: no account, no server, no network needed to play. Your career is saved by the browser on your device (IndexedDB, with an automatic backup copy and an optional export in **Career → Settings**).
+**Play online (and install on iPhone):** https://stlang404-cell.github.io/Chess-Corporation-/
 
-## Windows — one click
+SEVEN runs entirely on your device: no account, no server-side code, no ads. After the first visit it works offline. Your career is stored by the browser on that device (IndexedDB, with an automatic backup copy and checksum).
 
-1. Download the `release/windows` folder from this repository (it contains `SEVEN.html` and `Launch SEVEN.bat`). Keep the two files together.
-2. Double-click **`Launch SEVEN.bat`**. It opens the game in a clean Microsoft Edge "app" window (no tabs or address bar). If Edge isn't installed it opens `SEVEN.html` in your default browser.
-3. Optional: right-click `Launch SEVEN.bat` → *Send to → Desktop (create shortcut)*.
+## iPhone / iPad — install as an app
+
+1. Open **https://stlang404-cell.github.io/Chess-Corporation-/** in **Safari** (other iOS browsers cannot install web apps on older iOS versions).
+2. Wait a few seconds after the first load so the app can store itself for offline use.
+3. Tap **Share** (the square with an arrow) → **Add to Home Screen** → **Add**. The icon is the red 七 seal named *SEVEN*.
+4. Open SEVEN from the Home Screen. It runs full-screen, without Safari's address bar, and works in airplane mode.
 
 Notes
-- Nothing is installed, no admin rights are needed, and the launcher does not change any Windows security setting. Windows may show a SmartScreen notice the first time you run a downloaded `.bat`; you can also simply double-click `SEVEN.html`.
-- `SEVEN.html` is completely self-contained (≈380 KB: game, chess engine and guide in one file), so it works offline from any folder or a USB stick.
-- Saves belong to the browser profile that opened the file. Use the same launcher/browser each time, and use *Export* to back up or move your career.
+- The Home-Screen app keeps its own storage, separate from Safari tabs: play from the icon.
+- iOS may clear data of web apps that go unused for several weeks. Use **Career → Settings → Export career** now and then to keep a backup file (e.g. in iCloud Drive).
+- When a new version is published, SEVEN shows *"A new version of SEVEN is ready — Reload"*. Your career and any game in progress are kept; nothing updates in the middle of a move.
 
-## iPhone / iPad — install as an app (PWA)
+## Windows — one click, fully offline
 
-iOS can only install a web app (and keep it working offline) from an **https** address. Opening a local HTML file from the Files app will not give you a persistent, offline, home-screen app. So SEVEN has to be served once from any static web host; after the first visit it runs entirely offline.
+1. Download the `release/windows` folder from this repository (`SEVEN.html` and `Launch SEVEN.bat`). Keep the two files together.
+2. Double-click **`Launch SEVEN.bat`**. It opens the game in a clean Microsoft Edge window (or your default browser if Edge is missing). Nothing is installed and no security setting is changed; Windows SmartScreen may ask the first time — you can also just double-click `SEVEN.html`.
+3. Alternatively open the website above in Edge or Chrome and choose **Install app** from the browser menu.
 
-### Option A — GitHub Pages (free, ~5 minutes)
+## Moving a career between Windows and iPhone
 
-1. In this repository on GitHub: *Settings → Pages → Build and deployment → Source: GitHub Actions*.
-2. Push to `main` (or run the *Deploy PWA to GitHub Pages* workflow manually from the *Actions* tab). The workflow in `.github/workflows/pages.yml` runs the tests, builds the PWA and publishes it.
-3. On the iPhone, open the Pages URL in **Safari**, wait a few seconds for the first load to finish, then tap **Share → Add to Home Screen**.
-4. Launch SEVEN from the home-screen icon. It now works in airplane mode.
+Saves do not sync automatically (there is no server). To move a career:
 
-### Option B — any static host
+1. On the old device: **Career → Settings → Export career** → a `seven-career-YYYY-MM-DD.seven.json` file is downloaded.
+2. Send the file to the other device (AirDrop, email, iCloud Drive, USB…).
+3. On the new device: **Career → Settings → Import career** → choose the file. SEVEN validates it (format, checksum, schema version) and shows *both* careers side by side before asking you to confirm replacing the one on this device. Nothing is overwritten without that confirmation.
 
-Run `npm ci && npm run build` and upload the contents of `dist/` to any https static host (Netlify, Cloudflare Pages, your own server). No server-side code is involved.
+Backups from v0.1 import into v0.2 and are upgraded automatically.
 
-### Option C — local network (testing)
+## Publishing (maintainers)
 
-`npm run build && npx vite preview --host` serves the PWA on your LAN, but iOS requires https for service workers, so offline install will not work over plain http. Use A or B for a real install.
+The site is served by GitHub Pages from the deploy-only `gh-pages` branch:
 
-### iOS caveats
+```bash
+npm ci
+npm test                     # vitest: rules, engine, AI, career, economy, saves, guide, puzzles
+scripts/deploy-pages.sh      # builds the PWA and force-pushes dist/ to gh-pages
+```
 
-- iOS may evict data for web apps that are not used for many weeks. Export a backup from *Career → Settings* occasionally.
-- Home-screen apps on iOS have their own storage, separate from Safari tabs. Install first, then play from the icon.
-
-## Any desktop browser (macOS, Linux, Windows)
-
-Open `release/windows/SEVEN.html` directly, or serve `dist/` and use the browser's *Install app* option.
+`.github/workflows/pages.yml` is an alternative Actions-based deployment that runs on pushes to `main` once *Settings → Pages → Source* is set to *GitHub Actions*.
 
 ## Building from source
 
 ```bash
 npm ci
-npm test                 # unit + rules + engine tests (vitest)
+npm run dev              # development server
 npm run build            # PWA → dist/ (with service-worker precache list)
 npm run build:single     # single-file build → release/windows/SEVEN.html
-npm run dev              # development server
 ```
 
-Browser end-to-end checks (need Playwright's Chromium):
+Browser end-to-end checks (Playwright's Chromium):
 
 ```bash
-npx vite preview --port 4173 &
-node tests/e2e/smoke.mjs http://localhost:4173/            # MATCH → play → results
-node tests/e2e/offline-responsive.mjs http://localhost:4173/  # offline reload, 6 screen sizes
-node tests/e2e/file-protocol.mjs "$PWD/release/windows/SEVEN.html"  # Windows file:// build
+tests/e2e/run-all.sh                                               # build + serve + all checks
+node tests/e2e/smoke.mjs   https://stlang404-cell.github.io/Chess-Corporation-/   # against the live site
+node tests/e2e/visual.mjs  http://localhost:4173/ shots/          # 112 screenshots, 7 widths × 2 themes
 ```

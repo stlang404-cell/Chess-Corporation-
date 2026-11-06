@@ -129,3 +129,20 @@ export const FLOOR_NAMES = ['Lobby', 'Mailroom', 'Archive', 'Trading Floor', 'Li
 export function floorName(k: number): string {
   return k < FLOOR_NAMES.length ? FLOOR_NAMES[k] : `Floor ${k + 1}`;
 }
+
+/**
+ * Apply a purchase to a save (mutates `s`). Returns null on success or the reason
+ * it was refused. Never changes rating, rank or anything that affects play.
+ */
+export function applyPurchase(s: { wallet: { balance: number; spent: number }; finance: { purchases: number }; owned: string[]; equipped: Record<string, string>; career: { highestRank: number } }, id: string): string | null {
+  const it = itemById(id);
+  if (!it) return 'Unknown item';
+  const why = canBuy(it, s.wallet.balance, s.career.highestRank, s.owned);
+  if (why) return why;
+  s.wallet.balance -= it.price;
+  s.wallet.spent += it.price;
+  s.finance.purchases += it.price;
+  s.owned.push(it.id);
+  if (it.kind !== 'trophy' && it.kind !== 'amenity') s.equipped[it.kind] = it.id;
+  return null;
+}

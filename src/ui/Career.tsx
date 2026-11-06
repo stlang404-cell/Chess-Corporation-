@@ -17,7 +17,7 @@ import {
 } from '../game/career';
 import { expectedScore, isProvisional } from '../game/rating';
 import { STYLES, STYLE_IDS } from '../engine/ai';
-import { STORE, ARENA_BOARDS, KIND_LABEL, canBuy, itemById, floorPrice, floorName, hqValue, type ItemKind } from '../game/store';
+import { STORE, ARENA_BOARDS, KIND_LABEL, canBuy, applyPurchase, itemById, floorPrice, floorName, hqValue, type ItemKind } from '../game/store';
 import { ACHIEVEMENTS } from '../game/achievements';
 import { TIME_CONTROLS, newSave, isRatedKind, UNTIMED, type SaveData } from '../game/state';
 import { exportSave, checkImport, wipeSave } from '../game/storage';
@@ -513,11 +513,7 @@ function Store() {
     const why = canBuy(it, save.wallet.balance, save.career.highestRank, save.owned);
     if (why) return toast(why === 'Locked' ? `Unlocks at ${rankLine(it.minRank!, save.career.family)}` : why);
     updateSave((s) => {
-      s.wallet.balance -= it.price;
-      s.wallet.spent += it.price;
-      s.finance.purchases += it.price;
-      s.owned.push(it.id);
-      if (it.kind !== 'trophy' && it.kind !== 'amenity') s.equipped[it.kind] = it.id;
+      applyPurchase(s, id);
     });
     toast(it.price ? `Purchased ${it.name}` : `Claimed ${it.name}`);
   };
