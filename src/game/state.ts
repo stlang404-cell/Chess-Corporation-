@@ -129,6 +129,8 @@ export interface SaveData {
   rematch: { oppId: number; count: number } | null;
   lastPlayedAt: number;
   academy: { solved: Record<string, number>; readChapters: Record<string, number> };
+  /** cosmetic headquarters: an unlimited dollar sink, one floor at a time */
+  hq: { floors: number };
 }
 
 export function newSave(now = Date.now()): SaveData {
@@ -174,6 +176,7 @@ export function newSave(now = Date.now()): SaveData {
     rematch: null,
     lastPlayedAt: 0,
     academy: { solved: {}, readChapters: {} },
+    hq: { floors: 0 },
   };
 }
 
@@ -192,6 +195,7 @@ export function migrate(raw: unknown): SaveData {
     settings: { ...base.settings, ...(s.settings ?? {}) },
     equipped: { ...base.equipped, ...(s.equipped ?? {}) },
     academy: { ...base.academy, ...(s.academy ?? {}) },
+    hq: { ...base.hq, ...(s.hq ?? {}) },
     version: SAVE_VERSION,
   } as SaveData;
   if (!Array.isArray(merged.owned)) merged.owned = base.owned;

@@ -6,7 +6,7 @@
  * always committed together.
  */
 import { expectedScore, updateRating } from './rating';
-import { meritDelta, meritNeeded, ratingGate, seriesLength, rankInfo, arenaForRank } from './career';
+import { meritDelta, meritNeeded, ratingGate, seriesLength, rankInfo, arenaForRank, fastTrack } from './career';
 import { computePay, promotionBonus, type PayLine } from './economy';
 import { newAchievements } from './achievements';
 import { emptyWLD, seasonKey, type ActiveMatch, type MatchSummary, type SaveData } from './state';
@@ -129,7 +129,8 @@ export function settleMatch(
         seriesResult = 'failed';
       }
     } else {
-      c.merit += meritDelta(score, E);
+      const md = meritDelta(score, E);
+      c.merit += md > 0 ? Math.round(md * fastTrack(s.rating.r, c.rank)) : md;
       if (score > 0) c.probation = 0;
       if (c.merit < 0) {
         c.merit = 0;

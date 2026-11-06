@@ -188,7 +188,7 @@ export function seriesLength(n: number): number {
 
 /** Base match salary for a player at rank n (sublinear growth to avoid inflation). */
 export function salary(n: number): number {
-  return Math.round(100 * Math.sqrt(1 + n));
+  return Math.round(60 * Math.sqrt(1 + n));
 }
 
 // ---------- arenas ----------
@@ -283,4 +283,14 @@ export function meritDelta(score: number, E: number): number {
   if (score === 1) return Math.round(24 + 16 * (1 - E));
   if (score === 0.5) return Math.round(6 + 12 * (0.5 - E) + 6);
   return -Math.round(6 + 12 * E);
+}
+
+/**
+ * Fast-track: players whose rating clearly exceeds the gate of the rank above
+ * earn merit faster (up to 3×), so a strong player climbs quickly to the level
+ * their play deserves and then slows as the gates catch up with them.
+ */
+export function fastTrack(rating: number, rank: number): number {
+  const gate = ratingGate(rank + 1);
+  return Math.max(1, Math.min(3, 1 + (rating - gate - 100) / 250));
 }

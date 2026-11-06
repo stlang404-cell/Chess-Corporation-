@@ -45,8 +45,10 @@ export function matchTarget(save: SaveData, rand: Rand): number {
   const R = save.rating.r;
   if (save.career.series) {
     // promotion board: at least as strong as the gate being contested
+    // promotion board: opponents sit at the bar being tested (the gate), so the
+    // series checks that the player genuinely meets it
     const gate = ratingGate(save.career.series.targetRank);
-    return Math.max(R, gate) + 25 + gaussian(rand) * 40;
+    return Math.max(gate + 50, Math.min(R, gate + 150)) + gaussian(rand) * 40;
   }
   const spread = isProvisional(save.rating) ? 140 : 95;
   let tilt = 0;

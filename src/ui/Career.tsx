@@ -3,7 +3,7 @@ import { useApp, updateSave, commit, toast, setState } from './appState';
 import { rankInfo, arenaForRank, arenaInfo, meritNeeded, ratingGate, seriesLength, salary, AUTHORED_RANKS } from '../game/career';
 import { isProvisional } from '../game/rating';
 import { STYLES, STYLE_IDS } from '../engine/ai';
-import { STORE, KIND_LABEL, canBuy, itemById, type ItemKind } from '../game/store';
+import { STORE, KIND_LABEL, canBuy, itemById, floorPrice, floorName, hqValue, type ItemKind } from '../game/store';
 import { ACHIEVEMENTS } from '../game/achievements';
 import { TIME_CONTROLS, newSave } from '../game/state';
 import { exportSave, importSave, wipeSave } from '../game/storage';
@@ -419,6 +419,7 @@ function Office() {
           </div>
         </div>
       </Card>
+      <Headquarters />
       <h3>Title certificates</h3>
       <ul className="certs">
         {majors.length ? majors.map((p) => (
@@ -440,6 +441,45 @@ function Office() {
         ))}
       </ul>
     </>
+  );
+}
+
+function Headquarters() {
+  const { save } = useApp();
+  const floors = save.hq.floors;
+  const price = floorPrice(floors);
+  const build = () => {
+    if (save.wallet.balance < price) return toast('Insufficient funds');
+    updateSave((s) => {
+      s.wallet.balance -= price;
+      s.wallet.spent += price;
+      s.hq.floors += 1;
+    });
+    toast(`${floorName(floors)} completed`);
+  };
+  const shown = Math.min(floors, 24);
+  return (
+    <Card className="hq">
+      <div className="hq-tower" aria-label={`Headquarters with ${floors} floors`}>
+        <div className="hq-spire" />
+        {Array.from({ length: shown }).map((_, i) => {
+          const k = floors - 1 - i;
+          return <div key={k} className={`hq-floor ${(k + 1) % 10 === 0 ? 'accent' : ''}`} title={floorName(k)} />;
+        })}
+        {floors > shown && <div className="hq-more">+{floors - shown}</div>}
+        <div className="hq-base">{floors ? '' : 'empty lot'}</div>
+      </div>
+      <div className="hq-info">
+        <h3>Headquarters</h3>
+        <div className="muted small">
+          {floors} floor{floors === 1 ? '' : 's'} · invested {money(hqValue(floors))} · net worth {money(save.wallet.balance + hqValue(floors))}
+        </div>
+        <button className="btn small primary" onClick={build} disabled={save.wallet.balance < price}>
+          Build {floorName(floors)} — {money(price)}
+        </button>
+        <div className="muted small">Purely cosmetic. Your tower can rise forever.</div>
+      </div>
+    </Card>
   );
 }
 

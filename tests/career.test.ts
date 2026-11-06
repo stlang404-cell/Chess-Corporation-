@@ -76,8 +76,8 @@ describe('rank generation', () => {
     expect(meritDelta(1, 0.1)).toBeGreaterThan(meritDelta(1, 0.9));
   });
   it('salary grows sublinearly', () => {
-    expect(salary(0)).toBe(100);
-    expect(salary(399)).toBe(2000);
+    expect(salary(0)).toBe(60);
+    expect(salary(399)).toBe(1200);
     expect(salary(10000) / salary(100)).toBeLessThan(11);
   });
   it('major titles require promotion series', () => {
