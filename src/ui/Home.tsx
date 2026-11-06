@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useApp, go } from './appState';
+import { useApp, go, updateSave } from './appState';
 import { rankInfo, arenaForRank, meritNeeded, ratingGate, seriesLength } from '../game/career';
 import { isProvisional, expectedScore } from '../game/rating';
 import { identityOf } from '../game/opponents';
@@ -118,9 +118,25 @@ export function Home() {
       <div className="match-wrap">
         <button className={`match-btn ${phase}`} onClick={onMatch} aria-label="Match">
           <span className="match-ring" />
-          <span className="match-label">{active ? 'RESUME' : phase === 'idle' ? (series ? 'SERIES' : 'MATCH') : 'FINDING'}</span>
+          <span className="match-label">{active ? 'RESUME' : phase === 'idle' ? (series ? 'SERIES' : save.cup.active ? 'CUP' : 'MATCH') : 'FINDING'}</span>
         </button>
-        <div className="match-sub">{active ? 'Game in progress' : `${tc.label} · rated`}</div>
+        <div className="match-sub">
+          {active ? 'Game in progress' : save.cup.active && !series ? `Arena Cup · round ${save.cup.active.round + 1} of 3` : `${tc.label} · rated`}
+        </div>
+        {!active && !series && !save.cup.active && save.cup.tokens > 0 && phase === 'idle' && (
+          <button
+            className="btn small cup-btn"
+            onClick={async () => {
+              await updateSave((s) => {
+                s.cup.tokens--;
+                s.cup.active = { arena: arena.index, round: 0 };
+              });
+              onMatch();
+            }}
+          >
+            Enter the {arena.name} Cup · {save.cup.tokens} invitation{save.cup.tokens > 1 ? 's' : ''}
+          </button>
+        )}
       </div>
 
       <div className="recent" aria-label="Recent results">

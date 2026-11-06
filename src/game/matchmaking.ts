@@ -49,6 +49,7 @@ export function matchTarget(save: SaveData, rand: Rand): number {
     const gate = ratingGate(save.career.series.targetRank);
     return Math.max(gate + 50, Math.min(R, gate + 150)) + gaussian(rand) * 40;
   }
+  if (save.cup.active) return R + [-60, 60, 170][Math.min(2, save.cup.active.round)] + gaussian(rand) * 30;
   const spread = isProvisional(save.rating) ? 140 : 95;
   let tilt = 0;
   if (save.stats.streak <= -3) tilt = -45;
@@ -59,7 +60,7 @@ export function matchTarget(save: SaveData, rand: Rand): number {
 export function findOpponent(save: SaveData, rand: Rand): OpponentSpec {
   const R = save.rating.r;
   // rival encounter: someone met ≥3 times, still close in strength
-  if (!save.career.series && rand() < 0.15) {
+  if (!save.career.series && !save.cup.active && rand() < 0.15) {
     const rivals = Object.values(save.opponents)
       .filter((o) => o.g >= 3 && Math.abs(botRating(o.tier, o.style) - R) < 180)
       .sort((a, b) => b.g - a.g);

@@ -5,7 +5,10 @@ import type { Termination } from '../engine/game';
 
 export const SAVE_VERSION = 1;
 
-export type MatchKind = 'ranked' | 'series' | 'casual' | 'training';
+export type MatchKind = 'ranked' | 'series' | 'cup' | 'casual' | 'training';
+export const isRatedKind = (k: MatchKind) => k === 'ranked' || k === 'series' || k === 'cup';
+export const CUP_ROUNDS = 3;
+export const CUP_EVERY = 15;
 
 export interface OpponentSpec {
   id: number;
@@ -131,6 +134,8 @@ export interface SaveData {
   academy: { solved: Record<string, number>; readChapters: Record<string, number> };
   /** cosmetic headquarters: an unlimited dollar sink, one floor at a time */
   hq: { floors: number };
+  /** Arena Cup: a 3-round rated gauntlet; one entry token per CUP_EVERY rated games (max 3) */
+  cup: { tokens: number; active: { arena: number; round: number } | null; trophies: { arena: number; at: number }[] };
 }
 
 export function newSave(now = Date.now()): SaveData {
@@ -177,6 +182,7 @@ export function newSave(now = Date.now()): SaveData {
     lastPlayedAt: 0,
     academy: { solved: {}, readChapters: {} },
     hq: { floors: 0 },
+    cup: { tokens: 0, active: null, trophies: [] },
   };
 }
 
@@ -196,6 +202,7 @@ export function migrate(raw: unknown): SaveData {
     equipped: { ...base.equipped, ...(s.equipped ?? {}) },
     academy: { ...base.academy, ...(s.academy ?? {}) },
     hq: { ...base.hq, ...(s.hq ?? {}) },
+    cup: { ...base.cup, ...(s.cup ?? {}) },
     version: SAVE_VERSION,
   } as SaveData;
   if (!Array.isArray(merged.owned)) merged.owned = base.owned;

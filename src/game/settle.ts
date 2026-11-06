@@ -8,8 +8,9 @@
 import { expectedScore, updateRating } from './rating';
 import { meritDelta, meritNeeded, ratingGate, seriesLength, rankInfo, arenaForRank, fastTrack } from './career';
 import { computePay, promotionBonus, type PayLine } from './economy';
+import { salary } from './career';
 import { newAchievements } from './achievements';
-import { emptyWLD, seasonKey, type ActiveMatch, type MatchSummary, type SaveData } from './state';
+import { emptyWLD, seasonKey, isRatedKind, CUP_ROUNDS, CUP_EVERY, type ActiveMatch, type MatchSummary, type SaveData } from './state';
 
 export interface SettlementReport {
   matchId: string;
@@ -36,6 +37,8 @@ export interface SettlementReport {
   dollars: number;
   achievements: { id: string; name: string; reward: number }[];
   accuracy?: number;
+  cupResult: 'advanced' | 'won' | 'eliminated' | null;
+  cupRound: number | null;
 }
 
 export function playerMoveCount(m: ActiveMatch): number {
@@ -54,7 +57,7 @@ export function settleMatch(
   const fin = match.finished;
   const score = fin.score;
   const opp = match.opponent;
-  const rated = match.kind === 'ranked' || match.kind === 'series';
+  const rated = isRatedKind(match.kind);
   const R0 = s.rating.r;
   const E = expectedScore(R0, opp.rating, opp.rd);
   const rankBefore = s.career.rank;
@@ -65,6 +68,7 @@ export function settleMatch(
   let seriesStarted = false;
   let seriesResult: SettlementReport['seriesResult'] = null;
   let gateBlocked: number | null = null;
+  let cupResult: SettlementReport['cupResult'] = null;
   const pay: PayLine[] = [];
   const pmoves = playerMoveCount(match);
   const arena = arenaForRank(rankBefore).index;
@@ -162,6 +166,22 @@ export function settleMatch(
         promoteTo(next);
       }
     }
+    // ----- arena cup -----
+    if (match.kind === 'cup' && s.cup.active) {
+      if (score === 1) {
+        s.cup.active.round++;
+        if (s.cup.active.round >= CUP_ROUNDS) {
+          s.cup.trophies.push({ arena: s.cup.active.arena, at: now });
+          pay.push({ key: 'cup', label: 'Arena Cup champion', amount: salary(rankBefore) * 25 });
+          cupResult = 'won';
+          s.cup.active = null;
+        } else cupResult = 'advanced';
+      } else {
+        s.cup.active = null;
+        cupResult = 'eliminated';
+      }
+    }
+    if (s.stats.rated.g % CUP_EVERY === 0) s.cup.tokens = Math.min(3, s.cup.tokens + 1);
     const rematchCount = s.rematch && s.rematch.oppId === opp.id ? s.rematch.count : 0;
     pay.unshift(
       ...computePay({
@@ -262,6 +282,8 @@ export function settleMatch(
       dollars: summary.dollars,
       achievements: ach.map((a) => ({ id: a.id, name: a.name, reward: a.reward })),
       accuracy: fin.accuracy,
+      cupResult,
+      cupRound: s.cup.active ? s.cup.active.round : null,
     },
   };
 }

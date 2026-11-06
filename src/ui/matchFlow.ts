@@ -39,5 +39,6 @@ export async function startMatch(kind: MatchKind, opponent: OpponentSpec, color?
 
 /** The kind of the next MATCH press: a promotion series game if one is pending. */
 export function nextKind(): MatchKind {
-  return getState().save.career.series ? 'series' : 'ranked';
+  const s = getState().save;
+  return s.career.series ? 'series' : s.cup.active ? 'cup' : 'ranked';
 }

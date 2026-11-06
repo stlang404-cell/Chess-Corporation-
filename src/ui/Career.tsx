@@ -5,7 +5,7 @@ import { isProvisional } from '../game/rating';
 import { STYLES, STYLE_IDS } from '../engine/ai';
 import { STORE, KIND_LABEL, canBuy, itemById, floorPrice, floorName, hqValue, type ItemKind } from '../game/store';
 import { ACHIEVEMENTS } from '../game/achievements';
-import { TIME_CONTROLS, newSave } from '../game/state';
+import { TIME_CONTROLS, newSave, isRatedKind } from '../game/state';
 import { exportSave, importSave, wipeSave } from '../game/storage';
 import { identityOf } from '../game/opponents';
 import { Bar, Card, CrestBadge, PlayerSeal, Segmented, money, motifUrl, TERMINATION_LABEL } from './common';
@@ -297,7 +297,7 @@ function History() {
             </span>
           </span>
           <span className={`h-delta ${h.ratingDelta >= 0 ? 'up' : 'down'}`}>
-            {h.kind === 'ranked' || h.kind === 'series' ? (h.ratingDelta >= 0 ? '+' : '') + h.ratingDelta : h.kind}
+            {isRatedKind(h.kind) ? (h.ratingDelta >= 0 ? '+' : '') + h.ratingDelta : h.kind}
           </span>
           <span className="h-money">{h.dollars ? money(h.dollars) : ''}</span>
         </li>
@@ -415,7 +415,17 @@ function Office() {
           <h2>{rankInfo(save.career.rank).full}</h2>
           <div className="muted">{arenaForRank(save.career.rank).name}</div>
           <div className="trophy-shelf">
-            {trophies.length ? trophies.map((t) => <span key={t.id} title={t.name} className="trophy">{t.data?.glyph}</span>) : <span className="muted small">Your shelf is empty — visit the store.</span>}
+            {save.cup.trophies.map((t, i) => (
+              <span key={'cup' + i} title={`${arenaInfo(t.arena).name} Cup`} className="trophy cup">
+                杯
+              </span>
+            ))}
+            {trophies.map((t) => (
+              <span key={t.id} title={t.name} className="trophy">
+                {t.data?.glyph}
+              </span>
+            ))}
+            {!trophies.length && !save.cup.trophies.length && <span className="muted small">Your shelf is empty — win an Arena Cup or visit the store.</span>}
           </div>
         </div>
       </Card>

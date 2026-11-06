@@ -236,6 +236,23 @@ describe('settlement', () => {
     for (let i = 0; i < 20; i++) s = settleMatch(s, fakeMatch('l' + i, 0, s.rating.r), i).save;
     expect(s.career.rank).toBe(3);
   });
+  it('arena cup: tokens accrue, three wins take the cup, a loss eliminates', () => {
+    let s = newSave(0);
+    for (let i = 0; i < 15; i++) s = settleMatch(s, fakeMatch('t' + i, 0.5, s.rating.r), i).save;
+    expect(s.cup.tokens).toBe(1);
+    s.cup.active = { arena: 0, round: 0 };
+    let r = settleMatch(s, fakeMatch('c1', 1, 1000, 40, 'cup'), 100);
+    expect(r.report!.cupResult).toBe('advanced');
+    r = settleMatch(r.save, fakeMatch('c2', 1, 1000, 40, 'cup'), 101);
+    const before = r.save.wallet.balance;
+    r = settleMatch(r.save, fakeMatch('c3', 1, 1000, 40, 'cup'), 102);
+    expect(r.report!.cupResult).toBe('won');
+    expect(r.save.cup.trophies.length).toBe(1);
+    expect(r.save.wallet.balance - before).toBeGreaterThan(1000);
+    const e = settleMatch({ ...r.save, cup: { ...r.save.cup, active: { arena: 0, round: 1 } } }, fakeMatch('c4', 0, 1000, 40, 'cup'), 103);
+    expect(e.report!.cupResult).toBe('eliminated');
+    expect(e.save.cup.active).toBeNull();
+  });
   it('casual games do not touch rating, rank or wallet', () => {
     const s0 = newSave(0);
     const s = settleMatch(s0, fakeMatch('c', 1, 1000, 40, 'casual'), 1).save;

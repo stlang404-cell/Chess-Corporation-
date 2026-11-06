@@ -316,3 +316,6 @@ mark { background: rgba(176, 141, 60, 0.35); color: inherit; }
 .hq-base { width: 70px; border-top: 3px solid var(--ink); font-size: 0.65rem; color: var(--stone); text-align: center; padding-top: 2px; }
 .hq-info { flex: 1; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
 .hq-info h3 { margin: 0; }
+
+.cup-btn { margin-top: 14px; border-color: var(--gold); color: #7a6431; }
+.trophy.cup { color: var(--gold); }

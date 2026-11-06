@@ -394,7 +394,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
           <div className="pb-name">{rank.full}</div>
           <div className="pb-sub">
             {Math.round(save.rating.r)}
-            {isProvisional(save.rating) ? '?' : ''} · {m.kind === 'series' && series ? `Promotion series ${series.games + 1}/${series.length}` : m.kind === 'ranked' ? 'Rated' : m.kind === 'training' ? 'Training' : 'Casual'}
+            {isProvisional(save.rating) ? '?' : ''} · {m.kind === 'series' && series ? `Promotion series ${series.games + 1}/${series.length}` : m.kind === 'ranked' ? 'Rated' : m.kind === 'cup' ? `Arena Cup · round ${(save.cup.active?.round ?? 0) + 1}/3` : m.kind === 'training' ? 'Training' : 'Casual'}
           </div>
         </div>
         <Captured list={captured[1 - playerColor]} set={pieceSet} />
@@ -581,6 +581,9 @@ function Results({ report, onClear }: { report: SettlementReport; onClear: () =>
           </div>
         </div>
         {report.promoted && <div className="banner promo-banner">Promoted to {rankInfo(report.rankAfter).full}</div>}
+        {report.cupResult === 'won' && <div className="banner promo-banner">Arena Cup champion — trophy added to your office</div>}
+        {report.cupResult === 'advanced' && <div className="banner series">Arena Cup: through to round {(report.cupRound ?? 0) + 1} of 3</div>}
+        {report.cupResult === 'eliminated' && <div className="banner warn">Knocked out of the Arena Cup</div>}
         {report.demoted && <div className="banner warn">Moved down to {rankInfo(report.rankAfter).full}</div>}
         {report.seriesStarted && report.series && (
           <div className="banner series">Promotion series unlocked — best of {report.series.length} for {rankInfo(report.series.targetRank).full}</div>
