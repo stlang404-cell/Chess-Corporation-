@@ -79,8 +79,8 @@ id: tactics-zwischenzug
 level: 3
 fen: r1b2kr/1pp1bp1/p2P2p/3n2P/P1N1B2/1P3P1/3RKBR w K - 1 15
 prompt: Black's knight on d4 is attacked, but so is White's d5-pawn. White to move and win two pieces.
-solution: dxe6+ Kxe6 Bc4+ Ke7 Bxd4
-explanation: The pawn takes the bishop on e6 with check. After the king recaptures, Bc4+ drives it back, and the knight on d4 falls to the e3-bishop. Two checks in a row win two pieces.
+solution: dxe6+ Kxe6
+explanation: The pawn takes the bishop on e6 with check, so Black has no time to save the knight. After the king recaptures, the knight on d4 is still hanging, and White collects it next (for example 2.Bc4+ Ke7 3.Bxd4). Two pieces for a pawn.
 ```
 
 ## Forks with the black pieces

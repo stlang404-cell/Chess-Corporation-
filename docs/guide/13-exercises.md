@@ -16,12 +16,12 @@ explanation: The rook runs up the open e-file to Black's back rank. The f6-pawn 
 ```
 
 ```exercise
-id: final-boxed-king
+id: final-queen-swing
 level: 1
-fen: 6Q/3R3/4nk1/4rpp/7/2K4/7 w - - 16 53
+fen: 2Q4/5p1/6k/3n2p/4r2/1K5/5R1 w - - 6 45
 prompt: White to move and mate in one.
-solution: Rf6#
-explanation: The rook checks on f6, protected by the queen. Black's own knight, rook and pawns occupy e5, e4, f4 and g4, and the queen and rook cover the rest.
+solution: Qg7#
+explanation: The queen swings along the seventh rank to g7 and checks down the g-file. The rook on f1 covers f4 and f5, and Black's own pawns on f6 and g4 take the king's last squares.
 ```
 
 ```exercise
@@ -58,7 +58,7 @@ id: final-open-c-file
 level: 2
 fen: r2qkb1/6r/1pb1pp1/p2p2p/3P2P/PP1BPPB/2RQK1R w Kq - 2 13
 prompt: White to move and win a piece.
-solution: Rxc5 Bxa2 Rxe5+
+solution: Rxc5 Bxa2
 explanation: The c-file is open, and the rook takes the bishop on c5. If Black grabs the a2-pawn, the rook takes on e5 with check as well.
 ```
 
@@ -67,7 +67,7 @@ id: final-rook-check-and-guard
 level: 2
 fen: 7/3R1pk/1P4p/r6/P4n1/7/K6 b - - 1 38
 prompt: Black to move. Win a pawn and stop the b-pawn.
-solution: Rxa3+ Kb2 Ra7
+solution: Rxa3+ Kb2
 explanation: The rook takes the a3-pawn with check, then drops to the seventh rank, where it watches b7, the b-pawn's promotion square.
 ```
 
@@ -104,14 +104,6 @@ explanation: The queen fences the black king onto the a-file, where it can only 
 
 ## Level 5: deep moves
 
-```exercise
-id: final-rook-switch
-level: 5
-fen: 7/3R1Q1/4n2/4k1p/5p1/2K4/4r2 w - - 2 54
-prompt: White to move. Black threatens ...Re2+ and ...f2. Find the move that wins.
-solution: Rb6
-explanation: The rook leaves the d-file to work along the sixth rank. The engine's main line is 1.Rb6 Re2+ 2.Kd1 Nc4 3.Re6+! Kd5 4.Rxe2 fxe2+ 5.Kxe2. The rook switches to the e-file with check and wins Black's rook, leaving White with queen against knight.
-```
 
 ```exercise
 id: final-king-walk

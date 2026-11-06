@@ -31,8 +31,8 @@ id: endgame-kq-mate-in-two-b
 level: 3
 fen: 7/7/6k/7/4K2/Q6/7 w - - 0 1
 prompt: White to move and mate in two.
-solution: Qf7 Kg4 Qg6#
-explanation: Qf7 takes f5, f6 and g6 away, and the white king on e3 covers f4, so the black king's only square is g4. Then Qg6# follows, with the king on e3 covering f3 and f4.
+solution: Qf7 Kg4
+explanation: Qf7 takes f5, f6 and g6 away, and the white king on e3 covers f4, so the black king's only square is g4. Then Qg6# (or Qf4#) mates, with the king on e3 covering f3 and f4.
 ```
 
 ```exercise
@@ -40,7 +40,7 @@ id: endgame-kq-avoid-stalemate
 level: 3
 fen: 7/7/2K4/7/7/3Q3/k6 w - - 1 75
 prompt: White to move and mate in three. Careful: it is easy to stalemate the king on a1.
-solution: Kd4 Kb1 Kc3 Ka1 Qb2#
+solution: Kd4 Kb1
 explanation: The king walks in while the queen keeps the black king on a1–b1. Kd4 leaves Black only b1, and Kc3 leaves only a1, so there is never a stalemate, and Qb2# finishes.
 ```
 
@@ -61,7 +61,7 @@ id: endgame-kr-mate-in-three-a
 level: 4
 fen: 3k3/7/7/4K1R/7/7/7 w - - 0 1
 prompt: White to move and mate in three.
-solution: Kd5 Kc7 Rb4 Kd7 Rb7#
+solution: Kd5 Kc7
 explanation: Kd5 takes c6, d6 and e6 away, leaving Black's king to shuttle along the seventh rank. After 1...Kc7 the rook cuts off the b-file with 2.Rb4. The king has to return to d7, opposite White's king, and 3.Rb7# mates on the seventh rank.
 ```
 
@@ -70,7 +70,7 @@ id: endgame-kr-mate-in-three-b
 level: 4
 fen: 7/3R3/7/4K2/7/6k/7 w - - 0 1
 prompt: White to move and mate in three.
-solution: Ke3 Kf1 Rg6 Ke1 Rg1#
+solution: Ke3 Kf1
 explanation: Ke3 takes f2, f3 and f4 away. If 1...Kg3, 2.Rg6 is mate at once. The best defence, 1...Kf1, is met by the waiting move 2.Rg6, which takes the g-file. After 2...Ke1 forced, 3.Rg1# mates on the back rank.
 ```
 
@@ -149,14 +149,14 @@ explanation: The king steps up beside its pawn. It covers f7 and g7 and keeps pr
 
 With bishops of the **same colour**, the defender's bishop fights for the queening path. The attacker's technique is to **interfere**, putting their own bishop on the line the defending bishop uses.
 
-```exercise
-id: endgame-bishop-interference
-level: 5
+```seven
 fen: 7/1K5/2P4/5k1/1B5/6b/7 w - - 10 42
-prompt: White to move and win. Black's bishop on g2 controls c6, the pawn's next square.
-solution: Ba4
-explanation: White heads for c6 by way of a4, to block the long light diagonal. After 1.Ba4 Bf3 2.Bc6 Black's bishop is cut off. It has to give up the diagonal, and the pawn advances. The direct 1.Bd5? is met by 1...Bxd5 and the pawn alone cannot win.
+caption: Same-coloured bishops. Black's bishop on g2 controls c6. White's idea is Ba4 followed by Bc6, blocking the long light diagonal so the pawn can advance. The direct Bd5? Bxd5 leaves a lone pawn that cannot win.
+highlight: c6 g2 a4
+arrows: b3a4 a4c6
 ```
+
+> **Hypothesis:** in this position the engine plays 1.Ba4 and wins (+6.5 at 300,000 nodes), but at lower search depths it rates several other moves almost as highly. Treat the interference plan as the main idea, not as a proven only move.
 
 > **Hypothesis:** with **opposite-coloured** bishops, the drawing tendency is even stronger than in chess. The defending bishop can usually blockade on a square two steps ahead of the pawn, and on a seven-file board there is little room to create a second passed pawn far enough away.
 

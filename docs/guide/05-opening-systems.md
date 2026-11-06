@@ -2,7 +2,7 @@
 
 This chapter names and describes the main opening systems of SEVEN. The names are this guide's own; SEVEN is too young for traditional ones. Every evaluation quoted comes from the SEVEN engine searching 300,000 nodes (roughly depth 9–11), always from **White's point of view**, in pawns.
 
-> **Established:** at this depth, differences under about 0.3 are within the engine's noise. Read every figure below as "roughly equal", "pleasant edge" or "clearly better", not as an exact verdict.
+> **Established:** in our tests, repeated searches of the same positions at slightly different depths moved by up to 0.2 pawns. Treat differences under about 0.3 as noise. Read every figure below as "roughly equal", "pleasant edge" or "clearly better", not as an exact verdict.
 
 ## How White's first moves rank
 

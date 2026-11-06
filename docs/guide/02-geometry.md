@@ -108,6 +108,6 @@ id: geometry-long-diagonal-skewer
 level: 2
 fen: 6r/p1p4/4k2/7/7/5PP/R1B3K w - - 0 1
 prompt: White to move and win material using the long diagonal.
-solution: Bb2+ Kd5 Bxg7
-explanation: The dark-squared bishop checks along the a1–g7 diagonal. When the king steps off the line, the bishop takes the rook on g7, a skewer along the longest line on the board.
+solution: Bb2+ Kd5
+explanation: The dark-squared bishop checks along the a1–g7 diagonal. When the king steps off the line, the bishop takes the rook on g7 next move: a skewer along the longest line on the board.
 ```

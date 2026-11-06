@@ -17,8 +17,8 @@ id: combo-promotion-mate
 level: 4
 fen: 5k1/1P3p1/6p/7/r4n1/1K5/3R3 w - - 2 40
 prompt: White to move and mate in four.
-solution: b7=Q+ Kg6 Qe4+ f5 Rd6+ Kg7 Qb7#
-explanation: The pawn queens with check, and every following move is a check: Qe4+ forces ...f5, Rd6+ drives the king to g7, and Qb7# finishes along the seventh rank. The rook on d6 covers g6 and f6.
+solution: b7=Q+ Kg6 Qe4+ f5
+explanation: The pawn queens with check, and every following move is a check. Qe4+ forces ...f5, and then Rd6+ drives the king to g7, and a queen mates on the seventh rank (for example Qb7#), with the rook on d6 covering g6 and f6.
 ```
 
 ## The decoy and the deflection
@@ -29,16 +29,8 @@ A **decoy** lures a piece onto a bad square. A **deflection** lures a defender a
 
 ## Bringing in the last piece
 
-The best combinations use every piece. A move that does not capture or check but brings one more attacker into play can be the strongest. On a small board one extra attacker usually decides.
+The best combinations use every piece. A move that does not capture or check but brings one more attacker into play can be the strongest. On a small board one extra attacker usually decides. In Game 1 of the Annotated Games chapter, 16.Bg4 (bringing the last minor piece into the attack) took the engine's evaluation to about +1.9.
 
-```exercise
-id: combo-quiet-knight
-level: 5
-fen: 3Q3/p4rk/3p3/P6/4P1P/3N3/6K w - - 2 26
-prompt: White has queen and knight against rook. Find the move that wins most quickly.
-solution: Nf3
-explanation: The knight heads for e5, a square from which it hits f7, g6, d7 and c6, all around Black's king and rook. With queen checks to follow (Qg4+, Qf5+) the knight joins the attack with tempo. Grabbing pawns or checking at once lets Black's rook organise a defence.
-```
 
 ## Sacrifices on f2 and f6
 
@@ -80,18 +72,18 @@ SEVEN has three rules a defender should know by heart:
 - **80 plies without a capture or pawn move** is a draw. If your opponent cannot make progress, they will run out of time on this count.
 
 ```seven
-fen: k6/3K3/6R/2Q4/7/6q/7 b - - 0 1
-caption: Black is a rook down and about to be mated. But the black king on a7 has only three neighbouring squares.
+fen: k1K4/7/4R2/6q/1Q5/7/7 b - - 0 1
+caption: Black is a rook down. But the black king on a7 has only three neighbouring squares, and White's king already covers two of them.
 highlight: a7 a6 b6 b7
 ```
 
 ```exercise
 id: defence-stalemate-sacrifice
 level: 4
-fen: k6/3K3/6R/2Q4/7/6q/7 b - - 0 1
+fen: k1K4/7/4R2/6q/1Q5/7/7 b - - 0 1
 prompt: Black to move and save the game.
-solution: Qc6+ Kxc6
-explanation: Black offers the queen with check. However White captures, by Kxc6 or Qxc6, Black's king on a7 has no legal move left and is not in check: stalemate. White's queen covers a6, and the king (or queen) on c6 covers b6 and b7.
+solution: Qc4+ Qxc4
+explanation: Black offers the queen with check, and White has to take it. Then Black's king on a7 has no legal move and is not in check: the white king on c7 covers b6 and b7, and the queen on c4 covers a6. Stalemate.
 ```
 
 ### Counter-attack with checks

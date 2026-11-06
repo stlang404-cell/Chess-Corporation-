@@ -108,8 +108,8 @@ id: king-mate-in-three
 level: 4
 fen: 3r3/4k2/1p2pb1/1q2B1p/1r1PP1P/5Q1/2R3K w - - 2 26
 prompt: White to move and mate in three.
-solution: Qxf5+ Ke7 Qxe5+ Kf7 Rf1#
-explanation: The queen first takes the f5-bishop with check, then the e5-pawn with check, driving the king to f7. Then the rook swings to f1. The queen covers e7, f6 and g7, the bishop on e4 covers g6, and nothing can block the f-file.
+solution: Qxf5+ Ke7
+explanation: The queen takes the f5-bishop with check. After 1...Ke7, one clean finish is 2.Qxe5+ Kf7 3.Rf1#: the queen covers e7, f6 and g7, the bishop on e4 covers g6, and nothing can block the f-file. (2.Rf1 also mates quickly. The key was the first capture, which strips the king's cover.)
 ```
 
 ## Summary
