@@ -146,6 +146,8 @@ export const TERMINATION_LABEL: Record<string, string> = {
   abandoned: 'by abandonment',
 };
 
+/** Move-animation duration. The OS "reduce motion" preference always wins (moves apply instantly). */
 export function animMsFor(speed: 'slow' | 'normal' | 'fast' | 'off'): number {
+  if (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches) return 0;
   return speed === 'off' ? 0 : speed === 'slow' ? 240 : speed === 'fast' ? 115 : 170;
 }

@@ -104,7 +104,7 @@ export function Board(props: BoardProps) {
   const animMs = props.animMs ?? 170;
   const dragEnabled = props.drag !== false;
   const [sel, setSel] = useState<number | null>(null);
-  const [drag, setDrag] = useState<{ from: number; x: number; y: number; moved: boolean } | null>(null);
+  const [drag, setDrag] = useState<{ from: number; ox: number; oy: number; x: number; y: number; moved: boolean } | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
   const [ghosts, setGhosts] = useState<(Placed & { delay: number })[]>([]);
   const ref = useRef<HTMLDivElement>(null);
@@ -204,14 +204,15 @@ export function Board(props: BoardProps) {
     if (legal!.has(i)) {
       setSel(i === sel && !drag ? null : i);
       if (dragEnabled) {
-        setDrag({ from: i, x: e.clientX, y: e.clientY, moved: false });
+        setDrag({ from: i, ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY, moved: false });
         (e.currentTarget as Element).setPointerCapture?.(e.pointerId);
       }
     } else setSel(null);
   };
   const onMoveP = (e: RPE) => {
     if (!drag) return;
-    const moved = drag.moved || Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 8;
+    // threshold measured from where the drag began (not the previous event), so slow drags register
+    const moved = drag.moved || Math.hypot(e.clientX - drag.ox, e.clientY - drag.oy) > 8;
     setDrag({ ...drag, x: e.clientX, y: e.clientY, moved });
   };
   const onUp = (e: RPE) => {
