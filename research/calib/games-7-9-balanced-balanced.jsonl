@@ -24,3 +24,7 @@
 {"a":"7:balanced","b":"9:balanced","scoreA":1,"aWhite":false,"term":"checkmate","plies":78}
 {"a":"7:balanced","b":"9:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":154}
 {"a":"7:balanced","b":"9:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":77}
+{"a":"7:balanced","b":"9:balanced","scoreA":1,"aWhite":true,"term":"checkmate","plies":87}
+{"a":"7:balanced","b":"9:balanced","scoreA":1,"aWhite":false,"term":"checkmate","plies":40}
+{"a":"7:balanced","b":"9:balanced","scoreA":1,"aWhite":true,"term":"checkmate","plies":177}
+{"a":"7:balanced","b":"9:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":53}

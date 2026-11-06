@@ -90,11 +90,11 @@ SEVEN uses standard algebraic notation on the smaller board. Files run a–g and
 
 ## What the statistics say
 
-The official ruleset was chosen from five candidates by large-scale engine self-play. Under SEVEN-1.0, White scored about **53.7%** with roughly **21% draws**.
+The official ruleset was chosen from five candidates by engine self-play (see the project's research notes). Under SEVEN-1.0, White scored **53.7%** (±8.9 at 95% confidence, 120 games at club-level search depth), with **21% draws**, the lowest draw rate of all the candidates.
 
-> **Established:** in engine self-play White has a small but real first-move advantage, and decisive games are the norm. Expect four out of five serious games to have a winner.
+> **Established:** decisive games are the norm. In the rules study about four games in five had a winner, and most of those ended in checkmate.
 
-> **Hypothesis:** the first-move edge matters more in SEVEN than in chess, because contact comes so quickly. Playing Black, your first priority is to neutralise White's initiative, not to unbalance the game at once.
+> **Hypothesis:** White has a small first-move advantage, comparable to chess. The measured 53.7% fits this, but the confidence interval still includes 50%. Contact comes so quickly in SEVEN that, as Black, your first job is to neutralise White's initiative.
 
 ## Exercise: first contact
 
