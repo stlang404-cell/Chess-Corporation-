@@ -37,7 +37,7 @@ arrows: e3d4 c5d4
 ```game
 title: The Cross, main line
 moves: 1. d4 c5 2. e3 cxd4 3. exd4 d5 4. Be2 Nd6 5. O-O
-notes: 2:2.e3 keeps the tension and prepares Be2 and O-O. | 3b:Black's d-pawn steps forward to blockade the isolated d4-pawn. | 5:White castles on move five with a comfortable, slightly freer game.
+notes: 2:2.e3 keeps the tension and prepares Be2 and O-O. | 3b:Black blockades the d4-pawn and opens the diagonal of the c7-bishop. | 5:White castles on move five with a comfortable, slightly freer game.
 ```
 
 ### The Hook: 1...g4

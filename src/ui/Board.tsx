@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent as RPE } from 'react';
+import { useEffect, useMemo, useRef, useState, type PointerEvent as RPE, type KeyboardEvent as RKE } from 'react';
 import { PieceSvg } from './pieces';
 
 /** Board squares are indexed 0..48 = rank*7 + file (a1 = 0, g7 = 48). */
@@ -68,6 +68,7 @@ export function Board(props: BoardProps) {
   const { cells, flipped, legal, onMove, lastMove, checkSq, theme, pieceSet, coordinates = true, animate = true, small } = props;
   const [sel, setSel] = useState<number | null>(null);
   const [drag, setDrag] = useState<{ from: number; x: number; y: number } | null>(null);
+  const [cursor, setCursor] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const placedRef = useRef<Placed[]>([]);
   const placed = useMemo(() => {
@@ -130,6 +131,27 @@ export function Board(props: BoardProps) {
     if (i >= 0 && i !== from) tryMove(from, i);
   };
 
+  const onKey = (e: RKE) => {
+    if (!legal || !onMove) return;
+    const cur = cursor ?? (flipped ? 45 : 3);
+    let f = cur % 7;
+    let r = Math.floor(cur / 7);
+    const up = flipped ? -1 : 1;
+    if (e.key === 'ArrowUp') r += up;
+    else if (e.key === 'ArrowDown') r -= up;
+    else if (e.key === 'ArrowLeft') f -= flipped ? -1 : 1;
+    else if (e.key === 'ArrowRight') f += flipped ? -1 : 1;
+    else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (sel !== null && sel !== cur && tryMove(sel, cur)) return;
+      setSel(legal.has(cur) ? cur : null);
+      return;
+    } else if (e.key === 'Escape') return setSel(null);
+    else return;
+    e.preventDefault();
+    setCursor(Math.max(0, Math.min(6, r)) * 7 + Math.max(0, Math.min(6, f)));
+  };
+
   const dragOffset = (() => {
     if (!drag || !ref.current) return null;
     const rect = ref.current.getBoundingClientRect();
@@ -149,6 +171,7 @@ export function Board(props: BoardProps) {
       if (sel === i) cls.push('sel');
       if (checkSq === i) cls.push('check');
       if (props.highlights?.includes(i)) cls.push('hl');
+      if (cursor === i) cls.push('cursor');
       squares.push(
         <div key={i} className={cls.join(' ')} style={{ background: dark ? theme.dark : theme.light }} data-sq={sqName(i)}>
           {coordinates && !small && x === 0 && <span className="coord rank">{r + 1}</span>}
@@ -168,6 +191,9 @@ export function Board(props: BoardProps) {
       onPointerUp={onUp}
       role="grid"
       aria-label={props.label ?? 'SEVEN board'}
+      tabIndex={legal && onMove ? 0 : undefined}
+      onKeyDown={onKey}
+      onBlur={() => setCursor(null)}
     >
       {squares}
       {placed.map((p) => {

@@ -319,3 +319,6 @@ mark { background: rgba(176, 141, 60, 0.35); color: inherit; }
 
 .cup-btn { margin-top: 14px; border-color: var(--gold); color: #7a6431; }
 .trophy.cup { color: var(--gold); }
+.sq.cursor::after { content: ''; position: absolute; inset: 2px; border: 2px dashed var(--verm); }
+.board:focus { outline: none; }
+.board:focus-visible { outline: 2px solid var(--verm); outline-offset: 3px; }

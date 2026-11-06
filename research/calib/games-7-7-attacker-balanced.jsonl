@@ -11,3 +11,4 @@
 {"a":"7:attacker","b":"7:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":22}
 {"a":"7:attacker","b":"7:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":113}
 {"a":"7:attacker","b":"7:balanced","scoreA":1,"aWhite":true,"term":"checkmate","plies":81}
+{"a":"7:attacker","b":"7:balanced","scoreA":0.5,"aWhite":false,"term":"quiet-limit","plies":171}
