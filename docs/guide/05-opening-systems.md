@@ -149,7 +149,7 @@ Long castling takes three preparatory moves (Nc3, a bishop move, a queen move) a
 
 ```exercise
 id: openings-rook-on-g3
-level: 3
+level: 2
 fen: rnbqkbr/p1p1pp1/1p4p/3p2P/3P2R/PPPBPP1/RN1QKB1 b Qkq - 1 5
 prompt: White's rook has wandered to g3. Black to move wins material.
 solution: Bxg3 fxg3
