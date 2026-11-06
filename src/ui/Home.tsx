@@ -46,12 +46,16 @@ export function Home() {
         </div>
       </header>
 
-      <section className="hero">
+      <section className="hero" style={{ ['--accent' as string]: arena.accent }}>
         <Insignia rank={save.career.rank} family={fam} size={92} />
         <h1 className="rank-title">{rank.title}</h1>
         <div className="rank-sub">
           Grade {rank.gradeLabel} · {rank.stage === 'institution' ? rank.employer : rank.appointment.split(' · ')[0]}
         </div>
+        <span className="arena-chip" style={{ ['--accent' as string]: arena.accent }}>
+          <b>{arena.kanji}</b>
+          {arena.name}
+        </span>
       </section>
 
       <section className="stat-row" aria-label="Your standing">
@@ -87,7 +91,7 @@ export function Home() {
       </section>
 
       <div className="match-wrap">
-        <button className={`match-btn ${opp ? 'busy' : ''}`} onClick={onMatch} aria-label={active ? 'Resume game' : 'Match'}>
+        <button className={`match-btn ${opp ? 'busy' : ''}`} onClick={onMatch} aria-label={active ? 'Resume game' : 'Match'} style={{ ['--accent' as string]: arena.accent }}>
           <svg className="match-ring" viewBox="0 0 120 120" aria-hidden>
             <circle cx="60" cy="60" r="56" className="ring-bg" />
             <circle cx="60" cy="60" r="56" className="ring-fg" style={{ strokeDasharray: `${progress * 351.9} 351.9` }} />

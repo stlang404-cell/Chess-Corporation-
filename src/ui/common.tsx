@@ -147,5 +147,5 @@ export const TERMINATION_LABEL: Record<string, string> = {
 };
 
 export function animMsFor(speed: 'slow' | 'normal' | 'fast' | 'off'): number {
-  return speed === 'off' ? 0 : speed === 'slow' ? 320 : speed === 'fast' ? 110 : 200;
+  return speed === 'off' ? 0 : speed === 'slow' ? 240 : speed === 'fast' ? 115 : 170;
 }

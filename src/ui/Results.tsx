@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useApp, setState } from './appState';
+import { useApp, setState, getState } from './appState';
+import { playSound } from './sound';
 import { rankInfo, rankLine, salary, arenaForRank, meritNeeded, ratingGate, seriesLength } from '../game/career';
 import type { SettlementReport } from '../game/settle';
 import { money, TERMINATION_LABEL } from './common';
@@ -123,12 +124,18 @@ export function Results({ report, onClear }: { report: SettlementReport; onClear
           </div>
         )}
 
+        {report.review && <ReviewStrip report={report} />}
+        {report.contracts.length > 0 && report.contracts.map((c) => <div key={c} className="banner contract">Contract fulfilled · {c}</div>)}
         {lines.length > 0 ? (
-          <ul className="pay" aria-label="Payout">
+          <ul className="pay" aria-label="Paycheck">
+            <li className="pay-head">
+              <span>Paycheck</span>
+              <span className="muted small">{save.history[0]?.payFormula ?? ''}</span>
+            </li>
             {lines.map((l, i) => (
-              <li key={i} style={{ animationDelay: `${120 + i * 90}ms` }}>
+              <li key={i} className={l.amount < 0 ? 'minus' : ['great', 'brilliant', 'accuracy', 'defence', 'stood'].includes(l.key) ? 'plus-quality' : ''} style={{ animationDelay: `${120 + i * 90}ms` }}>
                 <span>{l.label}</span>
-                <span>{money(l.amount)}</span>
+                <span>{l.amount < 0 ? '−' + money(-l.amount) : money(l.amount)}</span>
               </li>
             ))}
             <li className="total">
@@ -164,7 +171,7 @@ export function Results({ report, onClear }: { report: SettlementReport; onClear
                 setState({ tab: 'academy', academyIntent: { kind: 'review', matchId: report.matchId } });
               }}
             >
-              Review
+              Full review
             </button>
           </div>
         </div>
@@ -176,6 +183,9 @@ export function Results({ report, onClear }: { report: SettlementReport; onClear
 /** Promotion ceremony. Minor: a quick seal stamp. Major: insignia reveal with the full appointment. */
 export function Ceremony(p: { major: boolean; style: string; rankBefore: number; rankAfter: number; family: string; bonus: number; newArena: string | null; onDone: () => void }) {
   const after = rankInfo(p.rankAfter, p.family);
+  useEffect(() => {
+    if (p.major) playSound('promotion', getState().save.settings);
+  }, [p.major]);
   const salaryUp = salary(p.rankAfter) - salary(p.rankBefore);
   useEffect(() => {
     if (p.major) return;
@@ -243,6 +253,30 @@ export function Ceremony(p: { major: boolean; style: string; rankBefore: number;
       <button className="skip" onClick={p.onDone}>
         Skip
       </button>
+    </div>
+  );
+}
+
+const Q_ORDER = ['brilliant', 'great', 'best', 'excellent', 'good', 'inaccuracy', 'mistake', 'blunder'] as const;
+const Q_LABEL: Record<string, string> = { brilliant: 'Brilliant', great: 'Great', best: 'Best', excellent: 'Excellent', good: 'Good', inaccuracy: 'Inaccuracy', mistake: 'Mistake', blunder: 'Blunder' };
+
+function ReviewStrip({ report }: { report: SettlementReport }) {
+  const r = report.review!.summary;
+  const key = Q_ORDER.filter((q) => r.counts[q] > 0);
+  return (
+    <div className="review-strip" aria-label="Game review">
+      <div className="rs-acc">
+        <span className="rs-num">{Math.round(r.accuracy)}%</span>
+        <span className="muted small">accuracy</span>
+      </div>
+      <div className="rs-chips">
+        {key.map((q) => (
+          <span key={q} className={`qchip q-${q}`}>
+            {r.counts[q]} {Q_LABEL[q]}
+          </span>
+        ))}
+        {r.missedWins > 0 && <span className="qchip q-miss">{r.missedWins} missed win{r.missedWins > 1 ? 's' : ''}</span>}
+      </div>
     </div>
   );
 }

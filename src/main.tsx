@@ -3,8 +3,13 @@ import { App } from './ui/App';
 import { boot, setState } from './ui/appState';
 import './ui/styles.css';
 
-boot();
-createRoot(document.getElementById('root')!).render(<App />);
+import { Gallery } from './ui/Gallery';
+
+if (new URLSearchParams(location.search).has('gallery')) createRoot(document.getElementById('root')!).render(<Gallery />);
+else {
+  boot();
+  createRoot(document.getElementById('root')!).render(<App />);
+}
 
 // Offline support: register the service worker on http(s) production builds.
 // A new version waits until the player chooses to reload (update banner), so a

@@ -257,7 +257,7 @@ function hash32(n: number) {
   n = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
   return (n ^ (n >>> 16)) >>> 0;
 }
-const ACCENTS = ['#8a8478', '#5b7083', '#7a6a55', '#4f5d6b', '#5f7259', '#6b5b73', '#8c6a3c', '#3f5a5a', '#a8412e', '#5d6b3f', '#2f3b4c', '#8a6d2f', '#9b3b2a', '#4b4f56', '#6d6a8a', '#35553f', '#b08d3c'];
+const ACCENTS = ['#2e3a6e', '#2f7d5b', '#6d4a6b', '#3b6ea8', '#a0662e', '#1f7a7a', '#8e3b5a', '#5d7189', '#b8432c', '#4f7a68', '#5b4a8e', '#a5853f', '#3d6593', '#7a4f7a', '#2f5d4f', '#9b3b2a', '#4a5b9a'];
 
 export function arenaInfo(iIn: number): ArenaDef {
   const i = clampRank(iIn);

@@ -7,10 +7,11 @@
  */
 import { expectedScore, updateRating } from './rating';
 import { meritDelta, meritNeeded, ratingGate, seriesLength, rankInfo, rankLine, arenaForRank, fastTrack, MAX_RANK } from './career';
-import { computePay, promotionBonus, type PayLine } from './economy';
+import { computePay, computePayV3, PAY_FORMULA, promotionBonus, type PayLine } from './economy';
+import { freshContracts, advanceContracts, makeContract } from './contracts';
 import { salary } from './career';
 import { newAchievements } from './achievements';
-import { emptyWLD, seasonKey, isRatedKind, CUP_ROUNDS, CUP_EVERY, type ActiveMatch, type MatchSummary, type SaveData } from './state';
+import { emptyWLD, seasonKey, type CompactReview, isRatedKind, CUP_ROUNDS, CUP_EVERY, type ActiveMatch, type MatchSummary, type SaveData } from './state';
 
 export interface SettlementReport {
   matchId: string;
@@ -38,6 +39,8 @@ export interface SettlementReport {
   achievements: { id: string; name: string; reward: number }[];
   accuracy?: number;
   cupResult: 'advanced' | 'won' | 'eliminated' | null;
+  contracts: string[];
+  review: CompactReview | null;
   cupRound: number | null;
 }
 
@@ -69,6 +72,7 @@ export function settleMatch(
   let seriesResult: SettlementReport['seriesResult'] = null;
   let gateBlocked: number | null = null;
   let cupResult: SettlementReport['cupResult'] = null;
+  const completedContracts: string[] = [];
   const pay: PayLine[] = [];
   const pmoves = playerMoveCount(match);
   const arena = arenaForRank(rankBefore).index;
@@ -189,19 +193,59 @@ export function settleMatch(
     }
     if (s.stats.rated.g % CUP_EVERY === 0) s.cup.tokens = Math.min(3, s.cup.tokens + 1);
     const rematchCount = s.rematch && s.rematch.oppId === opp.id ? s.rematch.count : 0;
-    pay.unshift(
-      ...computePay({
-        rank: rankBefore,
-        score,
-        expected: E,
-        playerRating: R0,
-        oppRating: opp.rating,
-        playerMoves: pmoves,
-        accuracy: fin.accuracy,
-        rematchCount,
-        rated,
-      }),
-    );
+    const payInput = { rank: rankBefore, score, expected: E, playerRating: R0, oppRating: opp.rating, playerMoves: pmoves, accuracy: fin.accuracy, rematchCount, rated };
+    const review = fin.review?.summary ?? null;
+    pay.unshift(...(review ? computePayV3(payInput, review) : computePay(payInput)));
+
+    // ----- review-driven stats, contracts, records, honours -----
+    if (review && pmoves >= 15) {
+      s.stats.reviewed++;
+      s.stats.brilliants += review.counts.brilliant;
+      s.stats.greats += review.counts.great;
+      if (score >= 0.5 && review.minWin <= 25) s.stats.defences++;
+    }
+    if (!s.contracts.active.length) {
+      s.contracts.active = freshContracts(s.contracts.issued, R0, rankBefore);
+      s.contracts.issued += 3;
+    }
+    const isRival = (s.opponents[String(opp.id)]?.g ?? 0) >= 3;
+    const done = advanceContracts(s.contracts.active, {
+      rated,
+      playerMoves: pmoves,
+      review,
+      score,
+      color: match.playerColor,
+      ratingGap: opp.rating - R0,
+      rival: isRival,
+      seriesGame: match.kind === 'series',
+    });
+    for (const c of done) {
+      pay.push({ key: 'contract', label: `Contract fulfilled: ${c.label}`, amount: c.reward });
+      completedContracts.push(c.label);
+      s.contracts.completed++;
+      const kinds = s.contracts.active.filter((x) => x !== c).map((x) => x.kind);
+      s.contracts.active[s.contracts.active.indexOf(c)] = makeContract(s.contracts.issued++, s.rating.r, s.career.rank, kinds);
+    }
+    const rec = s.records;
+    const label = `vs ${opp.name} (${opp.rating})`;
+    if (review && pmoves >= 15 && (!rec.bestAccuracy || review.accuracy > rec.bestAccuracy.value))
+      rec.bestAccuracy = { value: Math.round(review.accuracy * 10) / 10, label, matchId: match.id, at: now };
+    if (score === 1 && opp.rating - R0 > (rec.biggestUpset?.value ?? 0)) rec.biggestUpset = { value: Math.round(opp.rating - R0), label, matchId: match.id, at: now };
+    if (score === 1 && fin.termination === 'checkmate' && (!rec.fastestMate || pmoves < rec.fastestMate.value)) rec.fastestMate = { value: pmoves, label, matchId: match.id, at: now };
+    if (review && score === 1 && pmoves >= 15) {
+      const quality = review.accuracy + 10 * review.counts.brilliant + 3 * review.counts.great + Math.max(0, opp.rating - R0) / 20;
+      if (!rec.bestGame || quality > rec.bestGame.value) rec.bestGame = { value: Math.round(quality), label, matchId: match.id, at: now };
+    }
+    // rare distinctions (honours, separate from titles and rating)
+    const honour = (id: string, name: string) => {
+      if (!s.honors.some((h) => h.id === id)) s.honors.push({ id, name, at: now, kind: 'distinction' });
+    };
+    if (s.stats.brilliants >= 7) honour('order-seven-pines', 'Order of the Seven Pines — seven verified brilliant moves');
+    if (review && score === 1 && pmoves >= 20 && review.accuracy >= 95) honour('golden-ledger', 'Golden Ledger — a win with 95%+ accuracy');
+    if (s.stats.defences >= 5) honour('iron-defence', 'Iron Defence — five games saved from clearly worse positions');
+    if (score === 1 && opp.rating - R0 >= 300) honour('giant-slayer', 'Giant Slayer — defeated an opponent rated 300+ above');
+    if (s.contracts.completed >= 10) honour('contractor', 'Contractor of Distinction — ten performance contracts');
+    if (s.stats.bestStreak >= 10) honour('perfect-quarter', 'Perfect Quarter — ten rated wins in a row');
   }
 
   const summary: MatchSummary = {
@@ -220,7 +264,9 @@ export function settleMatch(
     dollars: 0,
     arena,
     moves: match.moves.slice(),
-    accuracy: fin.accuracy,
+    accuracy: fin.review?.summary.accuracy ?? fin.accuracy,
+    review: fin.review,
+    payFormula: rated ? (fin.review ? PAY_FORMULA : 'pay-2') : undefined,
   };
 
   // achievements (evaluated after stats update)
@@ -239,6 +285,7 @@ export function settleMatch(
     else s.finance.matchEarnings += l.amount;
   }
   s.finance.bestMatch = Math.max(s.finance.bestMatch, dollars);
+  if (rated && dollars > (s.records.largestPaycheck?.value ?? 0)) s.records.largestPaycheck = { value: dollars, label: `vs ${opp.name}`, matchId: match.id, at: now };
   if (rated && s.stats.rated.g % 250 === 0)
     s.honors.push({ id: `service-${s.stats.rated.g}`, name: `Long Service Award — ${s.stats.rated.g.toLocaleString('en-US')} rated matches`, at: now, kind: 'service' });
   summary.dollars = dollars;
@@ -308,6 +355,8 @@ export function settleMatch(
       dollars: summary.dollars,
       achievements: ach.map((a) => ({ id: a.id, name: a.name, reward: a.reward })),
       accuracy: fin.accuracy,
+      contracts: completedContracts,
+      review: fin.review ?? null,
       cupResult,
       cupRound: s.cup.active ? s.cup.active.round : null,
     },

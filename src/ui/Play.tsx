@@ -21,6 +21,7 @@ import { itemById } from '../game/store';
 import { toPgn } from '../game/pgn';
 import { Icon } from './icons';
 import { Results } from './Results';
+import { compactReview } from '../game/review';
 
 const toIdx = (s: number) => rankOf(s) * 7 + fileOf(s);
 const toSq = (i: number) => sq(i % 7, Math.floor(i / 7));
@@ -133,7 +134,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   const finish = useCallback(
     (cur: ActiveMatch, scoreWhite: number, termination: Termination) => {
       const score = (playerColor === WHITE ? scoreWhite : 1 - scoreWhite) as 0 | 0.5 | 1;
-      playSound('end', getState().save.settings.sound);
+      playSound(score === 1 ? 'win' : score === 0 ? 'loss' : 'draw', getState().save.settings);
       return persist({ ...cur, finished: { score, termination, endedAt: Date.now() } });
     },
     [persist, playerColor],
@@ -152,7 +153,8 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
       turnStart.current = now;
       const isCap = p.board[mTo(mv)] !== 0;
       p.make(mv);
-      playSound(p.inCheck() ? 'check' : isCap ? 'capture' : 'move', getState().save.settings.sound);
+      const castle = (mv >> 17) === 3;
+      playSound(p.inCheck() ? 'check' : isCap ? 'capture' : castle ? 'castle' : 'move', getState().save.settings);
       const next: ActiveMatch = { ...cur, moves: [...cur.moves, uci], clocks };
       setHint(null);
       const out = boardOutcome(p);
@@ -220,19 +222,27 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
     (async () => {
       setSettling('Reviewing your game…');
       let accuracy: number | undefined = m.finished!.accuracy;
+      let review = m.finished!.review;
       const pm = playerColor === 0 ? Math.ceil(m.moves.length / 2) : Math.floor(m.moves.length / 2);
-      if (accuracy === undefined && pm >= 15) {
+      if (!review && pm >= 10) {
+        // Every completed rated match gets a full engine review (fixed standard, both sides).
         try {
-          const res = await Promise.race([analyst.analyze(m.moves, playerColor, 9000), new Promise<null>((r) => setTimeout(() => r(null), 12000))]);
-          if (res) accuracy = res.accuracy;
-          else analyst.reset();
+          const deadline = new Promise<null>((r) => setTimeout(() => r(null), 45000));
+          const res = await Promise.race([
+            analyst.analyze(m.moves, playerColor, 12000, (p) => setSettling(`Reviewing your game · ${Math.round(p * 100)}%`)),
+            deadline,
+          ]);
+          if (res) {
+            review = compactReview(res.moves, playerColor);
+            accuracy = review.summary.accuracy;
+          } else analyst.reset();
         } catch {
-          /* no performance bonus without analysis */
+          /* settle without a review: the v0.2 paycheck applies */
         }
       }
       if (cancelled) return;
       const cur = getState().save;
-      const match: ActiveMatch = { ...(cur.active ?? m), finished: { ...m.finished!, accuracy } };
+      const match: ActiveMatch = { ...(cur.active ?? m), finished: { ...m.finished!, accuracy, review } };
       const { save: next, report: rep, duplicate } = settleMatch(cur, match);
       if (!duplicate) await commit(next);
       setSettling(null);
@@ -338,7 +348,7 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
   };
   const lastUci = m.moves[m.moves.length - 1];
   const lastMove: [number, number] | null = lastUci ? [sqIndex(lastUci.slice(0, 2)), sqIndex(lastUci.slice(2, 4))] : null;
-  const checkSq = pos.inCheck() ? toIdx(pos.kingSq[pos.side]) : null;
+  const checkSq = pos.inCheck() && m.finished?.termination !== 'checkmate' ? toIdx(pos.kingSq[pos.side]) : null;
   const captured = capturedPieces(pos);
   const theme = boardTheme(save);
   const pieceSet = save.equipped.pieces;
@@ -406,6 +416,9 @@ function MatchView({ m, report, casualResult, onReport, onCasual, onClear }: MVP
               showLegal={save.settings.showLegal}
               highContrast={save.settings.highContrast}
               arrows={hint ? [hint] : undefined}
+              drag={save.settings.dragPieces}
+              mateSq={m.finished?.termination === 'checkmate' ? toIdx(pos.kingSq[pos.side]) : null}
+              effects={lastUci && lastUci.length === 5 ? [{ sq: sqIndex(lastUci.slice(2, 4)), kind: 'promotion' }] : undefined}
             />
             {promo && (
               <div className="promo-pick" role="dialog" aria-label="Choose a promotion piece">

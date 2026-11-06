@@ -1,0 +1,5 @@
+{"a":"22:balanced","b":"24:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":158}
+{"a":"22:balanced","b":"24:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":151}
+{"a":"22:balanced","b":"24:balanced","scoreA":0.5,"aWhite":true,"term":"repetition","plies":99}
+{"a":"22:balanced","b":"24:balanced","scoreA":0.5,"aWhite":false,"term":"repetition","plies":83}
+{"a":"22:balanced","b":"24:balanced","scoreA":1,"aWhite":true,"term":"checkmate","plies":121}

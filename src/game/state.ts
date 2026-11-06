@@ -3,8 +3,10 @@ import { START_RATING } from './rating';
 import { migrateCareerV1 } from './migrateV1';
 import type { StyleId } from '../engine/ai';
 import type { Termination } from '../engine/game';
+import type { ReviewSummary } from '../engine/analysis';
+import type { Contract } from './contracts';
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 
 export type MatchKind = 'ranked' | 'series' | 'cup' | 'casual' | 'training';
 export const isRatedKind = (k: MatchKind) => k === 'ranked' || k === 'series' || k === 'cup';
@@ -51,10 +53,21 @@ export interface ActiveMatch {
   startedAt: number;
   seed: number;
   /** set when the game is over but not yet settled */
-  finished?: { score: 0 | 0.5 | 1; termination: Termination; endedAt: number; accuracy?: number };
+  finished?: { score: 0 | 0.5 | 1; termination: Termination; endedAt: number; accuracy?: number; review?: CompactReview };
   drawOffers: number;
   undos: number;
 }
+
+export interface CompactReview {
+  standard: string;
+  summary: ReviewSummary;
+  q: string;
+  e: number[];
+  b: string[];
+  w: number[];
+}
+export const Q_CODE: Record<string, string> = { brilliant: 'B', great: 'G', best: '*', excellent: 'E', good: 'g', inaccuracy: 'i', mistake: 'm', blunder: 'b' };
+export const Q_NAME: Record<string, string> = Object.fromEntries(Object.entries(Q_CODE).map(([k, v]) => [v, k]));
 
 export interface MatchSummary {
   id: string;
@@ -73,6 +86,10 @@ export interface MatchSummary {
   arena: number;
   moves: string[];
   accuracy?: number;
+  /** compact engine review (standard rev-3): q = quality codes per ply, e = eval (white, cp), b = best SAN, w = [winBefore, winAfter] per ply */
+  review?: CompactReview;
+  /** payout formula used when this match was settled */
+  payFormula?: string;
 }
 
 export interface WLD {
@@ -112,6 +129,14 @@ export interface SaveData {
   };
   /** honours: distinctions separate from job titles (cups, board seats, seals) */
   honors: { id: string; name: string; at: number; kind: 'cup' | 'board' | 'service' | 'season' | 'distinction' }[];
+  contracts: { active: Contract[]; issued: number; completed: number };
+  records: {
+    bestAccuracy: RecordEntry | null;
+    biggestUpset: RecordEntry | null;
+    largestPaycheck: RecordEntry | null;
+    fastestMate: RecordEntry | null;
+    bestGame: RecordEntry | null;
+  };
   finance: { matchEarnings: number; promotionBonuses: number; prizes: number; achievementRewards: number; bestMatch: number; purchases: number };
   wallet: { balance: number; lifetime: number; spent: number };
   stats: {
@@ -128,6 +153,10 @@ export interface SaveData {
     accuracySum: number;
     accuracyN: number;
     seasons: Record<string, { peak: number; games: number; wins: number }>;
+    brilliants: number;
+    greats: number;
+    defences: number;
+    reviewed: number;
   };
   history: MatchSummary[];
   opponents: Record<string, { id: number; tier: number; style: StyleId; name: string; rating: number } & WLD & { last: number }>;
@@ -148,6 +177,10 @@ export interface SaveData {
     highContrast: boolean;
     flipBoard: boolean;
     onboarded: boolean;
+    /** sound volumes 0–1, adjustable independently */
+    moveVolume: number;
+    effectsVolume: number;
+    dragPieces: boolean;
   };
   settled: string[];
   active: ActiveMatch | null;
@@ -163,6 +196,13 @@ export interface SaveData {
   hq: { floors: number };
   /** Arena Cup: a 3-round rated gauntlet; one entry token per CUP_EVERY rated games (max 3) */
   cup: { tokens: number; active: { arena: number; round: number } | null; trophies: { arena: number; at: number }[] };
+}
+
+export interface RecordEntry {
+  value: number;
+  label: string;
+  matchId: string;
+  at: number;
 }
 
 export function newSave(now = Date.now()): SaveData {
@@ -190,14 +230,18 @@ export function newSave(now = Date.now()): SaveData {
       accuracySum: 0,
       accuracyN: 0,
       seasons: {},
+      brilliants: 0,
+      greats: 0,
+      defences: 0,
+      reviewed: 0,
     },
     history: [],
     opponents: {},
     achievements: {},
-    owned: ['board.ivory', 'pieces.ink', 'portrait.ink', 'crest.plain', 'frame.none', 'office.plain', 'ceremony.ink', 'entrance.fade'],
+    owned: ['board.ivory', 'pieces.imperial', 'pieces.modern', 'pieces.executive', 'pieces.ink', 'portrait.ink', 'crest.plain', 'frame.none', 'office.plain', 'ceremony.ink', 'entrance.fade'],
     equipped: {
       board: 'board.ivory',
-      pieces: 'pieces.ink',
+      pieces: 'pieces.imperial',
       portrait: 'portrait.ink',
       crest: 'crest.plain',
       frame: 'frame.none',
@@ -218,6 +262,9 @@ export function newSave(now = Date.now()): SaveData {
       highContrast: false,
       flipBoard: false,
       onboarded: false,
+      moveVolume: 0.6,
+      effectsVolume: 0.5,
+      dragPieces: true,
     },
     settled: [],
     active: null,
@@ -225,6 +272,8 @@ export function newSave(now = Date.now()): SaveData {
     lastPlayedAt: 0,
     academy: { solved: {}, readChapters: {}, puzzle: { rating: 1000, rd: 250, vol: 0.06, attempts: 0, solved: 0, streak: 0, best: 0, done: {} } },
     hq: { floors: 0 },
+    contracts: { active: [], issued: 0, completed: 0 },
+    records: { bestAccuracy: null, biggestUpset: null, largestPaycheck: null, fastestMate: null, bestGame: null },
     cup: { tokens: 0, active: null, trophies: [] },
   };
 }
@@ -248,6 +297,8 @@ export function migrate(raw: unknown): SaveData {
     hq: { ...base.hq, ...(s.hq ?? {}) },
     cup: { ...base.cup, ...(s.cup ?? {}) },
     finance: { ...base.finance, ...(s.finance ?? {}) },
+    contracts: { ...base.contracts, ...(s.contracts ?? {}) },
+    records: { ...base.records, ...(s.records ?? {}) },
     version: SAVE_VERSION,
   } as SaveData;
   if (!Array.isArray(merged.owned)) merged.owned = base.owned;
@@ -255,6 +306,10 @@ export function migrate(raw: unknown): SaveData {
   if (!Array.isArray(merged.settled)) merged.settled = [];
   if (!Array.isArray(merged.history)) merged.history = [];
   if (!Array.isArray(merged.honors)) merged.honors = [];
+  if (fromVersion < 3) {
+    // v0.3: the Imperial set replaces Ink as the default look (Ink stays owned)
+    if (merged.equipped.pieces === 'pieces.ink') merged.equipped.pieces = 'pieces.imperial';
+  }
   if (fromVersion < 2) {
     migrateCareerV1(merged);
     // v0.1 → v0.2: untimed becomes the default; a timed game in progress keeps its clocks.

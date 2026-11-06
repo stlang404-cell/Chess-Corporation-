@@ -16,7 +16,7 @@ import {
 import { updateRating, expectedScore, START_RATING, performanceRating } from '../src/game/rating';
 import { computePay, opponentFactor, MIN_PLAYER_MOVES, gameAccuracy, moveAccuracy } from '../src/game/economy';
 import { settleMatch } from '../src/game/settle';
-import { newSave, migrate, type ActiveMatch } from '../src/game/state';
+import { newSave, migrate, SAVE_VERSION, type ActiveMatch } from '../src/game/state';
 import { findOpponent, nearestTier } from '../src/game/matchmaking';
 import { botRating } from '../src/game/bots';
 import { identityOf, styleOf, leagueRecord } from '../src/game/opponents';
@@ -260,7 +260,7 @@ describe('settlement', () => {
 
 describe('save migration', () => {
   it('fills missing fields and survives garbage', () => {
-    expect(migrate(null).version).toBe(2);
+    expect(migrate(null).version).toBe(SAVE_VERSION);
     const partial = migrate({ wallet: { balance: 5 } });
     expect(partial.wallet.balance).toBe(5);
     expect(partial.wallet.lifetime).toBe(0);

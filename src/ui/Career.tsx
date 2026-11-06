@@ -743,7 +743,26 @@ function Settings() {
         {toggle('highContrast', 'High-contrast board')}
         {toggle('coordinates', 'Board coordinates')}
         {toggle('showLegal', 'Show legal moves')}
-        {toggle('sound', 'Move sounds')}
+        {toggle('sound', 'Sounds')}
+        {save.settings.sound && (
+          <>
+            <label className="setting">
+              <span>Piece sounds</span>
+              <input type="range" className="range" min={0} max={1} step={0.05} value={save.settings.moveVolume} onChange={(e) => set('moveVolume', +e.target.value)} aria-label="Piece sound volume" />
+            </label>
+            <label className="setting">
+              <span>Effects (results, promotions)</span>
+              <input type="range" className="range" min={0} max={1} step={0.05} value={save.settings.effectsVolume} onChange={(e) => set('effectsVolume', +e.target.value)} aria-label="Effects volume" />
+            </label>
+          </>
+        )}
+        <label className="setting">
+          <span>
+            Drag pieces
+            <span className="muted small block">Tap a piece, then a square, always works.</span>
+          </span>
+          <input type="checkbox" className="switch" checked={save.settings.dragPieces} onChange={(e) => set('dragPieces', e.target.checked)} />
+        </label>
       </Card>
       <Card>
         <h3>Play</h3>
