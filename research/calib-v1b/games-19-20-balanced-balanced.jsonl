@@ -1,0 +1,15 @@
+{"a":"19:balanced","b":"20:balanced","scoreA":0.5,"aWhite":true,"term":"quiet-limit","plies":198}
+{"a":"19:balanced","b":"20:balanced","scoreA":1,"aWhite":false,"term":"checkmate","plies":18}
+{"a":"19:balanced","b":"20:balanced","scoreA":1,"aWhite":true,"term":"checkmate","plies":55}
+{"a":"19:balanced","b":"20:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":89}
+{"a":"19:balanced","b":"20:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":48}
+{"a":"19:balanced","b":"20:balanced","scoreA":1,"aWhite":false,"term":"checkmate","plies":58}
+{"a":"19:balanced","b":"20:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":42}
+{"a":"19:balanced","b":"20:balanced","scoreA":1,"aWhite":false,"term":"checkmate","plies":100}
+{"a":"19:balanced","b":"20:balanced","scoreA":0,"aWhite":true,"term":"checkmate","plies":74}
+{"a":"19:balanced","b":"20:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":81}
+{"a":"19:balanced","b":"20:balanced","scoreA":1,"aWhite":true,"term":"checkmate","plies":55}
+{"a":"19:balanced","b":"20:balanced","scoreA":0,"aWhite":false,"term":"checkmate","plies":47}
+{"a":"19:balanced","b":"20:balanced","scoreA":0.5,"aWhite":true,"term":"insufficient","plies":147}
+{"a":"19:balanced","b":"20:balanced","scoreA":0.5,"aWhite":false,"term":"insufficient","plies":122}
+{"a":"19:balanced","b":"20:balanced","scoreA":1,"aWhite":true,"term":"checkmate","plies":49}
