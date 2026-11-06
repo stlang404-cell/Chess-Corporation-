@@ -1,313 +1,349 @@
-import { CALIBRATION } from '../engine/calibration';
 /**
- * The corporate ladder: authored titles × grades, then a deterministic,
- * unbounded procedural continuation. A rank is identified by a single integer
- * index n ≥ 0 and everything about it (name, arena, requirements, salary) is a
- * pure function of n, so ranks have stable identities forever.
+ * SEVEN v0.2 career ladder.
+ *
+ * A player's position is a single safe integer `rank` (0, 1, 2, …). Everything
+ * about a rank — its title, grade, scope, employer, arena, requirements and
+ * salary — is a pure function of (rank, job family), so ranks have stable
+ * identities forever. Layout of the authored path:
+ *
+ *   ranks 0–55     functional ladder in the chosen job family (14 titles, 56 grades)
+ *   ranks 56–75    general management at the home company (4 titles × 5 grades)
+ *   ranks 76–535   46 authored institutions, President then CEO of each (× 5 grades)
+ *   ranks 536+     procedurally generated institutions, President then CEO, forever
+ *
+ * Supported range: 0 ≤ rank ≤ Number.MAX_SAFE_INTEGER (tested at the boundary);
+ * at ≈ one promotion per match this is ~9 quadrillion matches.
  */
+import { CALIBRATION } from '../engine/calibration';
+import {
+  STEPS,
+  FAMILIES,
+  GM_TITLES,
+  GM_GRADES,
+  HOME_COMPANY,
+  INSTITUTIONS,
+  INSTITUTION_OFFICES,
+  OFFICE_GRADES,
+  PROC_ROOTS,
+  PROC_REGIONS,
+  PROC_TYPES,
+  PROC_CITIES,
+  PROC_HQ,
+  STAGE_ARENAS,
+  INSTITUTION_KANJI,
+  MOTIFS,
+  familyById,
+  DEFAULT_FAMILY,
+  type Scope,
+  type Motif,
+  type ScaleClass,
+} from './careerData';
 
-export interface TitleDef {
-  name: string;
-  grades: number;
-  /** promotion INTO this title requires a promotion series */
-  major?: boolean;
-}
+export { MOTIFS, type Motif };
 
-export const TITLES: TitleDef[] = [
-  { name: 'Intern', grades: 3 },
-  { name: 'Trainee', grades: 3 },
-  { name: 'Clerk', grades: 3 },
-  { name: 'Senior Clerk', grades: 3 },
-  { name: 'Assistant', grades: 3 },
-  { name: 'Junior Associate', grades: 3 },
-  { name: 'Associate', grades: 3 },
-  { name: 'Senior Associate', grades: 3 },
-  { name: 'Analyst', grades: 3 },
-  { name: 'Senior Analyst', grades: 3 },
-  { name: 'Specialist', grades: 4 },
-  { name: 'Senior Specialist', grades: 4 },
-  { name: 'Team Lead', grades: 4 },
-  { name: 'Supervisor', grades: 4, major: true },
-  { name: 'Senior Supervisor', grades: 4 },
-  { name: 'Assistant Manager', grades: 4 },
-  { name: 'Manager', grades: 4, major: true },
-  { name: 'Senior Manager', grades: 4 },
-  { name: 'Principal', grades: 4 },
-  { name: 'Group Manager', grades: 4 },
-  { name: 'Associate Director', grades: 4 },
-  { name: 'Director', grades: 4, major: true },
-  { name: 'Senior Director', grades: 4 },
-  { name: 'Executive Director', grades: 4 },
-  { name: 'Managing Director', grades: 4, major: true },
-  { name: 'Assistant Vice President', grades: 5 },
-  { name: 'Vice President', grades: 5, major: true },
-  { name: 'Senior Vice President', grades: 5 },
-  { name: 'Executive Vice President', grades: 5, major: true },
-  { name: 'Group Vice President', grades: 5 },
-  { name: 'Chief of Staff', grades: 5 },
-  { name: 'Chief Strategy Officer', grades: 5, major: true },
-  { name: 'Chief Operating Officer', grades: 5, major: true },
-  { name: 'Deputy President', grades: 5 },
-  { name: 'President', grades: 5, major: true },
-  { name: 'Chief Executive Officer', grades: 5, major: true },
-  { name: 'Vice Chairman', grades: 5, major: true },
-  { name: 'Chairman', grades: 5, major: true },
-  { name: 'Executive Chairman', grades: 5, major: true },
-  { name: 'Group Chairman', grades: 5, major: true },
-  { name: 'Board Trustee', grades: 5, major: true },
-  { name: 'Senior Trustee', grades: 5, major: true },
-  { name: 'Governor', grades: 5, major: true },
-  { name: 'Senior Governor', grades: 5, major: true },
-  { name: 'Chancellor', grades: 5, major: true },
-  { name: 'Grand Chancellor', grades: 5, major: true },
-  { name: 'Regent', grades: 5, major: true },
-  { name: 'High Regent', grades: 5, major: true },
-  { name: "Founder's Council", grades: 5, major: true },
-  { name: 'Elder of the House', grades: 5, major: true },
-];
+export const MAX_RANK = Number.MAX_SAFE_INTEGER;
+export const clampRank = (n: number) => (Number.isFinite(n) ? Math.max(0, Math.min(MAX_RANK, Math.floor(n))) : 0);
 
-const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
-export function roman(n: number): string {
-  const v = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
-  const s = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
-  let out = '';
-  for (let i = 0; i < v.length; i++) while (n >= v[i]) {
-    out += s[i];
-    n -= v[i];
-  }
-  return out;
-}
+const ROMAN = ['I', 'II', 'III', 'IV', 'V'];
 
-// rank index → (title, grade) for the authored section
-const AUTHORED: { title: number; grade: number }[] = [];
-TITLES.forEach((t, ti) => {
-  for (let g = 0; g < t.grades; g++) AUTHORED.push({ title: ti, grade: g });
+// ---------- authored layout ----------
+const FUNCTIONAL: { step: number; grade: number }[] = [];
+STEPS.forEach((s, i) => {
+  for (let g = 0; g < s.grades; g++) FUNCTIONAL.push({ step: i, grade: g });
 });
-export const AUTHORED_RANKS = AUTHORED.length;
+export const FUNCTIONAL_RANKS = FUNCTIONAL.length; // 56
+export const GM_START = FUNCTIONAL_RANKS;
+export const GM_RANKS = GM_TITLES.length * GM_GRADES; // 20
+export const INST_START = GM_START + GM_RANKS; // 76
+export const RANKS_PER_INSTITUTION = INSTITUTION_OFFICES.length * OFFICE_GRADES; // 10
+export const AUTHORED_RANKS = INST_START + INSTITUTIONS.length * RANKS_PER_INSTITUTION; // 536
 
-// ---------- procedural continuation ----------
-// Beyond the authored ladder: Offices within Jurisdictions within prestige Orders.
-// Each procedural "title" has 5 grades; the title sequence is a mixed-radix count
-// so names never repeat, and every 5th (*seal*) cycle adds a roman Seal number.
-export const OFFICES = ['Steward', 'Trustee', 'Governor', 'Chancellor', 'Regent', 'Elder'];
-export const JURISDICTIONS = [
-  'Kyoto', 'Osaka', 'Nagoya', 'Sapporo', 'Fukuoka', 'Sendai', 'Kobe', 'Nara', 'Kanazawa', 'Hiroshima',
-  'Singapore', 'Seoul', 'Mumbai', 'Lagos', 'Nairobi', 'Cairo', 'Istanbul', 'Vienna', 'Zürich', 'London',
-  'Lisbon', 'Madrid', 'Paris', 'Oslo', 'Toronto', 'New York', 'Mexico City', 'São Paulo', 'Buenos Aires', 'Sydney',
-];
-export const ORDERS = [
-  'Pine', 'Bamboo', 'Plum', 'Crane', 'Chrysanthemum', 'Wisteria', 'Paulownia', 'Cedar', 'Heron', 'Moon', 'Mountain', 'Tide',
-];
-export const PROC_GRADES = 5;
+/** Number of distinct authored job titles (across all families + general management). */
+export function authoredTitleCount(): number {
+  const set = new Set<string>();
+  for (const f of FAMILIES) f.titles.forEach((t) => set.add(t));
+  GM_TITLES.forEach((t) => set.add(t.title));
+  INSTITUTION_OFFICES.forEach((t) => set.add(t));
+  return set.size;
+}
+/** Number of authored career grades supported (all families' ladders + management + institutions). */
+export function authoredGradeCount(): number {
+  return FAMILIES.length * FUNCTIONAL_RANKS + GM_RANKS + INSTITUTIONS.length * RANKS_PER_INSTITUTION;
+}
 
-export interface RankInfo {
+// ---------- institutions ----------
+export interface InstitutionInfo {
   index: number;
-  title: string;
-  grade: number; // 0-based
-  gradeLabel: string;
-  full: string;
-  /** index of the title in the global title sequence (authored then procedural) */
-  titleIndex: number;
-  /** first grade of a major title */
-  majorEntry: boolean;
+  name: string;
+  city: string;
+  hq: string;
+  scale: ScaleClass | 'Global holding network';
+  /** enterprise scale number: every institution is larger than the one before */
+  scaleLevel: number;
   procedural: boolean;
 }
 
-export function titleCount() {
-  return TITLES.length;
+function coprimeStride(n: number, prefer: number) {
+  const gcd = (a: number, b: number): number => (b ? gcd(b, a % b) : a);
+  let s = prefer;
+  while (gcd(s, n) !== 1) s++;
+  return s;
+}
+const COMBOS = PROC_ROOTS.length * PROC_REGIONS.length * PROC_TYPES.length; // 14,400
+const STRIDE = coprimeStride(COMBOS, 7919);
+
+export function institutionInfo(iIn: number): InstitutionInfo {
+  const i = clampRank(iIn);
+  if (i < INSTITUTIONS.length) {
+    const d = INSTITUTIONS[i];
+    return { index: i, name: d.name, city: d.city, hq: d.hq, scale: d.scale, scaleLevel: i + 1, procedural: false };
+  }
+  const k = i - INSTITUTIONS.length;
+  const cycle = Math.floor(k / COMBOS);
+  // multiply in two steps so the product stays a safe integer for any k
+  const x = ((k % COMBOS) * STRIDE) % COMBOS;
+  const root = PROC_ROOTS[x % PROC_ROOTS.length];
+  const region = PROC_REGIONS[Math.floor(x / PROC_ROOTS.length) % PROC_REGIONS.length];
+  const type = PROC_TYPES[Math.floor(x / (PROC_ROOTS.length * PROC_REGIONS.length)) % PROC_TYPES.length];
+  const city = PROC_CITIES[((k % 30) + (cycle % 30) * 7) % PROC_CITIES.length];
+  const name = `${root} ${region} ${type}` + (cycle ? ` (charter ${(cycle + 1).toLocaleString('en-US')})` : '');
+  return { index: i, name, city, hq: `${root} ${PROC_HQ[k % PROC_HQ.length]}`, scale: 'Global holding network', scaleLevel: i + 1, procedural: true };
 }
 
-export function procTitleName(k: number): string {
-  // k = 0,1,2,... procedural title number
-  const o = k % OFFICES.length;
-  const j = Math.floor(k / OFFICES.length) % JURISDICTIONS.length;
-  const ord = Math.floor(k / (OFFICES.length * JURISDICTIONS.length)) % ORDERS.length;
-  const seal = Math.floor(k / (OFFICES.length * JURISDICTIONS.length * ORDERS.length));
-  return `${OFFICES[o]} of ${JURISDICTIONS[j]}, Order of the ${ORDERS[ord]}${seal ? ` · Seal ${roman(seal + 1)}` : ''}`;
+// ---------- ranks ----------
+export type Stage = 'functional' | 'management' | 'institution';
+
+export interface RankInfo {
+  index: number;
+  id: string;
+  stage: Stage;
+  title: string;
+  grade: number;
+  gradeLabel: string;
+  /** title + grade, e.g. "Finance Manager II" */
+  full: string;
+  employer: string;
+  scope: Scope;
+  /** unit / organisation of the appointment */
+  appointment: string;
+  /** ordered responsibility level */
+  seniority: number;
+  titleIndex: number;
+  majorEntry: boolean;
+  procedural: boolean;
+  family: string;
 }
 
-export function rankInfo(n: number): RankInfo {
-  if (n < AUTHORED_RANKS) {
-    const a = AUTHORED[n];
-    const t = TITLES[a.title];
-    const gl = ROMAN[a.grade];
+export const rankId = (n: number) => 'R-' + clampRank(n).toString(36).toUpperCase();
+
+export function rankInfo(nIn: number, familyId: string = DEFAULT_FAMILY): RankInfo {
+  const n = clampRank(nIn);
+  const fam = familyById(familyId);
+  if (n < FUNCTIONAL_RANKS) {
+    const { step, grade } = FUNCTIONAL[n];
+    const title = fam.titles[step];
+    const scope = STEPS[step].scope;
+    const unit =
+      scope === 'Team'
+        ? `${fam.name} team`
+        : scope === 'Department'
+          ? `${fam.name} Department`
+          : scope === 'Division'
+            ? `${fam.name} Division`
+            : scope === 'Business unit'
+              ? `${fam.name} business unit`
+              : 'Company-wide';
     return {
       index: n,
-      title: t.name,
-      grade: a.grade,
-      gradeLabel: gl,
-      full: `${t.name} ${gl}`,
-      titleIndex: a.title,
-      majorEntry: a.grade === 0 && !!t.major,
+      id: rankId(n),
+      stage: 'functional',
+      title,
+      grade,
+      gradeLabel: ROMAN[grade],
+      full: `${title} ${ROMAN[grade]}`,
+      employer: HOME_COMPANY.name,
+      scope,
+      appointment: `${unit} · ${HOME_COMPANY.name}`,
+      seniority: step,
+      titleIndex: step,
+      majorEntry: grade === 0 && !!STEPS[step].major,
       procedural: false,
+      family: fam.id,
     };
   }
-  const k = n - AUTHORED_RANKS;
-  const pt = Math.floor(k / PROC_GRADES);
-  const g = k % PROC_GRADES;
-  const title = procTitleName(pt);
+  if (n < INST_START) {
+    const k = n - GM_START;
+    const t = Math.floor(k / GM_GRADES);
+    const grade = k % GM_GRADES;
+    const gm = GM_TITLES[t];
+    return {
+      index: n,
+      id: rankId(n),
+      stage: 'management',
+      title: gm.title,
+      grade,
+      gradeLabel: ROMAN[grade],
+      full: `${gm.title} ${ROMAN[grade]}`,
+      employer: HOME_COMPANY.name,
+      scope: gm.scope,
+      appointment: HOME_COMPANY.name,
+      seniority: STEPS.length + t,
+      titleIndex: STEPS.length + t,
+      majorEntry: grade === 0,
+      procedural: false,
+      family: fam.id,
+    };
+  }
+  const k = n - INST_START;
+  const inst = Math.floor(k / RANKS_PER_INSTITUTION);
+  const within = k % RANKS_PER_INSTITUTION;
+  const office = Math.floor(within / OFFICE_GRADES);
+  const grade = within % OFFICE_GRADES;
+  const info = institutionInfo(inst);
+  const title = INSTITUTION_OFFICES[office];
+  const ti = STEPS.length + GM_TITLES.length + inst * 2 + office;
   return {
     index: n,
+    id: rankId(n),
+    stage: 'institution',
     title,
-    grade: g,
-    gradeLabel: ROMAN[g],
-    full: `${title} — ${ROMAN[g]}`,
-    titleIndex: TITLES.length + pt,
-    majorEntry: g === 0,
-    procedural: true,
+    grade,
+    gradeLabel: ROMAN[grade],
+    full: `${title} ${ROMAN[grade]}`,
+    employer: info.name,
+    scope: 'Enterprise',
+    appointment: `${info.name} · enterprise scale ${info.scaleLevel.toLocaleString('en-US')}`,
+    seniority: ti,
+    titleIndex: ti,
+    majorEntry: grade === 0,
+    procedural: info.procedural,
+    family: fam.id,
   };
 }
 
-// ---------- requirements ----------
-/** Merit needed to complete rank n (and become eligible for n+1). */
-export function meritNeeded(n: number): number {
-  return Math.round(50 + 6 * Math.pow(n, 0.8));
+/** One-line title: "Finance Manager II" or "Chief Executive Officer II, Kitahama Industrial Company". */
+export function rankLine(n: number, familyId?: string): string {
+  const r = rankInfo(n, familyId);
+  return r.stage === 'institution' ? `${r.full}, ${r.employer}` : r.full;
 }
 
-/**
- * Minimum rating required to be promoted INTO rank n. Defined per title so all
- * grades of one title share the gate (grades are pure merit/tenure progress).
- * The curve tops out at MASTERY_GATE, a level only the strongest calibrated
- * tiers reach; beyond it, procedural ranks keep the mastery gate plus series.
- */
-// Gates follow the MEASURED bot scale: the curve starts near the strength of a
-// low tier and ends a little below the strongest calibrated tier, so the top of
-// the authored ladder demands near-engine strength on the SEVEN scale.
-const TR = CALIBRATION.tierRatings;
-export const GATE_LOW = Math.round((TR[3] ?? 700) / 10) * 10;
-export const MASTERY_GATE = Math.round((TR[TR.length - 1] - 200) / 10) * 10;
-export function ratingGate(n: number): number {
-  const ti = rankInfo(n).titleIndex;
-  if (ti <= 5) return 0;
-  if (ti >= TITLES.length) return MASTERY_GATE;
-  const x = (ti - 6) / (TITLES.length - 1 - 6);
-  return Math.round((GATE_LOW + (MASTERY_GATE - GATE_LOW) * Math.pow(x, 1.15)) / 10) * 10;
-}
-
-/** Promotion series length (best of N) required to enter rank n, 0 if none. */
-export function seriesLength(n: number): number {
-  const r = rankInfo(n);
-  if (!r.majorEntry) return 0;
-  return r.titleIndex >= 34 ? 5 : 3;
-}
-
-/** Base match salary for a player at rank n (sublinear growth to avoid inflation). */
-export function salary(n: number): number {
-  return Math.round(60 * Math.sqrt(1 + n));
+/** First rank holding title index ti (closed form). */
+export function firstRankOfTitle(ti: number): number {
+  ti = clampRank(ti);
+  if (ti < STEPS.length) return FUNCTIONAL.findIndex((f) => f.step === ti);
+  if (ti < STEPS.length + GM_TITLES.length) return GM_START + (ti - STEPS.length) * GM_GRADES;
+  const k = ti - STEPS.length - GM_TITLES.length;
+  return Math.min(MAX_RANK, INST_START + Math.floor(k / 2) * RANKS_PER_INSTITUTION + (k % 2) * OFFICE_GRADES);
 }
 
 // ---------- arenas ----------
-export const MOTIFS = ['plain', 'seigaiha', 'asanoha', 'kikko', 'shippo', 'ichimatsu', 'uroko', 'yagasuri'] as const;
-export type Motif = (typeof MOTIFS)[number];
-
 export interface ArenaDef {
   index: number;
   name: string;
   kanji: string;
-  /** first and last title indices covered (inclusive) */
-  firstTitle: number;
-  lastTitle: number;
   accent: string;
   motif: Motif;
   procedural: boolean;
+  firstRank: number;
+  institution?: string;
+  city?: string;
 }
 
-const AUTHORED_ARENAS: Omit<ArenaDef, 'index' | 'procedural'>[] = [
-  { name: 'Mailroom Annex', kanji: '始', firstTitle: 0, lastTitle: 2, accent: '#8a8478', motif: 'plain' },
-  { name: 'Copy Floor', kanji: '写', firstTitle: 3, lastTitle: 5, accent: '#6f7d74', motif: 'ichimatsu' },
-  { name: 'Ginza Branch', kanji: '銀', firstTitle: 6, lastTitle: 8, accent: '#5b7083', motif: 'seigaiha' },
-  { name: "Analysts' Gallery", kanji: '析', firstTitle: 9, lastTitle: 11, accent: '#7a6a55', motif: 'shippo' },
-  { name: 'Marunouchi Tower', kanji: '塔', firstTitle: 12, lastTitle: 14, accent: '#4f5d6b', motif: 'kikko' },
-  { name: "Managers' Garden", kanji: '庭', firstTitle: 15, lastTitle: 17, accent: '#5f7259', motif: 'asanoha' },
-  { name: 'Shinjuku Exchange', kanji: '市', firstTitle: 18, lastTitle: 20, accent: '#6b5b73', motif: 'uroko' },
-  { name: "Directors' Pavilion", kanji: '館', firstTitle: 21, lastTitle: 23, accent: '#8c6a3c', motif: 'yagasuri' },
-  { name: 'Nihonbashi Hall', kanji: '橋', firstTitle: 24, lastTitle: 26, accent: '#3f5a5a', motif: 'seigaiha' },
-  { name: 'Vermilion Boardroom', kanji: '朱', firstTitle: 27, lastTitle: 29, accent: '#a8412e', motif: 'kikko' },
-  { name: "Chiefs' Teahouse", kanji: '茶', firstTitle: 30, lastTitle: 32, accent: '#5d6b3f', motif: 'asanoha' },
-  { name: 'Presidential Suite', kanji: '社', firstTitle: 33, lastTitle: 34, accent: '#2f3b4c', motif: 'shippo' },
-  { name: 'Imperial Summit', kanji: '峰', firstTitle: 35, lastTitle: 36, accent: '#8a6d2f', motif: 'uroko' },
-  { name: "Chairman's Court", kanji: '会', firstTitle: 37, lastTitle: 39, accent: '#9b3b2a', motif: 'yagasuri' },
-  { name: "Trustees' Archive", kanji: '蔵', firstTitle: 40, lastTitle: 42, accent: '#4b4f56', motif: 'ichimatsu' },
-  { name: 'Moon Hall of Governors', kanji: '月', firstTitle: 43, lastTitle: 44, accent: '#6d6a8a', motif: 'seigaiha' },
-  { name: 'Chancery of Pines', kanji: '松', firstTitle: 45, lastTitle: 47, accent: '#35553f', motif: 'asanoha' },
-  { name: 'House of Elders', kanji: '院', firstTitle: 48, lastTitle: 49, accent: '#b08d3c', motif: 'kikko' },
-];
-export const AUTHORED_ARENA_COUNT = AUTHORED_ARENAS.length;
-/** procedural arenas each cover this many procedural titles */
-const PROC_ARENA_TITLES = 3;
-const PROC_VENUES = ['Hall', 'Pavilion', 'Tower', 'Court', 'Garden', 'Exchange', 'Archive', 'Observatory'];
-const PROC_KANJI = ['雲', '風', '雪', '花', '海', '山', '星', '光', '竹', '鶴', '波', '石'];
+export const STAGE_ARENA_COUNT = STAGE_ARENAS.length; // 18
+export const AUTHORED_ARENA_COUNT = STAGE_ARENA_COUNT + INSTITUTIONS.length; // 64
 
 function hash32(n: number) {
   n = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
   n = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
   return (n ^ (n >>> 16)) >>> 0;
 }
+const ACCENTS = ['#8a8478', '#5b7083', '#7a6a55', '#4f5d6b', '#5f7259', '#6b5b73', '#8c6a3c', '#3f5a5a', '#a8412e', '#5d6b3f', '#2f3b4c', '#8a6d2f', '#9b3b2a', '#4b4f56', '#6d6a8a', '#35553f', '#b08d3c'];
 
-export function arenaInfo(i: number): ArenaDef {
-  if (i < AUTHORED_ARENAS.length) return { ...AUTHORED_ARENAS[i], index: i, procedural: false };
-  const k = i - AUTHORED_ARENAS.length;
-  const firstTitle = TITLES.length + k * PROC_ARENA_TITLES;
-  const h = hash32(i * 7919 + 17);
-  const j = JURISDICTIONS[k % JURISDICTIONS.length];
-  const venue = PROC_VENUES[Math.floor(k / JURISDICTIONS.length) % PROC_VENUES.length];
-  const cycle = Math.floor(k / (JURISDICTIONS.length * PROC_VENUES.length));
-  const hue = h % 360;
-  // muted, ink-compatible accent: low saturation, mid-low lightness
-  const accent = `hsl(${hue} ${18 + (h >> 9) % 14}% ${32 + (h >> 13) % 12}%)`;
+export function arenaInfo(iIn: number): ArenaDef {
+  const i = clampRank(iIn);
+  if (i < STAGE_ARENA_COUNT) {
+    const a = STAGE_ARENAS[i];
+    const firstRank = i < STEPS.length ? FUNCTIONAL.findIndex((f) => f.step === i) : GM_START + (i - STEPS.length) * GM_GRADES;
+    return { index: i, ...a, procedural: false, firstRank };
+  }
+  const inst = i - STAGE_ARENA_COUNT;
+  const info = institutionInfo(inst);
+  const h = hash32(inst % 2147483647);
   return {
     index: i,
-    name: `${j} ${venue}${cycle ? ' ' + roman(cycle + 1) : ''}`,
-    kanji: PROC_KANJI[k % PROC_KANJI.length],
-    firstTitle,
-    lastTitle: firstTitle + PROC_ARENA_TITLES - 1,
-    accent,
-    motif: MOTIFS[1 + ((h >> 5) % (MOTIFS.length - 1))],
-    procedural: true,
+    name: info.procedural ? `${info.name}, ${info.city}` : `${info.hq}, ${info.city}`,
+    kanji: inst < INSTITUTIONS.length ? INSTITUTION_KANJI[inst % INSTITUTION_KANJI.length] : INSTITUTION_KANJI[h % INSTITUTION_KANJI.length],
+    accent: ACCENTS[(inst % 1000003) * 5 % ACCENTS.length],
+    motif: MOTIFS[1 + (h % (MOTIFS.length - 1))],
+    procedural: info.procedural,
+    firstRank: Math.min(MAX_RANK, INST_START + inst * RANKS_PER_INSTITUTION),
+    institution: info.name,
+    city: info.city,
   };
 }
 
-export function arenaForRank(n: number): ArenaDef {
-  const ti = rankInfo(n).titleIndex;
-  if (ti < TITLES.length) {
-    const i = AUTHORED_ARENAS.findIndex((a) => ti >= a.firstTitle && ti <= a.lastTitle);
-    return arenaInfo(i);
-  }
-  return arenaInfo(AUTHORED_ARENAS.length + Math.floor((ti - TITLES.length) / PROC_ARENA_TITLES));
+export function arenaForRank(nIn: number): ArenaDef {
+  const n = clampRank(nIn);
+  if (n < FUNCTIONAL_RANKS) return arenaInfo(FUNCTIONAL[n].step);
+  if (n < INST_START) return arenaInfo(STEPS.length + Math.floor((n - GM_START) / GM_GRADES));
+  return arenaInfo(STAGE_ARENA_COUNT + Math.floor((n - INST_START) / RANKS_PER_INSTITUTION));
 }
 
-/** First rank index belonging to arena i (arenas are contiguous in rank order). */
+/** First rank of arena i — closed form, no search ceiling. */
 export function firstRankOfArena(i: number): number {
-  let lo = 0;
-  let hi = 10_000_000;
-  while (lo < hi) {
-    const mid = Math.floor((lo + hi) / 2);
-    if (arenaForRank(mid).index < i) lo = mid + 1;
-    else hi = mid;
-  }
-  return lo;
+  return arenaInfo(i).firstRank;
 }
 
-/** First rank index whose title index is ti. */
-export function firstRankOfTitle(ti: number): number {
-  if (ti < TITLES.length) return AUTHORED.findIndex((a) => a.title === ti);
-  return AUTHORED_RANKS + (ti - TITLES.length) * PROC_GRADES;
+// ---------- requirements ----------
+/** Merit needed to complete rank n (sublinear growth). */
+export function meritNeeded(nIn: number): number {
+  return Math.round(50 + 6 * Math.pow(clampRank(nIn), 0.8));
 }
 
-// ---------- merit ----------
-/** Merit change for a rated result given expected score E (0..1). */
+// Gates follow the MEASURED bot scale (src/engine/calibration.ts).
+const TR = CALIBRATION.tierRatings;
+export const GATE_LOW = Math.round((TR[3] ?? 700) / 10) * 10;
+export const MASTERY_GATE = Math.round((TR[TR.length - 1] - 200) / 10) * 10;
+
+/**
+ * Minimum rating to be promoted INTO rank n, shared by all grades of a title:
+ * none for the first five steps, a smooth curve to the mastery gate across the
+ * authored path, then the mastery gate.
+ */
+export function ratingGate(nIn: number): number {
+  const n = clampRank(nIn);
+  const r = rankInfo(n);
+  if (r.stage === 'functional' && r.seniority < 5) return 0;
+  if (n >= AUTHORED_RANKS) return MASTERY_GATE;
+  const first = firstRankOfTitle(r.titleIndex);
+  const lo = firstRankOfTitle(5);
+  const x = (first - lo) / (AUTHORED_RANKS - lo);
+  return Math.round((GATE_LOW + (MASTERY_GATE - GATE_LOW) * Math.pow(x, 0.9)) / 10) * 10;
+}
+
+/** Promotion series length (best of N) to enter rank n, 0 if none. */
+export function seriesLength(nIn: number): number {
+  const r = rankInfo(clampRank(nIn));
+  if (!r.majorEntry) return 0;
+  return r.seniority >= 13 ? 5 : 3;
+}
+
+/** Base match salary at rank n — sublinear so dollars do not inflate without bound. */
+export function salary(nIn: number): number {
+  return Math.round(60 * Math.sqrt(1 + clampRank(nIn)));
+}
+
+/** Merit change for a rated result given expected score E. */
 export function meritDelta(score: number, E: number): number {
   if (score === 1) return Math.round(24 + 16 * (1 - E));
   if (score === 0.5) return Math.round(6 + 12 * (0.5 - E) + 6);
   return -Math.round(6 + 12 * E);
 }
 
-/**
- * Fast-track: players whose rating clearly exceeds the gate of the rank above
- * earn merit faster (up to 3×), so a strong player climbs quickly to the level
- * their play deserves and then slows as the gates catch up with them.
- */
+/** Fast-track multiplier (1–3×) for players clearly above the next gate. */
 export function fastTrack(rating: number, rank: number): number {
   const gate = ratingGate(rank + 1);
   return Math.max(1, Math.min(3, 1 + (rating - gate - 100) / 250));
 }
+
+export { FAMILIES, STEPS, GM_TITLES, INSTITUTIONS, HOME_COMPANY, familyById, DEFAULT_FAMILY };

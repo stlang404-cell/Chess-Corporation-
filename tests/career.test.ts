@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   rankInfo,
+  rankLine,
   AUTHORED_RANKS,
   meritNeeded,
   ratingGate,
@@ -9,7 +10,6 @@ import {
   arenaInfo,
   AUTHORED_ARENA_COUNT,
   seriesLength,
-  TITLES,
   meritDelta,
   MASTERY_GATE,
 } from '../src/game/career';
@@ -44,12 +44,12 @@ describe('rank generation', () => {
   it('has hundreds of authored ranks with unique names', () => {
     expect(AUTHORED_RANKS).toBeGreaterThanOrEqual(200);
     const names = new Set<string>();
-    for (let n = 0; n < AUTHORED_RANKS; n++) names.add(rankInfo(n).full);
+    for (let n = 0; n < AUTHORED_RANKS; n++) names.add(rankLine(n));
     expect(names.size).toBe(AUTHORED_RANKS);
   });
   it('procedural ranks are unique, stable and unbounded', () => {
     const names = new Set<string>();
-    for (let n = AUTHORED_RANKS; n < AUTHORED_RANKS + 20000; n++) names.add(rankInfo(n).full);
+    for (let n = AUTHORED_RANKS; n < AUTHORED_RANKS + 20000; n++) names.add(rankLine(n));
     expect(names.size).toBe(20000);
     expect(rankInfo(123456).full).toBe(rankInfo(123456).full);
     expect(rankInfo(10_000_000).title.length).toBeGreaterThan(5);
@@ -81,9 +81,7 @@ describe('rank generation', () => {
     expect(salary(10000) / salary(100)).toBeLessThan(11);
   });
   it('major titles require promotion series', () => {
-    const mgr = TITLES.findIndex((t) => t.name === 'Manager');
-    let first = 0;
-    for (let n = 0; n < AUTHORED_RANKS; n++) if (rankInfo(n).titleIndex === mgr) { first = n; break; }
+    const first = 20; // Manager I
     expect(seriesLength(first)).toBe(3);
     expect(seriesLength(first + 1)).toBe(0);
     expect(seriesLength(AUTHORED_RANKS)).toBeGreaterThan(0);
@@ -210,9 +208,7 @@ describe('settlement', () => {
   });
   it('major titles trigger a series which can pass or fail', () => {
     let s = newSave(0);
-    const mgr = TITLES.findIndex((t) => t.name === 'Manager');
-    let first = 0;
-    for (let n = 0; ; n++) if (rankInfo(n).titleIndex === mgr) { first = n; break; }
+    const first = 20; // Manager I
     s.career.rank = first - 1;
     s.rating = { r: 2000, rd: 60, vol: 0.06 };
     s.career.merit = meritNeeded(first - 1) - 1;

@@ -1,5 +1,6 @@
 import type { Rating } from './rating';
 import { START_RATING } from './rating';
+import { migrateCareerV1 } from './migrateV1';
 import type { StyleId } from '../engine/ai';
 import type { Termination } from '../engine/game';
 
@@ -99,9 +100,17 @@ export interface SaveData {
     probation: number;
     highestRank: number;
     series: SeriesState | null;
-    promotions: { rank: number; at: number; game: number }[];
+    /** promotions with the title text recorded at the time — never renamed */
+    promotions: { rank: number; at: number; game: number; title?: string }[];
     seriesFailures: number;
+    /** job family (cosmetic identity choice; never affects play) */
+    family: string;
+    /** v0.1 position at migration time, kept verbatim */
+    legacy?: { rank: number; title: string; highest: string };
   };
+  /** honours: distinctions separate from job titles (cups, board seats, seals) */
+  honors: { id: string; name: string; at: number; kind: 'cup' | 'board' | 'service' | 'season' | 'distinction' }[];
+  finance: { matchEarnings: number; promotionBonuses: number; prizes: number; achievementRewards: number; bestMatch: number; purchases: number };
   wallet: { balance: number; lifetime: number; spent: number };
   stats: {
     games: number;
@@ -156,7 +165,9 @@ export function newSave(now = Date.now()): SaveData {
     profile: { name: 'You' },
     rating: { ...START_RATING },
     peakRating: START_RATING.r,
-    career: { rank: 0, merit: 0, probation: 0, highestRank: 0, series: null, promotions: [], seriesFailures: 0 },
+    career: { rank: 0, merit: 0, probation: 0, highestRank: 0, series: null, promotions: [], seriesFailures: 0, family: 'strategy' },
+    honors: [],
+    finance: { matchEarnings: 0, promotionBonuses: 0, prizes: 0, achievementRewards: 0, bestMatch: 0, purchases: 0 },
     wallet: { balance: 0, lifetime: 0, spent: 0 },
     stats: {
       games: 0,
@@ -228,13 +239,16 @@ export function migrate(raw: unknown): SaveData {
     academy: { ...base.academy, ...(s.academy ?? {}) },
     hq: { ...base.hq, ...(s.hq ?? {}) },
     cup: { ...base.cup, ...(s.cup ?? {}) },
+    finance: { ...base.finance, ...(s.finance ?? {}) },
     version: SAVE_VERSION,
   } as SaveData;
   if (!Array.isArray(merged.owned)) merged.owned = base.owned;
   for (const o of base.owned) if (!merged.owned.includes(o)) merged.owned.push(o);
   if (!Array.isArray(merged.settled)) merged.settled = [];
   if (!Array.isArray(merged.history)) merged.history = [];
+  if (!Array.isArray(merged.honors)) merged.honors = [];
   if (fromVersion < 2) {
+    migrateCareerV1(merged);
     // v0.1 → v0.2: untimed becomes the default; a timed game in progress keeps its clocks.
     merged.settings.tc = UNTIMED;
     merged.settings.onboarded = true; // existing players skip the first-run tour

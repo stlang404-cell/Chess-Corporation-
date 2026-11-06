@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { itemById } from '../game/store';
 import type { SaveData } from '../game/state';
-import { rankInfo, ratingGate, AUTHORED_RANKS, type Motif } from '../game/career';
-import { CREST_MARKS, hash32, type Crest } from '../game/opponents';
+import { type Motif } from '../game/career';
+import { CREST_MARKS, opponentCareer, type Crest } from '../game/opponents';
 
 export function boardTheme(save: SaveData) {
   const it = itemById(save.equipped.board);
@@ -13,12 +13,7 @@ export const money = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
 
 /** Corporate title an opponent of a given strength plausibly holds. */
 export function titleForRating(rating: number, id: number): string {
-  let n = 0;
-  // highest rank whose gate the rating clears, sampled over authored ranks
-  for (let k = 0; k < AUTHORED_RANKS; k++) if (ratingGate(k) <= rating) n = k;
-  // randomise within the cleared title's grades and a little below
-  const spread = hash32(id) % 6;
-  return rankInfo(Math.max(0, n - spread)).full;
+  return opponentCareer(id, rating).title;
 }
 
 const ink = '#1d1d1b';

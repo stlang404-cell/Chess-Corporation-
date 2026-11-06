@@ -142,3 +142,25 @@ export function leagueRecord(id: number): { games: number; wins: number; draws: 
   const wins = Math.max(0, Math.min(decisive, Math.round(decisive / 2 + u)));
   return { games, wins, draws, losses: decisive - wins };
 }
+
+// ---------- corporate career of an opponent ----------
+import { ratingGate, rankInfo, rankLine, arenaForRank, AUTHORED_RANKS, FAMILIES } from './career';
+
+let GATES: number[] | null = null;
+/**
+ * An opponent's corporate standing, consistent with its measured strength: the
+ * highest authored rank whose rating gate its rating clears, minus a stable
+ * per-identity offset (not everyone is promoted as far as they could be).
+ * Career seniority never changes the opponent's rating.
+ */
+export function opponentCareer(id: number, rating: number) {
+  GATES ??= Array.from({ length: AUTHORED_RANKS }, (_, k) => ratingGate(k));
+  let n = 0;
+  for (let k = 0; k < AUTHORED_RANKS; k++) if (GATES[k] <= rating) n = k;
+  const h = hash32(id * 131 + 5);
+  const rank = Math.max(0, n - (h % 7));
+  const family = FAMILIES[(h >>> 8) % FAMILIES.length].id;
+  const r = rankInfo(rank, family);
+  const arena = arenaForRank(rank);
+  return { rank, family, familyName: FAMILIES[(h >>> 8) % FAMILIES.length].name, title: rankLine(rank, family), employer: r.employer, arena: arena.name, arenaIndex: arena.index };
+}

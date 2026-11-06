@@ -6,7 +6,7 @@
  * always committed together.
  */
 import { expectedScore, updateRating } from './rating';
-import { meritDelta, meritNeeded, ratingGate, seriesLength, rankInfo, arenaForRank, fastTrack } from './career';
+import { meritDelta, meritNeeded, ratingGate, seriesLength, rankInfo, rankLine, arenaForRank, fastTrack, MAX_RANK } from './career';
 import { computePay, promotionBonus, type PayLine } from './economy';
 import { salary } from './career';
 import { newAchievements } from './achievements';
@@ -112,7 +112,9 @@ export function settleMatch(
       c.highestRank = Math.max(c.highestRank, n);
       c.promotions.push({ rank: n, at: now, game: s.stats.rated.g });
       promoted = true;
-      const info = rankInfo(n);
+      const info = rankInfo(n, c.family);
+      c.promotions[c.promotions.length - 1].title = rankLine(n, c.family);
+      if (c.promotions.length > 2000) c.promotions.splice(0, c.promotions.length - 2000);
       pay.push({ key: 'promotion', label: `Promotion: ${info.full}`, amount: promotionBonus(n, info.majorEntry) });
     };
     if (c.series && match.kind === 'series') {
@@ -140,14 +142,14 @@ export function settleMatch(
         c.merit = 0;
         if (score === 0) c.probation++;
         // demotion only within a title, after three losses at zero merit
-        if (c.probation >= 3 && rankInfo(c.rank).grade > 0) {
+        if (c.probation >= 3 && rankInfo(c.rank, c.family).grade > 0) {
           c.rank--;
           c.merit = Math.round(meritNeeded(c.rank) * 0.5);
           c.probation = 0;
           demoted = true;
         }
       }
-      while (c.merit >= meritNeeded(c.rank)) {
+      while (c.merit >= meritNeeded(c.rank) && c.rank < MAX_RANK) {
         const next = c.rank + 1;
         const gate = ratingGate(next);
         if (s.rating.r < gate) {
@@ -172,6 +174,10 @@ export function settleMatch(
         s.cup.active.round++;
         if (s.cup.active.round >= CUP_ROUNDS) {
           s.cup.trophies.push({ arena: s.cup.active.arena, at: now });
+          const cupName = `${arenaForRank(rankBefore).name} Cup`;
+          s.honors.push({ id: `cup-${now}`, name: `Arena Cup champion — ${cupName}`, at: now, kind: 'cup' });
+          if (s.cup.trophies.length % 3 === 0)
+            s.honors.push({ id: `board-${now}`, name: `Independent Director, ${arenaForRank(rankBefore).institution ?? 'Seven Meridian Corporation'} (honorary board seat)`, at: now, kind: 'board' });
           pay.push({ key: 'cup', label: 'Arena Cup champion', amount: salary(rankBefore) * 25 });
           cupResult = 'won';
           s.cup.active = null;
@@ -226,6 +232,15 @@ export function settleMatch(
   const dollars = pay.reduce((a, l) => a + l.amount, 0);
   s.wallet.balance += dollars;
   s.wallet.lifetime += dollars;
+  for (const l of pay) {
+    if (l.key === 'promotion') s.finance.promotionBonuses += l.amount;
+    else if (l.key === 'cup') s.finance.prizes += l.amount;
+    else if (l.key === 'achievement') s.finance.achievementRewards += l.amount;
+    else s.finance.matchEarnings += l.amount;
+  }
+  s.finance.bestMatch = Math.max(s.finance.bestMatch, dollars);
+  if (rated && s.stats.rated.g % 250 === 0)
+    s.honors.push({ id: `service-${s.stats.rated.g}`, name: `Long Service Award — ${s.stats.rated.g.toLocaleString('en-US')} rated matches`, at: now, kind: 'service' });
   summary.dollars = dollars;
   // second pass for wealth-based achievements
   if (rated)
@@ -234,6 +249,7 @@ export function settleMatch(
       pay.push({ key: 'achievement', label: `Achievement: ${a.name}`, amount: a.reward });
       s.wallet.balance += a.reward;
       s.wallet.lifetime += a.reward;
+      s.finance.achievementRewards += a.reward;
       summary.dollars += a.reward;
     }
 

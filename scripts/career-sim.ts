@@ -11,7 +11,7 @@ import { newSave, type ActiveMatch, type SaveData } from '../src/game/state';
 import { settleMatch } from '../src/game/settle';
 import { findOpponent } from '../src/game/matchmaking';
 import { expectedScore } from '../src/game/rating';
-import { rankInfo, TITLES, AUTHORED_RANKS } from '../src/game/career';
+import { rankInfo, rankLine, AUTHORED_RANKS, authoredTitleCount } from '../src/game/career';
 import { STORE } from '../src/game/store';
 import { writeFileSync } from 'node:fs';
 import { CALIBRATION } from '../src/engine/calibration';
@@ -33,7 +33,11 @@ function outcome(trueR: number, oppR: number, behaviour: 'normal' | 'resign10'):
   return { score: 0, plies };
 }
 
-const MILESTONES = ['Supervisor', 'Manager', 'Director', 'Managing Director', 'Vice President', 'President', 'Chief Executive Officer', 'Chairman', 'Elder of the House'];
+const MILESTONE_TI: [string, number][] = [
+  ['Team lead', 5], ['Manager', 6], ['Director', 8], ['Vice president', 10], ['Chief officer', 13],
+  ['CEO (home company)', 17], ['First institution', 18], ['Multinational CEO', 18 + 34 * 2 + 1], ['World Holdings CEO', 18 + 45 * 2 + 1],
+];
+const MILESTONES = MILESTONE_TI.map((m) => m[0]);
 
 interface Run {
   strength: number;
@@ -76,11 +80,8 @@ function simulate(strength: number, behaviour: 'normal' | 'resign10' = 'normal',
     s = settleMatch(s, m, g * 600_000).save;
     // keep the save small during long sims
     s.history.length = Math.min(s.history.length, 3);
-    for (let n = s.career.highestRank; n >= 0; n--) {
-      const t = rankInfo(n).title;
-      if (MILESTONES.includes(t) && !(t in milestones)) milestones[t] = g;
-      if (rankInfo(n).grade === 0 && rankInfo(n).majorEntry) break;
-    }
+    const hti = rankInfo(s.career.highestRank).titleIndex;
+    for (const [name, ti] of MILESTONE_TI) if (hti >= ti && !(name in milestones)) milestones[name] = g;
     if ([50, 100, 250, 500, 1000, 2000, 3000, 5000, 10000].includes(g)) {
       rankAt[g] = s.career.rank;
       dollarsAt[g] = s.wallet.lifetime;
@@ -90,7 +91,7 @@ function simulate(strength: number, behaviour: 'normal' | 'resign10' = 'normal',
     strength,
     finalRating: Math.round(s.rating.r),
     finalRank: s.career.rank,
-    finalTitle: rankInfo(s.career.rank).full,
+    finalTitle: rankLine(s.career.rank),
     milestones,
     lifetime: s.wallet.lifetime,
     promotions: s.career.promotions.length,
@@ -119,7 +120,7 @@ for (const st of strengths) {
   const med = (f: (r: Run) => number) => median(runs.map(f));
   const finalRank = med((r) => r.finalRank);
   rows.push(
-    `| ${st} | ${med((r) => r.finalRating)} | ${med((r) => r.rankAt[100] ?? 0)} | ${med((r) => r.rankAt[500] ?? 0)} | ${med((r) => r.rankAt[1000] ?? 0)} | ${finalRank} | ${rankInfo(finalRank).full} | ${med((r) => r.promotions)} | ${med((r) => r.seriesFails)} | $${med((r) => r.lifetime).toLocaleString('en-US')} |`,
+    `| ${st} | ${med((r) => r.finalRating)} | ${med((r) => r.rankAt[100] ?? 0)} | ${med((r) => r.rankAt[500] ?? 0)} | ${med((r) => r.rankAt[1000] ?? 0)} | ${finalRank} | ${rankLine(finalRank)} | ${med((r) => r.promotions)} | ${med((r) => r.seriesFails)} | $${med((r) => r.lifetime).toLocaleString('en-US')} |`,
   );
   msRows.push(
     `| ${st} | ${MILESTONES.map((m) => {
@@ -141,6 +142,6 @@ rows.push('', '## Exploit checks (300 matches, true strength ' + TRS[10] + ')', 
 rows.push(`- Playing normally: lifetime $${honest.lifetime.toLocaleString('en-US')}, rank ${honest.finalRank}.`);
 rows.push(`- Resigning every game at move 10 (salary farming): lifetime $${resign.lifetime.toLocaleString('en-US')}, rank ${resign.finalRank}, rating ${resign.finalRating}.`);
 const storeTotal = STORE.reduce((a, i) => a + i.price, 0);
-rows.push('', `Store catalogue total: $${storeTotal.toLocaleString('en-US')}. Authored ranks: ${AUTHORED_RANKS}; authored titles: ${TITLES.length}.`);
+rows.push('', `Store catalogue total: $${storeTotal.toLocaleString('en-US')}. Authored ranks: ${AUTHORED_RANKS}; authored titles: ${authoredTitleCount()}.`);
 writeFileSync('research/career-sim.md', rows.join('\n') + '\n');
 console.log(rows.join('\n'));

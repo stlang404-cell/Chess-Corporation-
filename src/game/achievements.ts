@@ -9,10 +9,8 @@ export interface AchievementDef {
   test: (s: SaveData, last: MatchSummary | null) => boolean;
 }
 
-const titleReached = (s: SaveData, name: string) => {
-  for (let n = s.career.highestRank; n >= 0; n--) if (rankInfo(n).title === name) return true;
-  return false;
-};
+/** Highest seniority reached (title index), independent of job family. */
+const reached = (s: SaveData, titleIndex: number) => rankInfo(s.career.highestRank).titleIndex >= titleIndex;
 
 export const ACHIEVEMENTS: AchievementDef[] = [
   { id: 'first-game', name: 'First Day', desc: 'Complete your first rated match.', reward: 50, test: (s) => s.stats.rated.g >= 1 },
@@ -33,12 +31,14 @@ export const ACHIEVEMENTS: AchievementDef[] = [
   { id: 'r1500', name: 'Rated 1500', desc: 'Reach a 1500 rating.', reward: 1000, test: (s) => s.peakRating >= 1500 },
   { id: 'r1800', name: 'Rated 1800', desc: 'Reach a 1800 rating.', reward: 3000, test: (s) => s.peakRating >= 1800 },
   { id: 'r2000', name: 'Rated 2000', desc: 'Reach a 2000 rating.', reward: 8000, test: (s) => s.peakRating >= 2000 },
-  { id: 't-manager', name: 'Corner Office', desc: 'Become a Manager.', reward: 1000, test: (s) => titleReached(s, 'Manager') },
-  { id: 't-director', name: 'Name on the Door', desc: 'Become a Director.', reward: 2500, test: (s) => titleReached(s, 'Director') },
-  { id: 't-vp', name: 'Vice President', desc: 'Become a Vice President.', reward: 5000, test: (s) => titleReached(s, 'Vice President') },
-  { id: 't-ceo', name: 'The Corner Suite', desc: 'Become Chief Executive Officer.', reward: 15000, test: (s) => titleReached(s, 'Chief Executive Officer') },
-  { id: 't-chair', name: 'Chair of the Board', desc: 'Become Chairman.', reward: 30000, test: (s) => titleReached(s, 'Chairman') },
-  { id: 't-elder', name: 'Elder of the House', desc: 'Complete the authored ladder.', reward: 100000, test: (s) => titleReached(s, 'Elder of the House') },
+  { id: 't-manager', name: 'Corner Office', desc: 'Reach manager level.', reward: 1000, test: (s) => reached(s, 6) },
+  { id: 't-director', name: 'Name on the Door', desc: 'Reach director level.', reward: 2500, test: (s) => reached(s, 8) },
+  { id: 't-vp', name: 'Vice President', desc: 'Reach vice-president level.', reward: 5000, test: (s) => reached(s, 10) },
+  { id: 't-chief', name: 'Chief Officer', desc: 'Become a chief officer of your function.', reward: 10000, test: (s) => reached(s, 13) },
+  { id: 't-ceo', name: 'The Corner Suite', desc: 'Become Chief Executive Officer of Seven Meridian.', reward: 15000, test: (s) => reached(s, 17) },
+  { id: 't-chair', name: 'Called Elsewhere', desc: 'Be appointed President of another institution.', reward: 30000, test: (s) => reached(s, 18) },
+  { id: 't-multinational', name: 'Multinational Leader', desc: 'Lead a multinational group.', reward: 60000, test: (s) => reached(s, 18 + 34 * 2 + 1) },
+  { id: 't-elder', name: 'World Holdings', desc: 'Become CEO of Meridian World Holdings.', reward: 100000, test: (s) => reached(s, 18 + 45 * 2 + 1) },
   { id: 'styles', name: 'Read the Room', desc: 'Beat all seven playing styles.', reward: 1500, test: (s) => Object.values(s.stats.byStyle).filter((w) => w.w > 0).length >= 7 },
   { id: 'rival', name: 'Old Rivals', desc: 'Play the same opponent ten times.', reward: 600, test: (s) => Object.values(s.opponents).some((o) => o.g >= 10) },
   { id: 'saver', name: 'Rainy Day Fund', desc: 'Hold $25,000 at once.', reward: 1000, test: (s) => s.wallet.balance >= 25000 },
