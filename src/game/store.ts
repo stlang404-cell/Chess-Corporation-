@@ -1,4 +1,5 @@
 /** Cosmetic store. Nothing here affects move quality, opponents, or rating. */
+import { arenaInfo, firstRankOfArena, AUTHORED_ARENA_COUNT } from './career';
 export type ItemKind = 'board' | 'pieces' | 'crest' | 'frame' | 'office' | 'ceremony' | 'entrance' | 'trophy' | 'amenity';
 
 export interface StoreItem {
@@ -77,7 +78,28 @@ export const STORE: StoreItem[] = [
   { id: 'amenity.mentor', kind: 'amenity', name: 'Training Mentor', price: 12000, desc: 'Training-game hints search 3× deeper and show the main line.' },
 ];
 
-export const itemById = (id: string) => STORE.find((i) => i.id === id);
+function mix(hex: string, base: string, t: number): string {
+  const p = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const a = p(hex);
+  const b = p(base);
+  return '#' + a.map((v, i) => Math.round(v * t + b[i] * (1 - t)).toString(16).padStart(2, '0')).join('');
+}
+
+/** Free board themes unlocked by reaching each authored arena. */
+export const ARENA_BOARDS: StoreItem[] = Array.from({ length: AUTHORED_ARENA_COUNT }, (_, i) => {
+  const a = arenaInfo(i);
+  return {
+    id: `board.arena.${i}`,
+    kind: 'board' as const,
+    name: `${a.name} board`,
+    price: 0,
+    minRank: firstRankOfArena(i),
+    desc: `Unlocked by reaching ${a.name}.`,
+    data: { light: '#efe9dc', dark: mix(a.accent, '#efe9dc', 0.55), line: mix(a.accent, '#1d1d1b', 0.6) },
+  };
+});
+
+export const itemById = (id: string) => STORE.find((i) => i.id === id) ?? ARENA_BOARDS.find((i) => i.id === id);
 
 export function canBuy(item: StoreItem, balance: number, highestRank: number, owned: string[]): string | null {
   if (owned.includes(item.id)) return 'Owned';

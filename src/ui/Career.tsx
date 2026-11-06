@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useApp, updateSave, commit, toast, setState } from './appState';
-import { rankInfo, arenaForRank, arenaInfo, meritNeeded, ratingGate, seriesLength, salary, AUTHORED_RANKS } from '../game/career';
+import { rankInfo, arenaForRank, arenaInfo, meritNeeded, ratingGate, seriesLength, salary, AUTHORED_RANKS, firstRankOfArena } from '../game/career';
 import { isProvisional } from '../game/rating';
 import { STYLES, STYLE_IDS } from '../engine/ai';
-import { STORE, KIND_LABEL, canBuy, itemById, floorPrice, floorName, hqValue, type ItemKind } from '../game/store';
+import { STORE, ARENA_BOARDS, KIND_LABEL, canBuy, itemById, floorPrice, floorName, hqValue, type ItemKind } from '../game/store';
 import { ACHIEVEMENTS } from '../game/achievements';
 import { TIME_CONTROLS, newSave, isRatedKind } from '../game/state';
 import { exportSave, importSave, wipeSave } from '../game/storage';
@@ -116,18 +116,6 @@ function Ladder() {
       </p>
     </>
   );
-}
-
-function firstRankOfArena(i: number): number {
-  // search: arenas are contiguous in rank order
-  let lo = 0;
-  let hi = 1_000_000;
-  while (lo < hi) {
-    const mid = (lo + hi) >> 1;
-    if (arenaForRank(mid).index < i) lo = mid + 1;
-    else hi = mid;
-  }
-  return lo;
 }
 
 function Sparkline({ data }: { data: number[] }) {
@@ -317,7 +305,7 @@ const PREVIEW_CELLS = (() => {
 function Store() {
   const { save } = useApp();
   const [kind, setKind] = useState<ItemKind>('board');
-  const items = STORE.filter((i) => i.kind === kind);
+  const items = [...STORE, ...ARENA_BOARDS].filter((i) => i.kind === kind);
   const buy = (id: string) => {
     const it = itemById(id)!;
     const why = canBuy(it, save.wallet.balance, save.career.highestRank, save.owned);
@@ -391,7 +379,7 @@ function Store() {
                 )
               ) : (
                 <button className="btn small primary" onClick={() => buy(it.id)} disabled={locked}>
-                  {locked ? `🔒 ${rankInfo(it.minRank!).title}` : money(it.price)}
+                  {locked ? `🔒 ${rankInfo(it.minRank!).title}` : it.price === 0 ? 'Claim' : money(it.price)}
                 </button>
               )}
             </div>

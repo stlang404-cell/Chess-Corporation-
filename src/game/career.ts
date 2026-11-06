@@ -271,6 +271,18 @@ export function arenaForRank(n: number): ArenaDef {
   return arenaInfo(AUTHORED_ARENAS.length + Math.floor((ti - TITLES.length) / PROC_ARENA_TITLES));
 }
 
+/** First rank index belonging to arena i (arenas are contiguous in rank order). */
+export function firstRankOfArena(i: number): number {
+  let lo = 0;
+  let hi = 10_000_000;
+  while (lo < hi) {
+    const mid = Math.floor((lo + hi) / 2);
+    if (arenaForRank(mid).index < i) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
+
 /** First rank index whose title index is ti. */
 export function firstRankOfTitle(ti: number): number {
   if (ti < TITLES.length) return AUTHORED.findIndex((a) => a.title === ti);
