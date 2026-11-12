@@ -3,7 +3,7 @@
 **Viewpoint:** close third person, Hester Vail only, past tense. Never leave Hester's head. Never withhold from the reader what Hester consciously knows. Where Hester avoids a conclusion, show the avoidance.
 **Chapter format:** number + title. A short in-world **epigraph** (1–4 lines) under each title, cited to a fictional source. Scene breaks are marked by a centred ornament (`* * *` in source).
 **Target:** 26 chapters, about 3,700–4,400 words each, ≈ 100,000–110,000 words.
-**Time span:** 1 Russet – 30 Rime, 903 Y.E. (four months: Russet, Sere, Cinder, Rime).
+**Time span:** 1 Russet – 30 Rime, 903 Y.E. (four months: Russet, Fallow, Cinder, Rime).
 
 ---
 
@@ -176,7 +176,7 @@
 5. Lucan, quietly, at the end: "I don't think it was an accident." Hester: "No."
 *Clues:* annealing; the "cistern maintenance" invoice; Bett Linnow failing.
 
-### Ch. 11 — The Sink (6 Sere)
+### Ch. 11 — The Sink (6 Fallow)
 *Epigraph:* Weathering field manual: "The White does not forgive. The White does not hate. The White is a floor with a hole in it."
 1. Fathoming field practical: Orsolya leads twenty first-years by landship (the skiff *Gannet*) to a surface "bloom-site" 5 miles out: a quickening near the surface on the open White. Sailing the White: speed, wind, runners hissing, glare-goggles, the Pull. Hester has never sailed. Exhilaration.
 2. The bloom-site: wet salt, warm, a smell of weed, and a faint sound of surf from underfoot.
@@ -186,7 +186,7 @@
 6. Back at the Halcyon, Sorle appears at the Rookery door. "You kept a man. Badly. Interesting. My study, Thursday."
 *Clues:* Orsolya knows the Cold House street. The release flaw is shown.
 
-### Ch. 12 — Sorle's Folly (8–9 Sere)
+### Ch. 12 — Sorle's Folly (8–9 Fallow)
 *Epigraph:* Minutes of the Conclave, 871 Y.E.: "Reader Sorle's hypothesis was found to be without foundation and an embarrassment to the Bench."
 1. Sorle's study: books, slates, a kept moth on his desk, his dead wife's portrait. He interrogates her keeping of Lucan, then Aske.
 2. Sorle admits he was invited to Aske's Cell on 16 Russet at the tenth-and-a-half bell (half an hour after her). He arrived and found the corridor empty, saw nothing, and left. He believes Aske was killed. "Corvin couldn't keep himself in a pickle jar. His hold was *radial*. A child could see that casing was poured."
@@ -195,7 +195,7 @@
 5. Lucan in the Physic ward with cracked ribs. He thanks her badly; she accepts badly. A small honesty: he has never owed anyone anything. Begins.
 *Ends:* Hester resolves to go into the Cistern.
 
-### Ch. 13 — The Cistern (14 Sere) — MIDPOINT
+### Ch. 13 — The Cistern (14 Fallow) — MIDPOINT
 *Epigraph:* Ambry Water Board, 400 Y.E.: "The founders' cistern is bricked and shall not be reopened."
 1. Planning with Teo and Lucan. Lucan supplies Exchequer plans and money. Agathe lets them in through the Cold House cellar at night (Pell is away).
 2. The descent: old brick, founders' brass, a vaulted reservoir (the Great Cistern) dry but for a channel of live brine. The smell is quick.
@@ -205,7 +205,7 @@
 6. Outside at dawn: the realisation. The draw runs to the Halcyon. Someone inside is drawing stillness from the sleepers. "Warden's office": which Warden? There are four.
 *Midpoint reversal:* not smuggling but a draw from inside.
 
-### Ch. 14 — What Is Owed (15–20 Sere)
+### Ch. 14 — What Is Owed (15–20 Fallow)
 *Epigraph:* Sorle, *Lectures on Arrears*: "Every keeping is a lie we tell time, and time collects."
 1. Hester takes the rod to Chief Proctor Gage, against Sorle's advice. He listens and is grave. He takes the rod and promises inquiry.
 2. Two days later the rod is "lost." Gage warns her off: "There are matters of Halcyon infrastructure above both our heads." She suspects Gage and wonders whom he answers to. (Deputy Chancellor Vey is glimpsed leaving Gage's office.)
@@ -213,7 +213,7 @@
 4. Lessons with Sorle: the arrears calculus; quickenings as moments under pressure; still runs to quick. "Stays saturate. Pour enough still into a quickening and it quiets — and grows hungrier." Hester asks: "What if you let it out?" Sorle: "Then the moment *proceeds*." He refuses the thought as madness for now. (**Venting seed #3.**)
 5. Hester writes to Agathe and gets a reply: Tib's weeping is worse, Bett is worse.
 
-### Ch. 15 — Ferrers (22–28 Sere)
+### Ch. 15 — Ferrers (22–28 Fallow)
 *Epigraph:* a Ferrers & Lisk contract clause: "The purchaser shall make no enquiry as to provenance."
 1. Lucan has gone to his father's house in the Upper Ward and found the contract: Ferrers & Lisk buys "residual stay grain" from **W.L.F.** (the office of the Warden of the Lower Fathoms), signed by **E. Dunmore, clerk.** His father told him to stay out of it ("the Halcyon's dirty laundry keeps our lamps lit"). Lucan tells Hester; he is shaken.
 2. Hester decodes W.L.F. at last: the Warden of the Lower Fathoms. Orsolya's office. She refuses the conclusion. *Dunmore.* The clerk. Orsolya can't know: she's Lowside; she's the Choir's mother. Hester reasons it's Dunmore, perhaps for Vey. (**Self-deception shown.**)
@@ -394,11 +394,11 @@
 | 20–23 Russet | Sponsor hunt; Choir | 8 |
 | 24–27 Russet | Brinestacks | 9 |
 | 30 Russet | Lantern Night | 10 |
-| 6 Sere | Sink | 11 |
-| 8–9 Sere | Sorle | 12 |
-| 14 Sere | Cistern | 13 |
-| 15–20 Sere | Gage; Sorle sponsors | 14 |
-| 22–28 Sere | Ferrers contract; spiral lesson | 15 |
+| 6 Fallow | Sink | 11 |
+| 8–9 Fallow | Sorle | 12 |
+| 14 Fallow | Cistern | 13 |
+| 15–20 Fallow | Gage; Sorle sponsors | 14 |
+| 22–28 Fallow | Ferrers contract; spiral lesson | 15 |
 | 2–4 Cinder | Saskia | 16 |
 | 9 Cinder | Silent Supper; Ama dies | 17 |
 | 16–18 Cinder | Bett dies; Aldous; confession | 18 |
