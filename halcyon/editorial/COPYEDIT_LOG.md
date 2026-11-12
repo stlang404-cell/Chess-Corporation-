@@ -1,9 +1,12 @@
+# Copyedit Log
 
-## Ch1-13
+## Ch14-26
 
-- Spaced em dashes closed up (interruptions/asides): 4 (ch01 ×1, ch03 ×1, ch12 ×2)
-- Capitalisation per style guide ("the Roar" for the named phenomenon): 8 (ch02 ×1, ch08 ×2, ch09 ×5)
-- Inconsistent spelling of terms ("brine-script" → "brinescript", ch06; "re-set" → "reset", ch05): 2
-- Stray markdown error (broken italic around *Wren* in Hester's schedule, ch07): 1
+- Capitalisation per style guide (the Founders' Shaft, the Roar, the Customs House; lower-case "fathoms" as a count, "delver"): 6
+- Dialogue punctuation (two same-speaker quotes merged, comma placement against an italic quote): 3
+- Dashes (spaced em dashes in Aske's notebook closed up): 3
+- Inconsistent spelling of terms (afterward, cartwheel, half bell): 3
+- Inconsistent form of names and titles (Saskia as "Mrs. Orme"): 2
+- Extra spaces (sign-off "A. L." corrected to "A.L."): 2
 
-Total: 15
+Total: 19
