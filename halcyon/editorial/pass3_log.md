@@ -121,3 +121,43 @@ Word count: 13,711 before, 13,705 after (-6). Ch. 19: 4,673 to 4,488. Ch. 20: 4,
 - Ch. 6 has the trolley "coming up" and moving while Hester watches. A3 and Ch. 20 now have it stopped and waiting on the turn below. Ch. 6 should end with the wheels stopped.
 - Ch. 23 box-lift route (CON #21) is still "Fourth to the Fifth" in that chapter.
 - Ch. 24: Sorle's rescue can now point back to the Pans demonstration (A5).
+
+## Ch22-26
+
+Word count: 21,610 before, 21,721 after (+111, +0.5%). Ch. 22 4,300 to 4,141; Ch. 23 4,386 to 4,172; Ch. 24 4,266 to 4,290; Ch. 25 4,268 to 4,747 (+479); Ch. 26 4,390 to 4,371.
+
+**Ch. 22**
+- A6: on Assay morning Agathe's letter reports that Jem Corrie came back on 19 Rime near the tenth bell and died by the half, and that Nell is holding. Hester ties it to her own choice of the emptiest night after the 9 Rime letter ("She had done the sum, and Jem Corrie was the remainder"). She tells no one. The letter comes back once at the Feast.
+- Trimmed the hall description, the explanation of Assay procedure, the Feast and Saskia's exit (the "Bored" note in RDR).
+- A10: "her face did something", "Nobody told him to", and two "not X / Y" shapes cut. One assayer simile left ("the quiet of an assay room").
+
+**Ch. 23**
+- CON #21: the box-lift now "ran from the Fifth to the Third, with a gate here at the Fourth", carrying boxes "three nights a week… at the tenth bell" to Saskia's barrow at the Third Fathom landing.
+- A10: three "It was not X. It was Y." shapes cut. Trimmed description (Stair, Hush pillars, plug work) to pay for other spans.
+
+**Ch. 24**
+- A2: cut "Open your hand, chick" and the paragraph break after it. Hester's release now comes unprompted: her father at the fire-door ("You hurry her and she'll go up all at once"), Tib's "Let me sleep", and "Open your hand" reclaimed as she learned it on the Pans with Teo ("Out from round it"). **Hester opens first.** Only after the shaft visibly takes the sea does Orsolya stop holding. "It's taking it… Up to the White." Then Coldbank, told without "perhaps": the Physic keeping her father standing under the beam. Then "*Shore it,*" / "*Shore it, lads.*" and the Fathomers go to the trunk. Hester recalls her bet: "*I know her… She'll not let them drown.*"
+- A2: the vent runs on its own ("this time, when Saskia said *hold*, the roar did not fall back") *before* Hester whites out. Sorle's rescue follows.
+- A5/CON #3: the sea eats the clear floor and "ran thick with dissolved Hush, live brine to the elbow". Orsolya's hold reaches "through the brine". The Fathomers and Orsolya put their fingers in the trunk's brine-slots. Sorle's rescue is named as "the Physic's way, a still hand laid over a racing one in shared brine". After Sorle wakes, Hester lags a minute or two ("The lag had waited… until she put the weight down").
+- A9: Sorle's left hand comes out of the brine white to the wrist and will not close.
+- CON #12: the smell is now "green and cold and living, nothing rotten in it at all". CON #13: the father is "kept standing under the beam" by the Physic. The door is gone. CON #28: "whoever you've got at the Cistern".
+- A10: no assayer similes in the climax. "as she would have planned for the weather" became "She had bet on it." "Oh, chick. Oh, chick" became "Oh, lass." "Nobody said anything" and three "not X / Y" shapes cut. Also cut "the weight of nine hundred years" (STYLE_GUIDE ban).
+
+**Ch. 25**
+- A9: dramatised the confession (about 650 words). Hester is present, on the record ("Aspirant Vail, present"). Orsolya asks to be cautioned and opens with **Seedmonth 901**: the Chancellor's rooms, Holm in the chair, Vey speaking, "*Manage it quietly, Warden. You've always managed.*" She then gives the rest in order, including the 16 Russet account per A3: the ninth bell at the Old Tap, the trolley by the Stair, the two waits, the casing delivered a little after the half. It closes on "Did it all go up?" / "All of it." This replaces the red-eared Proctor's report.
+- A9: Teo's Cistern beat (about 300 words): voices in the line, Lucan counting aloud, "Now" at twelve, the cut hand, the voices "going home" (one of them Tib), Agathe boxing their ears.
+- A9: Rule examines Hester. "Your heart keeps its own time now… like a pan with muck in the bottom… another rush like that will stop it." Sorle's left hand stays mittened and open throughout the vent. He pours one-handed and lays his good hand over Hester's in the cold basin.
+- A4: Aske wakes on "—*you can't* hold it, Orsolya, it'll only grow—". CON #14: Rule now says "That will be the arrears. Six days of heat through one hand."
+- Compressed Pell and Dunmore, the Deputy's statement (now noting it omits Seedmonth 901), Callow, Agathe's letter (now reporting Nell crazed but holding) and the crowds. A10: two "Nobody spoke" lines and "His face did something complicated" cut.
+
+**Ch. 26**
+- A9: in the cell, "Why the seventh dish?" She wanted Holm to hear it said aloud, before the city, by someone she couldn't dismiss. The corkscrew: "Part of me wanted somebody to see it." CON #28: "Not the Cold House."
+- A9/DEV #9: before the ward, Hester asks Mrs. Arden for Tib's form and writes in its margin: "*He said to me: Let me sleep. The night before Lantern Night, 892. H. Vail, 29 Rime 903.*" It is filed and locked: "It was on the record."
+- A6: Hester visits Jem Corrie's empty, swept plinth in the seventh row before going to Tib. Nell lies beside it, crazed and clear.
+- Sorle's register scene: "steepled blue fingers" became the one-handed close and his white left hand on the blotter.
+- The callback "sack off a porter's back" now points to the new Ch. 24 beat. Trims to the cell setting, the walk, the Lucan scene and the Vigil exposition. The final image and the "*Aelith?*" beat are untouched.
+
+**Notes for integration**
+- Ch. 22 quotes Ch. 21's 9 Rime Agathe letter ("the Corrie twins have begun to craze"); checked against current Ch. 21. Ch. 24 echoes Ch. 21's "I know her… She'll not let them drown" (Sorle's study, confirmed) and assumes the release training shows a still hand over a racing one in shared brine.
+- Ch. 26 still returns the two kept drops at the Vigil (CON #8 payoff). Ch. 21 must leave them ("Not yet").
+- The Ch. 19–21 commit (c52cc41) appears to have swept in this span's Ch. 22–23 working-tree edits. The Ch. 24–26 edits are uncommitted.
