@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="bookid" xml:lang="en">
+<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+<dc:identifier id="bookid">urn:uuid:4aab12dd-b464-5e77-9cf4-3d0cf2119273</dc:identifier><dc:title>What the Salt Keeps</dc:title><dc:creator>[AUTHOR NAME]</dc:creator><dc:language>en</dc:language>
+<dc:subject>Fantasy</dc:subject><dc:description>Book One of The Halcyon Cycle. A customs assayer whose brother has been kept in salt for eleven years enters the Halcyon, a university carved into the salt of a vanished sea, and uncovers what is draining the city's sleepers.</dc:description>
+<meta property="belongs-to-collection" id="series">The Halcyon Cycle</meta><meta refines="#series" property="collection-type">series</meta><meta refines="#series" property="group-position">1</meta>
+<meta property="dcterms:modified">2026-11-12T16:26:32Z</meta>
+<meta property="schema:accessMode">textual</meta><meta property="schema:accessMode">visual</meta>
+<meta property="schema:accessModeSufficient">textual</meta>
+<meta property="schema:accessibilityFeature">structuralNavigation</meta><meta property="schema:accessibilityFeature">tableOfContents</meta><meta property="schema:accessibilityFeature">alternativeText</meta><meta property="schema:accessibilityFeature">readingOrder</meta>
+<meta property="schema:accessibilityHazard">none</meta>
+<meta property="schema:accessibilitySummary">Reflowable text with semantic chapter headings, a navigable table of contents, landmarks, and text descriptions for the cover and maps. Decorative ornaments are marked as decorative.</meta>
+<meta name="cover" content="cover-image"/>
+</metadata>
+<manifest><item id="cover" href="text/cover.xhtml" media-type="application/xhtml+xml"/><item id="nav" href="text/nav.xhtml" media-type="application/xhtml+xml" properties="nav"/><item id="title" href="text/title.xhtml" media-type="application/xhtml+xml"/><item id="copyright" href="text/copyright.xhtml" media-type="application/xhtml+xml"/><item id="maps" href="text/maps.xhtml" media-type="application/xhtml+xml"/><item id="ch01" href="text/ch01.xhtml" media-type="application/xhtml+xml"/><item id="ch02" href="text/ch02.xhtml" media-type="application/xhtml+xml"/><item id="ch03" href="text/ch03.xhtml" media-type="application/xhtml+xml"/><item id="about" href="text/about.xhtml" media-type="application/xhtml+xml"/><item id="css" href="style.css" media-type="text/css"/><item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/><item id="cover-image" href="images/cover.jpg" media-type="image/jpeg" properties="cover-image"/><item id="img-map" href="images/map_rim.png" media-type="image/png"/><item id="img-sec" href="images/halcyon_section.png" media-type="image/png"/><item id="img-orn" href="images/ornament.png" media-type="image/png"/></manifest>
+<spine toc="ncx"><itemref idref="cover"/><itemref idref="title"/><itemref idref="copyright"/><itemref idref="nav"/><itemref idref="maps"/><itemref idref="ch01"/><itemref idref="ch02"/><itemref idref="ch03"/><itemref idref="about"/></spine>
+</package>

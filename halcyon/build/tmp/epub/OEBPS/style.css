@@ -1,0 +1,20 @@
+body{font-family:serif;line-height:1.5;margin:0 4%}
+p{margin:0;text-indent:1.3em;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+p.first{text-indent:0}
+h1{font-weight:normal;text-align:center;margin:2.5em 0 0;font-size:1em;letter-spacing:.25em;text-transform:uppercase}
+h2{font-weight:normal;font-style:italic;text-align:center;font-size:1.5em;margin:.4em 0 1.2em}
+.orn{text-align:center;margin:0 0 1.2em}.orn img{width:7em}
+.center{text-align:center;text-indent:0}
+.titlepage{text-align:center;margin-top:20%}
+.titlepage .t{font-size:2em;letter-spacing:.08em;text-indent:0;text-align:center;margin:.5em 0}
+.titlepage p{text-indent:0;text-align:center}
+.copyright p{text-indent:0;font-size:.85em;margin:.5em 0;text-align:left}
+figure{margin:1em 0;text-align:center}figure img{max-width:100%}figcaption{font-size:.85em;font-style:italic}
+nav ol{list-style:none;padding-left:0}nav li{margin:.3em 0}
+
+.scenebreak{text-align:center;text-indent:0;margin:1.1em 0;letter-spacing:.5em}
+.epigraph{margin:0 2.2em 2.2em;font-size:.92em;font-style:italic}
+.epigraph blockquote{margin:0;padding:0}
+.epigraph p{text-indent:0;margin:.15em 0}
+.epigraph p:last-child{text-align:right;font-style:normal;margin-top:.5em}
+.epigraph em{font-style:normal}
