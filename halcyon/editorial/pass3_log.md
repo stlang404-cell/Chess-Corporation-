@@ -42,3 +42,38 @@ Word count: 25,744 before, 25,067 after (-677, -2.6%).
 - Ch. 16:221 says Saskia saw "the drains and Lucan's torn page" on Lantern Night. She saw neither now; the page surfaces in Ch. 12 with only Hester present. Suggest: "Saskia had stood in the Cold House on Lantern Night and seen the beads. She had not seen what came after."
 - Ch. 11:29: "as he had nodded since Lantern Night" still works.
 - A13: with Callow's "a month or so" now planted on ~27 Russet, Ch. 13–18 might glance at Aske's casing still clear past 16 Fallow. That is optional; Ch. 19 pays it off either way.
+
+## Ch1-6
+
+Word count: 27,705 before, 27,018 after (-687, -2.5%). Ch. 2 is 5,432 → 4,758. Ch. 1, 3, 4 and 6 are within 0.5% of their old length; Ch. 5 is +1.3% because of the thornes passage.
+
+**Ch. 1**
+- CON #18: she puts six sols on the felt and Ennis says "Six. That's you square". The four flecks stay in her purse, which matches Ch. 2 and 3.
+- CON #32: "a hundred and twenty-seven times".
+- CON #4: Agathe now says "On fourteen of them, my dear, now there's your lad… A few in the spring. Twelve since midsummer, the Corrie twins among them." The total (14) and the Corrie plant are kept. This agrees with Ch. 9's 903 dates and with Ch. 13 ("in the spring… the first of them started weeping").
+- A10: cut "She did not look now." (the woman with the baby). The Tib step-round is unchanged (A1).
+
+**Ch. 2** (tightened by about 670 words)
+- Cuts: the harbour and landship description, the Shelf and warmth exposition, the reference-jar procedure, the account of how the hold works, the roar exposition, the duplicated Quell exchange with Mallory, Mallory's ledger beat, Aske's spoon and tasting business, and some of the offer speech.
+- Kept whole: the twelve-sample test, the gull cry, "Oh, that's *wrong*", Thorne, the ink colours and left hand, and the card.
+- A10: cut two of the three assayer similes ("reading out a grade", the fly-in-amber aside). "Twice the weight" became "near twice the weight" to fit thornes (6 against 11).
+
+**Ch. 3**
+- CON #16: "They came in the small hours, before first bell"; "Marguerite was up half the night".
+- A10: cut "Neither of them spoke for a long while" (now "there was only the rake") and one "She did not X. She did not X."
+
+**Ch. 4**
+- CON #1: the sun now "came up ahead of her, so that her shadow ran back along the Causeway toward the city". Orsolya "came up from behind, from the city, walking faster" and slows alongside. The Halcyon's western flank had windows "turned to copper" by a sunrise behind the dome; it now stands dark, with lamps coming on row by row (the ledger simile is kept).
+- CON #15: Crisp is "about sixty". Orsolya is now "near sixty" to avoid the echo.
+- A10: cut "Nobody said anything" at the lightning bolt, and one "It was not X. It was Y."
+
+**Ch. 5**
+- CON #31: live brine dies "in a few minutes".
+- A11: thornes are defined in Aske's Cell after the First Taste line. Hester grades the Fifth dish at "Ten thornes. Not quite eleven" and explains it as Mr. Thorne's number for the weight behind her eyes: Shelf about one, the Deep at 140 six, the *Wren* eleven. Aske writes the word down. Paid for with trims in the moth demonstration, the Sorle's Folly summary and Aske's spectacles business.
+- A10: "Nobody spoke" became "The Black Bench studied its knees."
+
+**Ch. 6**
+- A3: the wheels stop "somewhere on the turn below, as if whoever it was had stopped to rest", which plants the wait. She gives up "a little before the half" and passes nobody. Gage's notes (door locked at the tenth; a porter saw her at the rail before the half) agree with Ch. 12 and 20.
+- CON #29: the casing edge is "broken short, not quite meeting the floor". The later "skirt" became "the broken edge".
+- A1: removed the "She did not, yet, think the other word… She did not think it" denial. She now "sat with the word, and with what she had stored beside it".
+- A10: cut the second assayer simile ("stored a weight"), "Nobody said anything", "her face did nothing", and one "not X / Y".
