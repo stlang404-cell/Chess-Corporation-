@@ -161,3 +161,49 @@ Word count: 21,610 before, 21,721 after (+111, +0.5%). Ch. 22 4,300 to 4,141; Ch
 - Ch. 22 quotes Ch. 21's 9 Rime Agathe letter ("the Corrie twins have begun to craze"); checked against current Ch. 21. Ch. 24 echoes Ch. 21's "I know her… She'll not let them drown" (Sorle's study, confirmed) and assumes the release training shows a still hand over a racing one in shared brine.
 - Ch. 26 still returns the two kept drops at the Vigil (CON #8 payoff). Ch. 21 must leave them ("Not yet").
 - The Ch. 19–21 commit (c52cc41) appears to have swept in this span's Ch. 22–23 working-tree edits. The Ch. 24–26 edits are uncommitted.
+
+## Ch13-18
+
+Word count: 25,662 before, 25,637 after (-25, -0.1%). Ch. 13: 4,392 to 4,272. Ch. 14: 4,011 to 3,759. Ch. 15: 4,379 to 4,595. Ch. 16: 4,359 to 4,279. Ch. 17: 4,190 to 4,279. Ch. 18: 4,331 to 4,453. Cuts in Ch. 13, 14 and 16 (similes, recaps, repeated images) pay for the A1 additions in Ch. 15, 17 and 18.
+
+**Ch. 13**
+- RDR: comma splice fixed ("vaulting. A short passage").
+- Agathe's key: she now says Aske borrowed "Mine, not Mr. Pell's; there's only the two". So the Warden's men came through Pell, and Aske through her. This matches Ch. 19's "*Agathe's key*".
+- A1: the "did not let herself think it" device is gone. She will "taste it before she said it".
+- A10: cut "Nobody spoke", "Neither of the others spoke", "Nobody answered", the voice-in-the-next-room simile, "waking in a cold room" (Ch. 17 has it), the fish-on-a-slab and counted-coins similes, the "assay of his own" simile, and the first "flashed, once, white and hard". One customs image is left (the grade read aloud to the excisemen).
+
+**Ch. 14**
+- A8: the Gage "mislaid" scene is replaced by Vey in Gage's chair, with Gage silent at the window. Vey praises her statement and her diligence ("He was a diligent man too. The Conclave thanked him for it"). He returns nothing: the brass "is with the office that concerns it". He reminds her that "An aspirant without a sponsor holds her place at the Chancellor's pleasure, and the Chancellor... tires", and that her brother is kept on a charity form ("So am I"). Gage gets the last word: "You've your receipt." Sorle's cord now answers Vey's threat directly.
+- A8: Agathe's "worse" letter is cut to its facts: the grating re-mortared, the weeping stopped for two days, and a thinness at Tib's heel she can see her candle through. Teo's "It can be stopped" stays.
+- A13: Sorle in passing: "a kept corpse blooms grey in a month or so, whatever the grade".
+- RDR: Lise's portrait is "broad-faced" in all three mentions.
+- A10: cut "as she would have read a schedule", the short-weight simile and the gun-barrel simile. One assayer simile is left (the sample not yet weighed).
+
+**Ch. 15 (suspicion begins)**
+- A1: the Calendar scene and the Reading Well argument stay as pre-suspicion denial. The Reading Well is compressed. At the corkscrew Hester now *recognises* the hand: Aske's casing, "a long slow coil that went up his body from the floor. Turning left. *Widdershins.*... It was the same hand." She hides it ("It's beautiful," because her face needed something to do). Her questions about the residue become a test: she watches Orsolya's hands, not her face. On the shift she feels the full line "because tonight she was feeling for it". New ending: on the Stair she carries all the figures (W.L.F., the spiral twice, the full line, "kind"). She can't prove it, and she has reasons to keep quiet: Teo's face, Lucan and the Proctory, Orsolya's father, the stipend, and "the one person in the building who talked like home". "She wanted to be wrong. She noticed that, and did not trust it." She resolves to tell no one and to keep working the line.
+- A12: Crisp's Wednesday release hour. Her drop won't return. Crisp: "You let one go on the White... So it's in you. You're sitting on it." There are nine beads in the dish.
+- CON #33: "started whitening her hair at thirty".
+- A10: "chick" cut from 6 to 1. Kept "That's how I know your Coldwater Street, chick." Cut the Mallory-manifest simile, "did not stiffen / did not look away", the coin-unclench simile and the Mallory aside.
+
+**Ch. 16 (concealment)**
+- A1: at "*The Warden says the Choir eats on this*", Hester thinks of the candle spiral and the full line and keeps her face still. Aloud: "It's Dunmore... Dunmore's the one we watch." The flat customs voice "would serve as well for the other kind". When Saskia asks who O. is: "Somebody who knows the Fifth." She withholds the candle-flame from Saskia along with Tib's words. With Lucan, she says Dunmore's name three times, "and each time, under it... she heard the other". On the dome she looks at "the woman who paid it".
+- RDR: Teo bakes on the smuggled spirit stove (Ch. 5). The cracked kept-light jar is now only the lamp, which sets up Ch. 18. Orsolya's tea has no Hask honey. The ledger heading is "*Declaration of Interest*": *Orme* is struck through and *E. Dunmore* written "where anyone in the room could read it. The other name she had not written anywhere." The ballad line and Teo's reply are cut.
+- CON #21: "a pass for the box-lift... It runs from the Fifth to the Third and nowhere else. Three nights a week... at the tenth bell at the Third Fathom landing". The later "brine-lift" is now "box-lift".
+- Ch. 7–12 flag: Saskia saw only the beads on Lantern Night. The recap now adds the torn page among the things Hester tells her.
+- A10: cut "chick", "Nobody answered", "His face did the thing it did", the sample/reagent simile and the ticking-tiles image (Ch. 18 keeps it). Trimmed the recap, the bursary and the Teo exposition.
+
+**Ch. 17**
+- A1: Hester watches the left-leaning capitals and covers it ("said something to Ama about the cold"). The Fallow beat now reads: she had "stood in the line every shift since, waiting for a mouthful". The excisemen simile is replaced: Tib goes "into the Warden's stay, under the Warden's song". She looks for guilt in Orsolya's eyes, "because she had been looking for it since Fallow", and finds only grief. New ending: "She did not suspect any longer. She knew. The Warden's stays drank the sleepers," followed by the three sols paying for the casing they drink, and "could not make the two women into one, and could not make them into two". The Hask honey is gone.
+- A1: the one permitted "did not let herself think it" is moved to Ama's throat.
+- CON #26: "carried her down". "Nobody spoke" is cut.
+- A10: "chick" cut from 3 to 1 ("Right, then"; "Line. *Now.*"). Kept "Help me get her up, chick." One assayer simile is left (the reference jars).
+
+**Ch. 18**
+- A1: the bind, on the way down to the Fifth. Every stay is fed from the Cold House and every one is Orsolya's. The Assize would cut the line, the stays would starve, and "the Fourth was the whole Halcyon". "To save her brother she had to name Orsolya, and naming Orsolya would drown the house. She could not find the third thing." The Hush temptation follows from it: "If she could not stop the draw, she could outrun it." The Choir shift after Bett is now done "knowing what ran in it".
+- DEV #10: "The Physic's voice", with the line corrected to match Ch. 6: "*You'd never get the arrears out of Hush grain without killing him.*"
+- A10: no assayer similes left in Bett, Aldous, Teo or the store. Cut the seizure write-up, "the customs voice", "seizure hand" and the seizure-ledger close. The chapter now ends "until there was nothing left on them at all." Bett, "You kept him for you", the confession and "keeping two people" are unchanged.
+
+**Notes**
+- Not done here: A11 (thornes is defined in Ch. 5), and the optional Ch. 7–12 suggestion to glance at Aske's casing still being clear.
+- Ch. 20 and 21 still say "Gage lost the rod". That still works: it went into his store and Vey says it has gone on.
+- Other spans' commits (124e34c, c52cc41, 5571140) swept in working-tree edits from this span. The final state of Ch. 13–18 is the working tree.
