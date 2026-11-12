@@ -75,6 +75,21 @@
     "suddenly": 0
    }
   },
+  "ch06.md": {
+   "words": 4699,
+   "title": "Kept",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 8,
+    "very": 7,
+    "for a moment": 1,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
   "ch07.md": {
    "words": 4599,
    "title": "Ask O.",
@@ -150,6 +165,21 @@
     "suddenly": 1
    }
   },
+  "ch12.md": {
+   "words": 4181,
+   "title": "Sorle's Folly",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 3,
+    "very": 8,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
   "ch13.md": {
    "words": 5409,
    "title": "The Cistern",
@@ -180,6 +210,21 @@
     "suddenly": 0
    }
   },
+  "ch15.md": {
+   "words": 5057,
+   "title": "Ferrers",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 13,
+    "very": 11,
+    "for a moment": 0,
+    "went still": 2,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 1
+   }
+  },
   "ch16.md": {
    "words": 5027,
    "title": "Annealing",
@@ -204,6 +249,21 @@
     "the way": 3,
     "very": 3,
     "for a moment": 2,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch18.md": {
+   "words": 4812,
+   "title": "The Fourth Sleeper",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 3,
+    "very": 4,
+    "for a moment": 1,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -270,8 +330,23 @@
     "suddenly": 2
    }
   },
+  "ch23.md": {
+   "words": 4915,
+   "title": "The Old Tap",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 7,
+    "very": 7,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
   "ch24.md": {
-   "words": 4525,
+   "words": 4528,
    "title": "The Hush",
    "header_ok": true,
    "banned": [],
@@ -317,9 +392,7 @@
   }
  },
  "issues": [
-  "chapter set != 1..26: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 19, 20, 21, 22, 24, 25, 26]",
-  "variant 'founders' shaft' x4 (canon 'Founders' Shaft')",
-  "month 'Sere' used (should be Fallow)"
+  "variant 'founders' shaft' x5 (canon 'Founders' Shaft')"
  ],
  "chapter_numbers": [
   1,
@@ -327,24 +400,29 @@
   3,
   4,
   5,
+  6,
   7,
   8,
   9,
   10,
   11,
+  12,
   13,
   14,
+  15,
   16,
   17,
+  18,
   19,
   20,
   21,
   22,
+  23,
   24,
   25,
   26
  ],
- "total_words": 103907,
+ "total_words": 127574,
  "release_present": {
   "BOOK-ONE-COMPLETE.pdf": false,
   "BOOK-ONE-MOBILE.pdf": false,
