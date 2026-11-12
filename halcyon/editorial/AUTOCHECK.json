@@ -1,13 +1,13 @@
 {
  "chapters": {
   "ch01.md": {
-   "words": 4774,
+   "words": 4713,
    "title": "The Cold House",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 11,
-    "very": 8,
+    "the way": 4,
+    "very": 4,
     "for a moment": 1,
     "went still": 0,
     "eyes widened": 0,
@@ -16,14 +16,14 @@
    }
   },
   "ch02.md": {
-   "words": 5465,
+   "words": 5423,
    "title": "The Dry Harbour",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 9,
-    "very": 12,
-    "for a moment": 5,
+    "the way": 3,
+    "very": 4,
+    "for a moment": 2,
     "went still": 4,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -31,14 +31,14 @@
    }
   },
   "ch03.md": {
-   "words": 4293,
+   "words": 4282,
    "title": "Spitting Pans",
    "header_ok": true,
    "banned": [],
    "tics": {
     "the way": 1,
-    "very": 9,
-    "for a moment": 4,
+    "very": 4,
+    "for a moment": 2,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -46,29 +46,29 @@
    }
   },
   "ch04.md": {
-   "words": 5919,
+   "words": 4756,
    "title": "Below the Line",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 13,
-    "very": 8,
+    "the way": 4,
+    "very": 3,
     "for a moment": 1,
-    "went still": 1,
+    "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
-    "suddenly": 1
+    "suddenly": 0
    }
   },
   "ch05.md": {
-   "words": 4766,
+   "words": 4116,
    "title": "First Principles",
    "header_ok": true,
    "banned": [],
    "tics": {
     "the way": 4,
-    "very": 6,
-    "for a moment": 1,
+    "very": 2,
+    "for a moment": 0,
     "went still": 1,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -76,14 +76,14 @@
    }
   },
   "ch06.md": {
-   "words": 4699,
+   "words": 4298,
    "title": "Kept",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 8,
-    "very": 7,
-    "for a moment": 1,
+    "the way": 2,
+    "very": 1,
+    "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -91,14 +91,14 @@
    }
   },
   "ch07.md": {
-   "words": 4599,
+   "words": 4232,
    "title": "Ask O.",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 5,
-    "very": 11,
-    "for a moment": 1,
+    "the way": 0,
+    "very": 1,
+    "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -106,14 +106,14 @@
    }
   },
   "ch08.md": {
-   "words": 5258,
+   "words": 4361,
    "title": "The Stay Choir",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 11,
-    "very": 8,
-    "for a moment": 2,
+    "the way": 2,
+    "very": 0,
+    "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -121,14 +121,14 @@
    }
   },
   "ch09.md": {
-   "words": 4108,
+   "words": 4078,
    "title": "The Brinestacks",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 3,
-    "very": 9,
-    "for a moment": 1,
+    "the way": 2,
+    "very": 1,
+    "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -136,14 +136,14 @@
    }
   },
   "ch10.md": {
-   "words": 5019,
+   "words": 4379,
    "title": "Lantern Night",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 5,
-    "very": 10,
-    "for a moment": 2,
+    "the way": 0,
+    "very": 1,
+    "for a moment": 1,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -151,28 +151,28 @@
    }
   },
   "ch11.md": {
-   "words": 5281,
+   "words": 4372,
    "title": "The Sink",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 4,
-    "very": 6,
-    "for a moment": 3,
+    "the way": 0,
+    "very": 0,
+    "for a moment": 1,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
-    "suddenly": 1
+    "suddenly": 0
    }
   },
   "ch12.md": {
-   "words": 4181,
+   "words": 4204,
    "title": "Sorle's Folly",
    "header_ok": true,
    "banned": [],
    "tics": {
     "the way": 3,
-    "very": 8,
+    "very": 4,
     "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
@@ -181,28 +181,28 @@
    }
   },
   "ch13.md": {
-   "words": 5409,
+   "words": 4375,
    "title": "The Cistern",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 6,
-    "very": 12,
+    "the way": 0,
+    "very": 0,
     "for a moment": 1,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
-    "suddenly": 2
+    "suddenly": 0
    }
   },
   "ch14.md": {
-   "words": 4832,
+   "words": 3992,
    "title": "What Is Owed",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 3,
-    "very": 14,
+    "the way": 1,
+    "very": 1,
     "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
@@ -211,58 +211,43 @@
    }
   },
   "ch15.md": {
-   "words": 5057,
+   "words": 4373,
    "title": "Ferrers",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 13,
-    "very": 11,
+    "the way": 1,
+    "very": 2,
     "for a moment": 0,
     "went still": 2,
     "eyes widened": 0,
     "heart hammered": 0,
-    "suddenly": 1
+    "suddenly": 0
    }
   },
   "ch16.md": {
-   "words": 5027,
+   "words": 4341,
    "title": "Annealing",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 2,
-    "very": 4,
+    "the way": 0,
+    "very": 1,
     "for a moment": 0,
-    "went still": 0,
+    "went still": 1,
     "eyes widened": 0,
     "heart hammered": 0,
     "suddenly": 0
    }
   },
   "ch17.md": {
-   "words": 5020,
+   "words": 4163,
    "title": "The Silent Supper",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 3,
-    "very": 3,
-    "for a moment": 2,
-    "went still": 0,
-    "eyes widened": 0,
-    "heart hammered": 0,
-    "suddenly": 0
-   }
-  },
-  "ch18.md": {
-   "words": 4812,
-   "title": "The Fourth Sleeper",
-   "header_ok": true,
-   "banned": [],
-   "tics": {
-    "the way": 3,
-    "very": 4,
+    "the way": 0,
+    "very": 0,
     "for a moment": 1,
     "went still": 0,
     "eyes widened": 0,
@@ -270,14 +255,29 @@
     "suddenly": 0
    }
   },
+  "ch18.md": {
+   "words": 4309,
+   "title": "The Fourth Sleeper",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 1,
+    "very": 1,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
   "ch19.md": {
-   "words": 5784,
+   "words": 4656,
    "title": "The Notebook",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 4,
-    "very": 7,
+    "the way": 3,
+    "very": 0,
     "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
@@ -286,12 +286,12 @@
    }
   },
   "ch20.md": {
-   "words": 5049,
+   "words": 4378,
    "title": "The Warden",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 6,
+    "the way": 4,
     "very": 1,
     "for a moment": 0,
     "went still": 0,
@@ -301,13 +301,13 @@
    }
   },
   "ch21.md": {
-   "words": 5545,
+   "words": 4615,
    "title": "Still Runs to Quick",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 6,
-    "very": 6,
+    "the way": 4,
+    "very": 2,
     "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
@@ -316,28 +316,28 @@
    }
   },
   "ch22.md": {
-   "words": 4288,
+   "words": 4277,
    "title": "The Midwinter Assay",
    "header_ok": true,
    "banned": [],
    "tics": {
     "the way": 2,
-    "very": 5,
+    "very": 4,
     "for a moment": 2,
     "went still": 1,
     "eyes widened": 0,
     "heart hammered": 0,
-    "suddenly": 2
+    "suddenly": 1
    }
   },
   "ch23.md": {
-   "words": 4915,
+   "words": 4367,
    "title": "The Old Tap",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 7,
-    "very": 7,
+    "the way": 2,
+    "very": 1,
     "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
@@ -346,13 +346,13 @@
    }
   },
   "ch24.md": {
-   "words": 4528,
+   "words": 4249,
    "title": "The Hush",
    "header_ok": true,
    "banned": [],
    "tics": {
     "the way": 4,
-    "very": 8,
+    "very": 4,
     "for a moment": 1,
     "went still": 0,
     "eyes widened": 0,
@@ -361,7 +361,7 @@
    }
   },
   "ch25.md": {
-   "words": 4263,
+   "words": 4247,
    "title": "The Gull",
    "header_ok": true,
    "banned": [],
@@ -376,14 +376,14 @@
    }
   },
   "ch26.md": {
-   "words": 4683,
+   "words": 4373,
    "title": "What the Salt Keeps",
    "header_ok": true,
    "banned": [],
    "tics": {
-    "the way": 6,
-    "very": 12,
-    "for a moment": 1,
+    "the way": 2,
+    "very": 4,
+    "for a moment": 0,
     "went still": 0,
     "eyes widened": 0,
     "heart hammered": 0,
@@ -392,7 +392,7 @@
   }
  },
  "issues": [
-  "variant 'founders' shaft' x5 (canon 'Founders' Shaft')"
+  "variant 'founders' shaft' x1 (canon 'Founders' Shaft')"
  ],
  "chapter_numbers": [
   1,
@@ -422,7 +422,7 @@
   25,
   26
  ],
- "total_words": 127574,
+ "total_words": 113929,
  "release_present": {
   "BOOK-ONE-COMPLETE.pdf": false,
   "BOOK-ONE-MOBILE.pdf": false,
@@ -430,9 +430,9 @@
   "BOOK-ONE-COMPLETE.docx": false,
   "BOOK-ONE-COMPLETE.md": false,
   "BOOK-ONE-COVER.png": false,
-  "BOOK-ONE-READER-COMPANION.pdf": false,
+  "BOOK-ONE-READER-COMPANION.pdf": true,
   "SEVEN-BOOK-SERIES-BIBLE.pdf": true,
-  "BOOKS-2-THROUGH-7-OUTLINES.pdf": false,
+  "BOOKS-2-THROUGH-7-OUTLINES.pdf": true,
   "EDITORIAL-REPORT.md": false,
   "CONTINUITY-REPORT.md": false,
   "VERIFICATION-REPORT.md": false,

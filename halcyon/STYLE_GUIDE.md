@@ -9,7 +9,7 @@
 - **Numbers:** spell out in dialogue and narration up to one hundred, except dates ("6 Russet"), fathom numbers ("the Fifth Fathom"), casing numbers ("casing two hundred and eleven" in speech, "211" on a label), and money in figures when written ("6 sols") but words in speech.
 - **Capitalisation:** the Halcyon; the White; the Hollow Sea; the Rim; the Ebb; the Fifth Fathom; the Hush; the Stay Choir / the Choir; a stay / the Stays (as a place); the Stair; the Line; the Lantern; the Lantern Hour; Lantern Night; the Assay; the Long Table; the Brinestacks; the Quiet Rooms; the Cold House; the Cistern; the Settle; the Roar; the Charter; Reader, Warden, Chancellor, Proctor (as titles); aspirant (lower case); grain, stillsalt, live brine, keeping, casing, the hold, the release, lag, arrears, quickening (lower case).
 - **Spelling:** British-inflected spelling (colour, grey, centre, practise as a verb). Use "towards" or "toward" consistently: **toward**.
-- **Time:** bells. First bell is dawn (about 6); the Halcyon rings twelve bells from dawn; "the tenth bell" is evening (about 9 p.m.).
+- **Time:** bells. The Halcyon rings twelve bells a day, from first bell at dawn to twelfth bell near midnight (about ninety minutes apart). "The half" or "the half bell" is midway between two bells. Weekdays use ordinary names (Monday … Sunday).
 
 ## The voice
 - **Dry, exact, observant.** Hester notices weights, textures, prices, lies and the tare of things (the weight of the container versus its contents).
