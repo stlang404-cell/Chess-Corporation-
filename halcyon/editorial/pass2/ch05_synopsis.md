@@ -1,0 +1,5 @@
+# Ch. 5 — First Principles (7–15 Russet)
+
+On the Pans, Crisp teaches the hold as posture. Hester keeps a drop hard and square and cannot return it: "You hold like a miser, Vail." In the Black Bench, Sorle humiliates Lucan over arrears, then joins his late wife's 864 moth to a fresh leaf with brine-soaked thread. The moth weeps in lines toward the quick. Hester recognises Tib's pattern and asks what it would mean on a person: "that someone had run a thread." Sorle floats the "paused sea" and is laughed at as Sorle's Folly. Days of Lumen, Reading and saltcake follow. A second unreturned bead joins the first in R-41; Saskia jibes. On 15 Russet Aske shows Hester a beating quickened crystal from the stays. He says the stays are "easier than they ought to be," and that on 5 Russet Agathe showed him fourteen charity casings weeping. He invites her for the next night. On the Stair she passes Sorle going down toward the Third Fathom.
+
+**Clues:** draw-weeping (pays off Ch. 1); fed stays; Sorle on the Stair.

@@ -1,0 +1,5 @@
+# Ch. 2 — The Dry Harbour (1 Russet)
+
+At the Customs House, Comptroller Mallory hurries Hester to pass the Ferrers & Lisk cargo off the *Constant Wren*, manifested as Exchequer-certified Shelf grain from Quell. With Daisy Fenn watching, Hester finds the grain white, warm and dry, with a live bead of water moving inside one crystal. Heavier than any legal reference Deep, she calls it Hush grain, and quickened. She reads it in an unlicensed hold and hears the roar, and inside it a high falling cry she cannot name. She seizes it under Article Nine over Mallory's protests. That night Reader Corvin Aske confirms the seizure ("Oh, that's *wrong*"). He tests her blind on twelve samples, and she names a twice-kept grain and matches his Fifth-Fathom stay sample to the cargo. He offers his Reader's Privilege. She refuses because of Tib's fee. He asks whether her brother's casing weeps and leaves his card: *Come and find out why.*
+
+**Clues:** Hush grain via Ferrers & Lisk; the gull cry; Aske knows of weeping (not yet visited the Cold House).

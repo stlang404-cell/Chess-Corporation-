@@ -405,3 +405,447 @@ This is not a contest between a hero and a villain. It divides every household. 
 - Aldous is dead. Hester and Lucan are together. Sorle is failing. Orsolya is trusted, unofficially.
 
 ---
+
+## BOOK FIVE — THE RED GRAIN
+*906–907 Y.E. Conflict: civil conflict and war. Hester is 36–37.*
+
+### Working title and one-line pitch
+***The Red Grain.*** The Rim goes to war over whether to keep spending a people, and Hester learns what she will do to save a child.
+
+### Premise
+The halt has bankrupted the Exchequer. Brinery fees have doubled as Deep stock dwindles, and Lowside has no work. Hask, whose kingdom depends on kept medicine, has stopped receiving it.
+
+Lord Exchequer Aurel Ferrers and Chancellor Vey's Charterists ally with Hask mercenaries under **Marshal Radik Ostovar** (provisional). Together they seize the Shelf and resume mining in the Hush.
+
+To hold the city they use **Sanguine Grain**, the capital crime of 611. They make keyed keepings of hostages: the children and spouses of reformer Readers, Delver captains and Assize members. The casings open only for their Charterist keyers. They are displayed in the Quiet Rooms as "surety."
+
+### Themes
+- **Order versus justice.** The Charterists offer order, a working economy, medicine for Hask and light for the rich. The rising offers justice and chaos.
+- **Who pays.** Lowside always pays: in the coup, in the rising, in the fire.
+
+### Central conflict
+Civil war on the Rim. The Exchequer–Charterist–Hask coalition holds the Halcyon and the mines. Against it stand the Lowside rising, the Delvers, the reformer Readers in exile, Quell and Harl.
+
+### Setting developments
+- **The Halcyon occupied.** Mercenaries on the Stair. Hush galleries reopened by forced labour.
+- **Lowside barricaded**, then half-burned.
+- **The Causeway** as a front line.
+- **The Cistern**, B1's founders' tunnels, now an infiltration route.
+- **Ferrers House** in the upper wards.
+- **Tidewater Abbey at Harl**, the site of the treaty.
+- **The Quiet Rooms** as a hostage gallery.
+
+### Act-by-act outline
+
+**Act I — The Coup.**
+- **The Lantern Hour.** As the kept noon light fills the refectory, Hask companies cross the Causeway. Excisemen seize the Exchequer's own Assize members. The Proctors split; Gage refuses Vey's order to arrest the Conclave reformers and is himself arrested.
+- **The Readers.** Crisp is kept in a keyed casing (provisional). The remaining reformers are confined to the Readers' Close. Sorle is too frail to move and refuses to leave anyway.
+- **Escape.** Hester and Teo escape through the Cistern, B1's route reversed, and come up under the Cold House beside Tib.
+- **Pip is taken.** Pip, now nine, is taken from her Glassmarket school and kept in a keyed casing. Saskia is away at Quell on Inquiry business when it happens.
+- **Vey's proclamation.** The Ostrin are "echoes, not persons." Mining resumes, and the Hush is reopened by delvers working at musket-point.
+- **Orsolya released into service** (fixed truth; this interpretation is provisional). Vey has no Warden who can hold the Stays against the quickenings that forced mining will cause, so he frees Orsolya from the cells to do it. She accepts. Hester, hearing of it, believes Orsolya has turned again.
+- **Lucan inside.** He stays in Ferrers House, apparently loyal, passing his father's dispositions out through Daisy Fenn's customs couriers.
+
+**Act II — The Lowside Rising.**
+- **The Delvers.** The Hask companies drive delvers into a quickening gallery, and nine die. The Delvers' Guild, split since B4, reunites and rises. Lowside throws up barricades from the Pans to Coldwater Street.
+- **Hester as a political figure.** She speaks from her father's brine-pans to ten thousand people. She is no orator: she lists the weights. What was taken, from whom, at what rate. It works because it is true.
+- **The alliance.** With Saskia, she brokers an alliance of Lowside, the Delvers, the Tiders, Quell (Dagny Strand's landships and Lodge glassmen) and Harl (Teo's family sends grain wagons).
+- **Lucan's public break.** At an emergency session of the rump Assize in Lowside, Lucan reads aloud his father's written order for the keyed hostages, with Aurel's signature and seal. He renounces his place in the Ferrers succession (provisional) and asks to be tried with the rest if the rising fails.
+- **The fire.** Ferrers retaliates by burning Lowside's western streets. Mercenaries fire the brine-sheds, and the wind does the rest. **Lowside is half-burned.** Aldous's pans are lost.
+
+**Act III — The Siege.**
+- **The lines.** The rising besieges the Shelf. The Causeway is held by Delver militia. Strand's landships patrol the White flank, so the Charterists cannot export the grain they are mining.
+- **Inside the Halcyon.** Orsolya and Sorle are working together, not apart. Forced mining in the Hush is driving the quickenings toward catastrophe, and Orsolya holds the Stays with a conscripted Choir. In secret she is slowing the cutting, sabotaging rods and misreporting yields. She was never Vey's.
+- **The infiltration.** Hester goes back in through the Cistern to the Old Tap with Teo and Gage, whom the rising freed from a Proctory transport.
+- **Learning the forbidden craft.** Gage has brought the Mattias Horne case files from the Proctory archive: the only written account of keying. Hester learns Sanguine Grain from a murderer's notes.
+- **Pip freed** (signature moment 24). In the Quiet Rooms Hester captures Pip's keyer, a Charterist Reader, **Silas Merrow** (provisional). He will not open the casing. She takes his blood by force, salts it, works it into her own hands and releases Pip, who is terrified and alive. Hester has committed a capital crime and a violation of a man's body. She does not regret it, and that frightens her more than the act.
+- **The other hostages.** She frees eleven more the same way before Merrow's blood runs out. Four casings keyed to other keyers remain sealed.
+- **Sorle's last lecture** (signature moment 22). The quickening breaks in the Fifth Fathom. Sorle, unable to walk, has himself carried to the Choir. He gives the conscripted choristers his last lecture: the arrears calculus of the Great Keeping, and what they are really holding. He asks them to hold not for the Exchequer but for the people under the salt, until the mining stops. Then he holds with them. He dies Settled at the lectern, mid-sentence. Orsolya finishes the sentence. The Choir does not break, and the mercenaries in the Hush flee the quickening. The forced mining stops.
+
+**Act IV — The Journal.**
+- **The strongroom.** In Ferrers House, Lucan opens his father's strongroom. Ferrers has left the house for the Shelf. Lucan finds **Ysolde's full journal**, held by the Ferrers line since the Exchequer's founding in 212 as a surety between the Seal and the Exchequer (provisional). The Ferrers have always known.
+- **The truth.** The founders knowingly kept 200,000 people to annihilate the Ilisse fleet. They were losing a twenty-year war, and the Keeping won it. Ysolde's last line (signature moment 23): *"We will tell them it was the sea's doing. God forgive us, we will believe it ourselves."*
+- **Publication.** Lucan carries the journal to the Lowside presses. It is printed in a night and read aloud on the barricades and, crucially, to the Hask companies. Corrant Hask, the Quiet Company's co-leader, is the namesake hero of the Haskish crown. Ostovar's captains learn their contract is defending the heirs of a massacre that bears their kingdom's founder's name. Unpaid as well, two Hask companies stand down.
+
+### Climax
+**The Battle of the Causeway.**
+- With the Halcyon untenable, Vey and Ferrers attempt a breakout across the Causeway to the Dry Harbour. They are escorting a train of cut Hush grain, the coup's whole yield, to Ferrers landships.
+- The Delver militia, Lodge landships and Lowside companies meet them on the two-mile road under the kept-light posts.
+- Hester holds the Causeway's central span: she keeps a breaching wagon's charge mid-blast in a brine-drenched culvert, and lags.
+- Teo and Saskia lead the Lowside line.
+- Gage, Chief Proctor again by acclamation, **arrests Chancellor Vey** on the Causeway, by the Charter he served. Vey surrenders politely.
+- **Ferrers flees** by landship across the White toward Hask. Half the Hush grain train escapes with him (provisional quantity: about a tenth of all Hush grain ever cut).
+
+### Resolution
+- **The Rim Concord Treaty of Harl**, signed at Tidewater Abbey by Ambry, Quell, Harl and Ostmere. Hask is excluded pending reparations.
+- The treaty ends the war and establishes the **Commission of Return**: a Concord body charged with planning the restitution of the sea and its people. The Conclave, purged, votes to give the Commission authority over the Halcyon's lower Fathoms.
+- Vey is held for trial. The remaining keyed hostages are released when Merrow and two other keyers surrender and open their casings under amnesty. Crisp lives.
+- Hester confesses her sanguine work before the Proctory. She is pardoned under the treaty, but the record stands.
+- **Lowside is half-burned.**
+- The war is over and won. The Rim has decided to give the sea back.
+
+### Character arcs
+- **Hester:** she becomes a political figure, a voice of Lowside on the Commission. Her moral stain, freeing Pip with forbidden grain, is a permanent mark, and it means she will never again think herself simply good. She loses Sorle.
+- **Teo:** he leads Lowside militia, hating it, and keeps the Listener's work alive in a burning city. He talks to Vaimé's boundary twice in secret, and Vaimé's replies grow longer.
+- **Saskia:** Pip is taken and freed. Her rage turns into command: she runs the rising's supply and becomes its de facto quartermaster-general. At Harl she wins the Commission's charter clauses.
+- **Lucan:** he breaks with his father publicly, finds and publishes the journal, and loses his inheritance. He gains his name.
+- **Aske:** he runs the rising's assay. He checks grain for sabotage, authenticates the journal by cold-dating its salt to 0–3 Y.E., and keeps everyone fed on shellfish paste and jokes.
+- **Sorle:** he dies Settled in the Choir, giving his last lecture. His chalk-name is the first written on the Stair after the war.
+- **Orsolya:** released into service, she is the inside saboteur. She finishes Sorle's sentence. The treaty commutes her sentence to service under the Commission.
+- **New:** Marshal Radik Ostovar (provisional), Silas Merrow (provisional).
+
+### Key relationships
+- **Hester and Saskia:** the debt of Pip, which Saskia insists is not a debt.
+- **Lucan and Aurel:** severance.
+- **Sorle and Orsolya:** they finish each other's work.
+- **Hester and Orsolya:** trust restored in the dark of the Fifth Fathom.
+- **Hester and Lucan:** tested by separation and by his father. They hold.
+
+### Magical discoveries
+- **Sanguine Grain in practice:** keyed casings, their making and their breaking.
+  - **Rule extension:** a keyed casing releases to any worker who carries the keyer's own blood- or tear-salt worked into live brine on their hands. It "opens only for them" in the sense that only their body-salt unlocks it. The rule needs a formal statement, because Hester's act depends on it.
+- **The Great Keeping's mechanics.** From Ysolde's journal: three thousand workers in a synchronised hold, the Ostrin chant stolen and turned, and the Hush as the founders' working floor, *still active*. That is why the Hush hums.
+- **Forced mining's consequence.** Cutting the Hush drives quickenings toward catastrophe. B1's Fathoming, at war scale.
+
+### Political developments
+- The Exchequer coup, the Lowside rising and the Battle of the Causeway.
+- The Treaty of Harl and the Commission of Return.
+- Vey arrested. Ferrers in exile with a fortune in Hush grain. Hask disgraced and divided.
+- The Delvers reunited.
+- Lowside's political power is born: Hester, Saskia and the Guild.
+- The Halcyon's Charter is suspended under Commission authority.
+
+### Mystery developments
+- **Book mystery:** where is the founders' full account, and who has kept it? **Solution:** the Ferrers strongroom. The Exchequer has been the Seal's silent partner since 212.
+- **Saga mystery:** why the Ebb was made. **Solution:** to win a war by keeping an enemy people. The founders' lie included lying to themselves.
+
+### Major revelations, with supporting evidence
+1. **The founders' deliberate keeping of 200,000 Ostrin to annihilate the fleet.** B2: "the only mercy left us"; Holm's implausible flood. B3: the tower's alarm-bells. B4: the Ostrin speak of ships, fire and an enemy shore. World Bible: the twenty-year war.
+2. **The Ferrers line held the journal.** B1: the Ferrers firm's ease with forbidden grain. B2: the Exchequer's founding in 212 shortly before the 230 Fire; Aurel's distance from Rade. B3: the Exchequer's 812 suppression. B4: Aurel's "echoes" creed.
+3. **Orsolya was never Vey's.** B1: she chose rightly at the vent. B4: her teaching at the Choir. B5: the misreported yields Aske notices in the coup's grain.
+4. **Corrant Hask is the namesake of the Haskish crown.** World Bible: the Quiet Company's co-leader.
+
+### Series consequences
+- The Commission of Return exists, and the decision to return the sea is made.
+- Ferrers is free in Hask with a hoard of Hush grain. That is the seed of B7's Second Keeping.
+- Lowside is half-burned and must be rebuilt, and will have to be evacuated because it sits on the old seabed.
+- Sorle is dead. His arrears calculus passes to Hester and Lucan.
+- Hester carries the sanguine knowledge and the stain.
+
+---
+
+## BOOK SIX — THE EBB REVERSED
+*907–908 Y.E. Conflict: engineering catastrophe and recovery. Hester is 37–38.*
+
+### Working title and one-line pitch
+***The Ebb Reversed.*** Undoing a nine-hundred-year wrong turns out to be an engineering problem, a refugee crisis and a test of whether two peoples can survive each other.
+
+### Premise
+Returning the sea all at once would drown every Rim city built on the old seabed. Its arrears, nine centuries of a living sea's pressure, would be catastrophic.
+
+The Commission plans the **Great Vent**, a staged return over years through a **Ring** of shafts around the Hollow's margins (provisional: twelve shafts). The lower cities are evacuated ahead of the water. Hester is chief engineer of the western arc.
+
+The first returns happen at the margins. The Ostrin who come back arrive mid-battle and terrified: to them, the war began eleven minutes ago.
+
+### Themes
+- **Repair is harder than harm.** The Keeping took one night. The return takes years.
+- **Living with the wronged.** Restitution means sharing a city with people who have every reason to hate you.
+
+### Central conflict
+- **Sabotage** by remnant Charterists, funded from Hask by Ferrers and run by Fennick Rade (B2, provisional).
+- **Rim fear of the Ostrin**, which the saboteurs feed. Every Ostrin act of violence becomes a pamphlet.
+
+The Vent must be built, held and trusted, all at once.
+
+### Setting developments
+- **The Ring:** shaft-heads and vent-gates around the Hollow. The **Gate of Coldbank** sits on the old Coldbank workings south of Lowside, where Orsolya's father died in 856.
+- **Lowside evacuated.** Its people move to upslope camps, and the Cold House sleepers are carried uphill in their casings.
+- **The Harl Compound** (provisional): the Commission's camp for returned Ostrin.
+- **The rising margins:** brackish shallows creeping over the White, with returned weed, fish and shellfish.
+- **Ilisse's outer barges:** the first Ostrin ships to surface.
+
+### Act-by-act outline
+
+**Act I — Engineering and Evacuation.**
+- **The Vent designed.** Hester and Lucan finish Sorle's calculus. She supplies the weights, he supplies the rhythm of the staged pulses. The first Commission head, **Commissioner Edric Tull** (provisional), is a Concord appointee who prefers schedules to people.
+- **The evacuation.** Lowside is the first district to go: the burned streets and the unburned. Hester walks her own street with the evacuation clerks and fails to persuade her neighbours until Daisy Fenn does it with gossip and bread.
+- **Moving Tib.** The Cold House sleepers are carried upslope casing by casing. Mother Agathe names each one aloud as it goes. Tib's casing cracks on a cart in the frost. Hester recasts it on the road with her bare hands.
+- **The first shaft.** It opens at the southern margin, near Harl. Water rises: the first planned return.
+- **Sabotage begins.** Pamphlets ("The Drowned Are Coming"), Commission surveyors beaten, a sabotaged lift at the Ostmere shaft (provisional).
+
+**Act II — Thaelin.**
+- **The first returned** (signature moment 25). A girl in salt-stained armour, holding a short sword, stands up in the shallows of the southern vent and sees a red desert, the Scald's edge, where a moment ago there was an enemy shore. **Thaelin** (fifteen, a marine of the Ilisse fleet) kills a Commission worker who reaches for her.
+- **"Aelith?"** Teo wades in alone and unarmed. She asks it, and he answers in her own language: *it is over. It has passed. It was nine hundred years ago.* She does not believe him for eleven days.
+- **Fear.** More returns: forty, then three hundred, sailors and marines from the outer barges. Some fight, and two Rim villages are raided. The Commission confines the returned to the Harl Compound, which is uncomfortably like a prison. Rade's pamphlets call for the Vent to be stopped. The Assize wavers.
+- **Hester's failure** (signature moment 27). Her western-arc vent at the Ambry margin opens on schedule. She has calculated the arrears of that section of the moment as water. But the section holds part of the Ilisse fleet's rearguard, hundreds of living people and ships, and Law 4 is merciless: living things accrue arrears far faster than water. The vent overruns. A surge floods **lower Ambry**: Lowside, the Pans and the old Dry Harbour quays. Most residents are gone, but some stayed (provisional: thirty-eight dead).
+- **Teo's stay.** Teo holds a stay at the breach for six hours to buy evacuation time. He is **heavily Settled**: white-haired at thirty, his left side slow, his heart permanently slowed. He survives.
+- **Hester resigns.** Tull resigns too, and the Concord appoints **Saskia head of the Commission**.
+
+**Act III — Ostrin Keeper-craft.**
+- **The miscount.** Hester, disgraced, goes to the Harl Compound to ask Thaelin why the rearguard was where she didn't expect it. She has realised that the Ostrin could have told her the fleet's disposition if anyone had asked. The answer: the rearguard had turned back to protect the keeper-barge.
+- **Vaimé returned.** The keeper-barge was moored at the Marrane shore, beside the founders' station at what is now the Shelf. Vaimé, its keeper-priestess, was attempting a counter-keeping against the Quiet Company when the moment closed over her. That is why her voice reached the Founders' Shaft in B4. Saskia authorises a dedicated return of the barge through the Founders' Shaft. Vaimé comes up the shaft Hester vented in B1, into the Hush and the presence of the craft's thieves.
+- **The alliance.** Vaimé knows Teo's voice. She is grief-struck, imperious, practical and curious. She and Saskia negotiate: Ostrin keepers will work the Vent alongside Rim workers. In exchange the Commission frees the Compound and grants the returned the legal standing of Concord residents (provisional).
+- **The gentling.** The Ostrin have always vented. Their release-craft, *the gentling* (provisional term), is what Hester reinvented from her father's pans. They count the arrears of living keepings by listening to them. Teo, half-Settled, becomes the essential interpreter.
+- **Ostrin medicine.** Vaimé visits the upslope Cold House camp and sees the charity sleepers' grey bloom pallor. She names it: *sea-cough*, a disease Ilisse knew well. Its cure, a physic-compound prepared and kept in the physic-houses of Ilisse (provisional name: *brinewort draught*), lies in the moment's heart. It is not magic, only medicine that has been kept. Hester stands at Tib's casing and allows herself to hope out loud.
+
+**Act IV — Sabotage.**
+- **The plan.** Rade's cell, funded by Ferrers, prepares to break the Gate of Coldbank, the western arc's master gate. If it fails, the whole western moment surges at once and drowns what is left of lower Ambry and the Halcyon's Fathoms.
+- **The night.** On the night of the Vent's largest planned pulse, the cell destroys the gate's brass regulators and the brine-lift counterweights. The gate begins to fail.
+
+### Climax
+**The Gate of Coldbank holds through Orsolya's last hold** (signature moment 26).
+- Orsolya, now Commission Fathomer, is sixty-two and white to the bone. She puts her hands in the gate's brine and holds the failing gate alone while the crews rebuild the regulators around her. It is the hold she has trained for all her life, at the place where her father died.
+- Hester and Vaimé work the release side, gentling the surge into the shaft in measured pulses. Hester is the Rim's best keeper and worst releaser; Vaimé is the Ostrin's best releaser. Together they are a complete craft.
+- Teo interprets between the two teams.
+- Thaelin and a crew of returned Ostrin marines haul regulator plates alongside Delvers.
+- Lucan counts the pulse.
+- The regulators are rebuilt and the gate holds.
+- Orsolya does not let go. Her final Settle is a chosen, completed hold. Her last words, to Hester: "Hold the line so the others can sleep, chick. Then wake them."
+
+### Resolution
+- **Ostrin and Rim workers together stabilise the Vent.** The western arc completes its stage, and the margins are returned around the whole Ring.
+- Rade and his cell are taken. Their confessions document Ferrers's funding and his purchase of grain across the Rim. He is building something.
+- Hester is reinstated as chief engineer by Saskia, publicly, with the Coldbank crews' petition.
+- Orsolya's chalk-name is written on the Stair beside Sorle's.
+- The book's conflict is resolved: the sabotage is defeated and Rim–Ostrin cooperation is proven in the worst night of the Vent. The final Return is now possible.
+
+### Character arcs
+- **Hester:** she fails publicly. Her vent floods lower Ambry because she counted the sea as water and not as people. She recovers by listening, the lesson Teo learned in B1, and by partnering with Vaimé. She learns that repair means asking the wronged.
+- **Teo:** heavily Settled holding a stay, he survives. His body is slower and his voice is the most important on the Rim. He and Mattie marry (provisional) in the upslope camp.
+- **Saskia:** she becomes the Commission's head. She is merciless with schedules and generous with people, the first Rim leader the Ostrin trust.
+- **Lucan:** the Vent's rhythm-master. A Concord envoy in training, he begins negotiating with Hask over Ferrers's extradition.
+- **Aske:** he assays the returned margins and finds the old Ostrine oyster beds alive in the shallows. He spends his free hours ankle-deep in them. "They are *magnificent*. They are entirely *wrong*. They are delicious."
+- **Orsolya:** she dies holding the Great Vent's failing gate. It is her redemption completed: a hold that keeps the living, ended by choice.
+- **New major characters:**
+  - **Thaelin:** fierce, grieving, funny in two languages. Her family is in Ilisse.
+  - **Vaimé:** a keeper-priestess of Ilisse. Proud, precise and wounded. She is Hester's Ostrin counterpart and the future Speaker.
+
+### Key relationships
+- **Hester and Vaimé:** suspicion, then a partnership of opposite skills.
+- **Teo and Thaelin:** the first friendship across the gap.
+- **Hester and Orsolya:** completed.
+- **Saskia and Vaimé:** two hard negotiators who respect each other at once.
+- **Lucan and Hester:** a partnership tested by public disgrace, in which he is the steadier one for once.
+
+### Magical discoveries
+- **Ostrin keeper-craft:** the gentling. It is venting as an ancient, refined art, with arrears read by song.
+- **Ostrin medicine:** the bloom fever is *sea-cough*, and its cure exists in the kept physic-houses of Ilisse. This obeys the hard limit: no healing by magic. The cure is a medicine, merely kept.
+- **The arrears of the living at basin scale.** Hester's error confirms Law 4 brutally.
+- **Margin return mechanics:** water, weed, fish, shellfish and people resuming from the moment, mid-motion.
+
+### Political developments
+- The Commission takes on administration as well as engineering.
+- Returned Ostrin gain Concord residency.
+- The Assize nearly halts the Vent, and the Coldbank night ends the vote.
+- Hask's internal crisis deepens over Ferrers.
+- Rim cities begin planning permanent upslope rebuilding.
+- The Halcyon's lower Fathoms are formally ceded to the Commission.
+
+### Mystery developments
+- **Book mystery:** who is sabotaging the Vent, and why does the western arc behave wrongly? **Solution:** Rade's cell, funded by Ferrers, for the sabotage. The rearguard protecting Vaimé's barge, for Hester's miscount.
+- **Saga mystery:** what cure exists for Tib? *Sea-cough* physic, kept in Ilisse. And what is Ferrers building with the world's grain?
+
+### Major revelations, with supporting evidence
+1. **The bloom fever is an Ostrin-known disease, and its cure lies in Ilisse.** B1: Agathe's "older than the Ebb" (Ch. 1 or 18). World Bible: the Great Bloom of 788. Revelation Ledger: Tib's cure.
+2. **Vaimé was at the founders' station, mid-counter-keeping.** B1: the Hush hums because the working is still active. B4: her reply came up the Founders' Shaft at near-human speed, because her boundary sits closest to the founders' working.
+3. **Venting was always Ostrin craft.** B4: the Choir's chants were stolen. B6: the gentling.
+4. **Ferrers is buying the world's grain.** B5: the escaped Hush train. B6: Rade's confession.
+
+### Series consequences
+- The final Return of Ilisse itself is now possible.
+- The cure for Tib is real, and it lies in the moment's heart.
+- Orsolya is dead. Teo is Settled. Vaimé and Thaelin are allies.
+- Ferrers is preparing something with a vast reserve of grain.
+- Brinery keepings across the Rim have begun to weep as the moment thins.
+
+---
+
+## BOOK SEVEN — WHEN THE SEA REMEMBERS
+*908–909 Y.E. Conflict: restitution and reckoning. Hester is 38–39.*
+
+### Working title and one-line pitch
+***When the Sea Remembers.*** The world must give back the sea and every keeping it ever made, and Hester must let go of the last stillness on earth to bring her brother home.
+
+### Premise
+The final Return will be Ilisse itself: the heart of the moment, and the 200,000 people still inside it.
+
+As the moment is spent, stillsalt across the Rim weakens. The Commission's Horologists calculate that **every keeping in the world will fail within a year**. Every family with a sleeper must choose:
+- return them now, to die or recover as they would have;
+- wait for Ostrin cures, which exist for some illnesses (sea-cough and a few fevers) but not for most;
+- let go.
+
+Meanwhile, in Hask, Aurel Ferrers has bought or stolen almost every ounce of grain left on the Rim. He means to use it for a **Second Keeping**. As Ilisse's heart resumes, his hired Choir will re-keep it, making a new held moment: a fresh deep of stillsalt for another nine hundred years, owned by him.
+
+### Themes
+- **Letting go.** It is Hester's weakness, and the saga's answer.
+- **What is kept can be returned.** The motto *What is kept is not lost* is redeemed: it was true, and it was owed.
+
+### Central conflict
+The last Charterist against the Return. Ferrers attempts a Second Keeping. Once he falls, his vast reserve of grain is in Hester's hands. Kept, it would hold every Brinery sleeper on the Rim for a century, Tib's among them, cure or no cure.
+
+**Hester must choose to release it all.**
+
+### Setting developments
+- **The Brineries' great choice.** The Cold House, private brineries and the Halcyon's Quiet Rooms.
+- **The Deep opened:** the Bell Shaft (provisional), sunk beside the tower of Ilisse.
+- **Ilisse's physic-house**, inside a partly returned pocket of the moment.
+- **The returning sea** over a season: the Rim's old shoreline reborn, and Ambry's lower wards under water by consent.
+- **The Halcyon refounded**, its lower Fathoms flooded and its Crown a sea-university.
+- **Ferrers's working** at the Deep's eastern edge, landed from Hask.
+
+### Act-by-act outline
+
+**Act I — The Keepings Weaken.**
+- **The proclamation.** Saskia announces the Commission's finding: within a year no keeping will hold.
+- **Ambry first.** Ambry's Cistern-linked brineries weep first. Still runs to quick through the founders' lines into the quickening Hush, exactly the draw of B1 run by the sea itself.
+- **The Brineries' choice** (signature moment 28). The Cold House holds a public day of returns. Mother Agathe, seventy-five, names each sleeper as their family brings them back. Some wake and die within hours. Some recover. Some families choose to wait for Ostrin cures. Across the Rim, cities make the same choice, ward by ward.
+- **Tib.** Hester decides for him, not for herself. Tib wanted to be a pilot. With a cure, he would want to live. She will wait, which means the cure must be fetched before his casing fails.
+- **Vey's last gift.** Vey, Settled and awaiting trial, sends for Hester. He gives her the Seal's last secret: the founders' working in the Hush is still active and must be released for Ilisse's heart to return. He also tells her that Ferrers knows this, and intends to stand where Ysolde stood. Vey asks nothing in return. "I kept a secret for thirty years because I was afraid of what it would cost to stop. I find that it costs very little now."
+
+**Act II — The Descent.**
+- **The party.** Hester descends the Bell Shaft into the Deep with Vaimé, Thaelin, Teo (half-Settled, as Listener), Lucan and Aske, who insisted. "I have been under salt once. I am the only qualified person."
+- **The lock.** Using Ostrin gentling, they vent a lock, a pocket of returned moment, around Ilisse's main physic-house. For the first time, Rim people walk in Ilisse. Bells ring three-and-one: the alarm Lucan counted in B3. Ostrin physicians stand mid-evacuation, still as statues, while their nearest neighbours wake and stare.
+- **The cure.** A returned Ostrin physician, **Saelor** (provisional), gives his consent, and with it the kept sea-cough cure and its preparation. The deal is fair and explicit: the Rim gives back the sea, and Ilisse gives back a cure.
+- **The birds.** Above the physic-house, in the held air above the drowned harbour, Hester sees **halcyon birds**, kept mid-flight above the waves: the emblem's truth.
+- **The cost.** The ascent is a long rush. Hester's heart nearly overdrives.
+
+**Act III — The Return of Ilisse.**
+- **The working released.** The Commission begins the final Return over a single season. Hester and Vaimé release the founders' working in the Hush, the hum falling silent for the first time in nine hundred years.
+- **Teo speaks the Return.** In the Choir, by the Founders' Shaft and down every shaft of the Ring, Teo speaks to 200,000 waking minds. He answers the saga's first question: *"Aelith. It is over. It has passed. You have been kept nine hundred years, and we have come to give you back."* The Ilisse fleet stands down by its own command, at Vaimé's word. Some fighting breaks out at the eastern harbour. Thaelin finds her mother.
+- **The Second Keeping.** Ferrers's Choir begins on the eastern edge: three hundred hired keepers fed by his hoard. As Ilisse's eastern quarter returns, his working catches it and begins to re-still it, a new white sheet closing over people who woke minutes ago.
+- **Father and son.** Lucan crosses the salt to his father and does not persuade him. Aurel's argument is the Halcyon's motto, perfectly sincere: *what is kept is not lost.*
+- **Ferrers falls.** The Hask choristers, unpaid and terrified, begin to drift. Ferrers takes the hold himself and is caught in his own working, kept, like Aske, by his own grain. His working fails without him, and the eastern quarter resumes.
+
+### Climax
+**The release of the reserve.**
+- With Ferrers kept, his reserve lies on the salt: the last great body of stillsalt in the world. It has passed by law to the Commission, and in practice to Hester, the only worker on site strong enough to hold or release it.
+- The Brineries' Guild, Hask's envoys and hundreds of families with sleepers beg her by every means to keep it. A century more for every sleeper. A century more for Tib, cure or no cure.
+- Saskia, as Commission head, gives Hester the authority and does not instruct her.
+- The reserve is still part of the moment. If it is held, the eastern quarter of Ilisse can never fully resume, and its arrears will stay locked in a final pocket under the returning water.
+- Hester puts her hands in the brine. For the last time in the saga, she does the thing she is worst at. **She lets go of all of it.** The rush nearly stops her heart, and Vaimé and Lucan bring her back.
+- The reserve becomes sea. The last of Ilisse comes home.
+- Afterwards Hester vents Ferrers out of his own keeping, slowly, over days, so that he can stand trial. She returns even him.
+
+### Resolution
+- **The sea returns to the Hollow over a season.** Ambry's lower wards lie under the new shallows. The Tear is now a bay.
+- **The halcyon birds fly from the returning water**: blue, quick and real, nesting on the waves.
+- **The Halcyon is refounded as a sea-university.** Its lower Fathoms are flooded by Conclave consent, and the chalk-names on the Stair go under the water deliberately, rechalked on the new seawall. **Saskia is elected Chancellor.**
+- **Magic dims.** By the next winter, stillsalt keeps no longer. Only the memory of the art remains, in records, songs and the Settled bodies of its workers.
+- **Tib** (signature moment 29). Tib is returned over three days in warm brine, with Ostrin physic and Saelor's draught. He wakes cured, sees his sister and says, **"Hes? Why are you old?"** She tells him the truth, as she promised: seventeen years; their father dead, having visited him at the end; a sea.
+- **Final outcomes:**
+  - **Hester:** a Reader of the new Halcyon, sea-side, and partner to Lucan.
+  - **Tib:** a pilot.
+  - **Teo:** Listener and interpreter, living with partial Settle.
+  - **Saskia:** Chancellor.
+  - **Lucan:** Rim Concord delegate.
+  - **Aske:** a grower of oysters, happily.
+  - **Vaimé:** Ostrin Speaker.
+- **Final image:** Hester and Tib on the deck of a boat on a real sea. Tib is at the tiller, whistling.
+
+### Character arcs
+- **Hester:** her completion. She moves from keeping as control (B1) to letting go as love. She returns Tib with the Ostrin cure, knowing he will wake into loss, and tells him the truth. She releases the world's last stillness.
+- **Teo:** he speaks the Return, answering *Aelith* nine hundred years late. He is the Listener and interpreter between peoples. His body is slow and his life is full; he marries Mattie (if not already in B6).
+- **Saskia:** she leads the Commission through the Return and is then elected Chancellor of the refounded Halcyon. Pip, now twelve, is a glazier's apprentice in a world without kept light.
+- **Lucan:** he confronts his father and does not save him. He watches Hester save him instead. He becomes Rim Concord delegate, negotiating Ilisse's place in the Concord.
+- **Aske:** he descends to Ilisse, comes home and plants the old Ostrine oyster strains in the new bay off the Shelf. He is happy.
+- **Tib:** he wakes at fourteen into a world seventeen years older. He grieves his father, learns to sail on water rather than salt, and becomes a pilot. He befriends Thaelin, a fellow child of an interrupted moment.
+- **Vaimé:** the woman who resisted the Keeping presides over its undoing. She becomes Ostrin Speaker.
+- **Thaelin:** she reunites with her family and becomes an Ostrin envoy to the Rim (provisional).
+- **Aurel Ferrers:** kept by his own hand, returned by Hester's, tried by the Concord (provisional: exiled to Hask for life).
+- **Vey:** he dies Settled in custody, having told the truth once (provisional).
+
+### Key relationships
+- **Hester and Tib:** the saga's first relationship completed. It was one-sided for seventeen years and becomes mutual on the last page.
+- **Hester and Lucan:** partners.
+- **Hester and Vaimé:** two keepers who chose release.
+- **Teo and Vaimé:** the two voices of the Return.
+- **Lucan and Aurel:** a son who no longer needs his father to change.
+
+### Magical discoveries
+- **The founders' working** in the Hush is the active hold that sustains the Great Keeping. Its release ends the hum. (Revealed by Vey; implied in canon by "the Founders' working is still active.")
+- **Halcyon birds** are kept in the moment.
+- **The weakening of keepings.**
+  - **Rule extension:** two mechanisms, both rule-compliant, must be stated in canon.
+    1. Keepings joined by continuous brine (Ambry's Cistern-linked brineries) lose stillness directly toward the quickening Hush under "still runs to quick."
+    2. All other keepings fail because no fresh grain exists to recast them, and natural weeping proceeds unopposed.
+  - No sympathetic or non-local link is introduced. Writers must not suggest that distant grain "feels" the Return.
+- **Magic dims.** Once the moment is wholly returned, no stillsalt remains in the basin.
+  - **Rule extension:** surviving dry grain in stores loses its stillness within months of the Return (provisional rate). This must be grounded in an amendment, for example that cut grain's stillness is sustained by saturation from the parent moment through the founders' working, and ends when that working ends. The amendment must be worded so as not to contradict §2.5.
+- **The Second Keeping.** A re-keeping of returning water is possible in principle (Law 1, at monstrous cost), which is why Ferrers is dangerous. It fails because no hired Choir can survive the hold.
+
+### Political developments
+- **Ilisse returns** as a living polity. Vaimé is its Speaker, and it is admitted to the Rim Concord (provisional).
+- **The Exchequer is dissolved** and reconstituted as a Concord Harbour Board (provisional).
+- **The Charter of the Grain lapses**, there being no grain.
+- **The Halcyon is refounded.** Ambry rebuilds upslope, and Lowside becomes a harbour ward.
+- **Hask** extradites Ferrers in exchange for Ostrin medicine.
+- **The Tiders** see their prophecy fulfilled and are bewildered by it.
+- **The Wend**, under Taevo, are recognised as the people who kept the Ostrin language alive.
+
+### Mystery developments
+- **Book mystery:** what is Ferrers building, and how can the heart of the moment be released? **Solution:** the Second Keeping, and the founders' working in the Hush, which Vey's secret explains and Hester and Vaimé undo.
+- **Saga mystery answered in full.** What is the Hollow Sea? A kept sea with a people in it. What do we owe what we have kept? Its return.
+
+### Major revelations, with supporting evidence
+1. **The halcyon birds are kept in the moment.** B1: the emblem; the "extinct" bird; the legend that the halcyon stilled the sea while it brooded.
+2. **The founders' working is still active.** B1: the hum of the Hush. B5: Ysolde's journal on the Hush as the working floor. B7: Vey.
+3. **Ferrers intends a Second Keeping.** B5: the escaped Hush train. B6: Rade's confession about grain purchases. B7: Vey's warning.
+4. **The motto was true.** *What is kept is not lost.* Every book's evidence: Aske, the gull, Thaelin, Vaimé, Tib.
+
+### Series consequences
+- The saga ends. The sea is home, the two peoples are reunited, and grain-work is a memory.
+- Hester's brother is awake. Its last sound is a boy whistling on the water.
+
+---
+
+## Saga continuity requirements
+
+- [ ] **The fixed saga truth holds in every book.** The sea was kept, with 200,000 Ostrin inside it, by the Halcyon's founders, to win a war. All grain-work spends that held moment.
+- [ ] **The revelation order is never broken:**
+  - the Seal and the Ebb made (B2);
+  - the city under the Deep (B3);
+  - the Ostrin alive and aware, keeping as Ostrin craft (B4);
+  - deliberate genocide, from Ysolde's full journal (B5);
+  - the bloom cure in Ilisse (B6);
+  - the halcyon birds kept (B7).
+- [ ] **Holm's "to end a flood" stays a lie.** It is exposed by B4–B5 evidence and never retconned into truth.
+- [ ] **Ysolde's two fixed lines are quoted verbatim:** "the Keeping was the only mercy left us" (B2); "We will tell them it was the sea's doing. God forgive us, we will believe it ourselves." (B5).
+- [ ] **"Aelith?" means "Is it over?" / "Has it passed?"** It is first heard in B1, translated in B4 and answered by Teo in B6 (to Thaelin) and B7 (to Ilisse).
+- [ ] **Deaths happen in the fixed book and manner:**
+  - Holm: B2, after her confession.
+  - Aldous: B4, of salt-lung, after visiting Tib.
+  - Sorle: B5, Settled, giving his last lecture in the Choir.
+  - Orsolya: B6, holding the Gate of Coldbank; a chosen, completed hold.
+- [ ] **Final outcomes are exact:**
+  - Hester: Reader of the new Halcyon, partner to Lucan.
+  - Tib: pilot.
+  - Teo: Listener and interpreter, partially Settled.
+  - Saskia: Chancellor.
+  - Lucan: Rim Concord delegate.
+  - Aske: oyster-grower, happily.
+  - Vaimé: Ostrin Speaker.
+- [ ] **Tib's arithmetic:** kept 892 at 14; returned 909 at 14, cured, into a world 17 years older. Hester is 39. His first line is "Hes? Why are you old?"
+- [ ] **Hester and Lucan:** romance begins in B3, lovers from B4, partners thereafter. No breakup.
+- [ ] **Aske carries his B1 cost** (a stiff right hand, partial Settle) in every book. His B3 hip wound (provisional) is also permanent.
+- [ ] **Teo is heavily Settled in B6** and never recovers. Magic dimming in B7 does not cure the Settle.
+- [ ] **Vey's arc:** Chancellor by vote at the end of B2; overruled in B4; arrested on the Causeway in B5. Ferrers flees in B5 and falls in B7.
+- [ ] **Orsolya's status:** imprisoned (B1–B4), released into service (B5), commuted to Commission service, dead (B6). Her hand is a widdershins spiral; she calls people "chick."
+- [ ] **Hester's moral stain is permanent.** She freed Pip by Sanguine Grain in B5 and must never be written as having been "cleansed" of it.
+- [ ] **Still runs to quick through continuous live brine only, in every book.** No sympathetic links, including in B7's weakening of keepings.
+- [ ] **No healing by magic.** The Ostrin sea-cough cure is a kept medicine.
+- [ ] **Lag must be shown after every major hold.** In particular: the burning beam (B2), the landship (B3, about an hour), the Choir contact (B4), the Causeway (B5), the release of the reserve (B7, the rush).
+- [ ] **Every rule extension flagged here is ratified in DECISIONS.md before drafting.** The extensions are: 0 Y.E. dating, landship scale, boundary creep, boundary speech, sanguine key-transfer, weakening of keepings, post-Return grain-fade.
+- [ ] **Reconcile the Aldous timing.** CHARACTERS.md says he had not visited "in nine years" as of 903. By B4 (905–906) it is eleven to twelve years, but signature moment 19 says "after nine years." Fix one before drafting B4.
+- [ ] **Geography stays consistent:**
+  - Lowside sits on the old seabed. It is half-burned (B5), flooded (B6) and becomes a harbour ward (B7).
+  - The Gate of Coldbank stands at the 856 collapse site.
+  - The Tear becomes a bay.
+- [ ] **Every book resolves its own central conflict:**
+  - B2: the Tithe fails and the Seal is exposed.
+  - B3: the expedition returns and the map is published.
+  - B4: the mining halt is voted.
+  - B5: the war ends at Harl.
+  - B6: the Vent is stabilised.
+  - B7: the Return is completed.
+  - Series consequences carry the momentum forward. A cliffhanger never stands in for a resolution.
+- [ ] **Provisional elements are tracked in DECISIONS.md once adopted:** Halvard, Rade, Strand, Coyle, Ennor, Taevo, Ostovar, Merrow, Tull, Saelor, the Ring's twelve shafts, the gentling, the brinewort draught, the Bell Shaft and related items.
