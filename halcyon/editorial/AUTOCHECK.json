@@ -211,7 +211,7 @@
    }
   },
   "ch15.md": {
-   "words": 4591,
+   "words": 4615,
    "title": "Ferrers",
    "header_ok": true,
    "banned": [],
@@ -226,7 +226,7 @@
    }
   },
   "ch16.md": {
-   "words": 4259,
+   "words": 4268,
    "title": "Annealing",
    "header_ok": true,
    "banned": [],
@@ -271,7 +271,7 @@
    }
   },
   "ch19.md": {
-   "words": 4471,
+   "words": 4486,
    "title": "The Notebook",
    "header_ok": true,
    "banned": [],
@@ -286,7 +286,7 @@
    }
   },
   "ch20.md": {
-   "words": 4153,
+   "words": 4150,
    "title": "The Warden",
    "header_ok": true,
    "banned": [],
@@ -301,7 +301,7 @@
    }
   },
   "ch21.md": {
-   "words": 5020,
+   "words": 5031,
    "title": "Still Runs to Quick",
    "header_ok": true,
    "banned": [],
@@ -316,7 +316,7 @@
    }
   },
   "ch22.md": {
-   "words": 4122,
+   "words": 4119,
    "title": "The Midwinter Assay",
    "header_ok": true,
    "banned": [],
@@ -346,7 +346,7 @@
    }
   },
   "ch24.md": {
-   "words": 4276,
+   "words": 4293,
    "title": "The Hush",
    "header_ok": true,
    "banned": [],
@@ -361,7 +361,7 @@
    }
   },
   "ch25.md": {
-   "words": 4728,
+   "words": 4780,
    "title": "The Gull",
    "header_ok": true,
    "banned": [],
@@ -376,7 +376,7 @@
    }
   },
   "ch26.md": {
-   "words": 4354,
+   "words": 4360,
    "title": "What the Salt Keeps",
    "header_ok": true,
    "banned": [],
@@ -391,9 +391,7 @@
    }
   }
  },
- "issues": [
-  "variant 'founders' shaft' x1 (canon 'Founders' Shaft')"
- ],
+ "issues": [],
  "chapter_numbers": [
   1,
   2,
@@ -422,7 +420,7 @@
   25,
   26
  ],
- "total_words": 112656,
+ "total_words": 112784,
  "release_present": {
   "BOOK-ONE-COMPLETE.pdf": false,
   "BOOK-ONE-MOBILE.pdf": false,

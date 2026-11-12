@@ -166,3 +166,12 @@
 - **Hester–Tib:** the one-sided relationship with a sleeping boy; the truth spoken in Ch. 26.
 - **Hester–Aske:** a 16-day acquaintance turned debt; he wakes at the end.
 - **Orsolya–Sorle:** an old enmity. She demolished him and he never forgave her. In the end they are colleagues in the vent.
+
+---
+## POST-REVISION CANON UPDATES (Book One final)
+- **Hester:** heart permanently irregular after the Hush rush ("keeps its own time"). Per Reader Annis Rule, another major rush will stop it. Book 2 constraint: she can release only small things, slowly, with a counter.
+- **Sorle:** left hand Settled cold; it will not close.
+- **Aske:** right hand stiff (arrears heat damage).
+- **Orsolya:** her father was kept dying at the Cold House 856–875 and released on her signature at 30. She confessed on the record naming the Seedmonth 901 meeting with Holm and Vey.
+- **Jem Corrie:** charity sleeper who returned and died 19 Rime 903. His twin **Nell** survives.
+- **New minor canon:** Brannoc and Iley (Fathomers); Reader Annis Rule (Physic); Mrs. H. Arden (acting Cold House director); Reader Odile Fane (Reading; Teo's sponsor); Reader Imelda Rusk (Weathering); Radik (Haskish aspirant); Marten Coyle (pilot); "thornes" (Hester's private unit of grain-weight, after Mr. Thorne); "the Tear" (Lowside name for the new lake).

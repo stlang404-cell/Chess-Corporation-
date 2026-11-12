@@ -207,3 +207,5 @@ Word count: 25,662 before, 25,637 after (-25, -0.1%). Ch. 13: 4,392 to 4,272. Ch
 - Not done here: A11 (thornes is defined in Ch. 5), and the optional Ch. 7–12 suggestion to glance at Aske's casing still being clear.
 - Ch. 20 and 21 still say "Gage lost the rod". That still works: it went into his store and Vey says it has gone on.
 - Other spans' commits (124e34c, c52cc41, 5571140) swept in working-tree edits from this span. The final state of Ch. 13–18 is the working tree.
+## Pass 4 fixes
+All 21 REVIEW_4 items applied by lead editor (see git history). Ch24: returned Choir failing at the east stays (agency). Ch25: Aske's vent made 'small' per Rule's warning.
