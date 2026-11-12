@@ -1,0 +1,363 @@
+{
+ "chapters": {
+  "ch01.md": {
+   "words": 4774,
+   "title": "The Cold House",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 11,
+    "very": 8,
+    "for a moment": 1,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch02.md": {
+   "words": 5465,
+   "title": "The Dry Harbour",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 9,
+    "very": 12,
+    "for a moment": 5,
+    "went still": 4,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch03.md": {
+   "words": 4293,
+   "title": "Spitting Pans",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 1,
+    "very": 9,
+    "for a moment": 4,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch04.md": {
+   "words": 5919,
+   "title": "Below the Line",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 13,
+    "very": 8,
+    "for a moment": 1,
+    "went still": 1,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 1
+   }
+  },
+  "ch05.md": {
+   "words": 4766,
+   "title": "First Principles",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 4,
+    "very": 6,
+    "for a moment": 1,
+    "went still": 1,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch07.md": {
+   "words": 4599,
+   "title": "Ask O.",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 5,
+    "very": 11,
+    "for a moment": 1,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch08.md": {
+   "words": 5258,
+   "title": "The Stay Choir",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 11,
+    "very": 8,
+    "for a moment": 2,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch09.md": {
+   "words": 4108,
+   "title": "The Brinestacks",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 3,
+    "very": 9,
+    "for a moment": 1,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch10.md": {
+   "words": 5019,
+   "title": "Lantern Night",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 5,
+    "very": 10,
+    "for a moment": 2,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch11.md": {
+   "words": 5281,
+   "title": "The Sink",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 4,
+    "very": 6,
+    "for a moment": 3,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 1
+   }
+  },
+  "ch13.md": {
+   "words": 5409,
+   "title": "The Cistern",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 6,
+    "very": 12,
+    "for a moment": 1,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 2
+   }
+  },
+  "ch14.md": {
+   "words": 4832,
+   "title": "What Is Owed",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 3,
+    "very": 14,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch16.md": {
+   "words": 5027,
+   "title": "Annealing",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 2,
+    "very": 4,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch17.md": {
+   "words": 5020,
+   "title": "The Silent Supper",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 3,
+    "very": 3,
+    "for a moment": 2,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch19.md": {
+   "words": 5784,
+   "title": "The Notebook",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 4,
+    "very": 7,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch20.md": {
+   "words": 5049,
+   "title": "The Warden",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 6,
+    "very": 1,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch21.md": {
+   "words": 5545,
+   "title": "Still Runs to Quick",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 6,
+    "very": 6,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch22.md": {
+   "words": 4288,
+   "title": "The Midwinter Assay",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 2,
+    "very": 5,
+    "for a moment": 2,
+    "went still": 1,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 2
+   }
+  },
+  "ch24.md": {
+   "words": 4525,
+   "title": "The Hush",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 4,
+    "very": 8,
+    "for a moment": 1,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch25.md": {
+   "words": 4263,
+   "title": "The Gull",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 3,
+    "very": 3,
+    "for a moment": 0,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  },
+  "ch26.md": {
+   "words": 4683,
+   "title": "What the Salt Keeps",
+   "header_ok": true,
+   "banned": [],
+   "tics": {
+    "the way": 6,
+    "very": 12,
+    "for a moment": 1,
+    "went still": 0,
+    "eyes widened": 0,
+    "heart hammered": 0,
+    "suddenly": 0
+   }
+  }
+ },
+ "issues": [
+  "chapter set != 1..26: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 19, 20, 21, 22, 24, 25, 26]",
+  "variant 'founders' shaft' x4 (canon 'Founders' Shaft')",
+  "month 'Sere' used (should be Fallow)"
+ ],
+ "chapter_numbers": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  7,
+  8,
+  9,
+  10,
+  11,
+  13,
+  14,
+  16,
+  17,
+  19,
+  20,
+  21,
+  22,
+  24,
+  25,
+  26
+ ],
+ "total_words": 103907,
+ "release_present": {
+  "BOOK-ONE-COMPLETE.pdf": false,
+  "BOOK-ONE-MOBILE.pdf": false,
+  "BOOK-ONE-COMPLETE.epub": false,
+  "BOOK-ONE-COMPLETE.docx": false,
+  "BOOK-ONE-COMPLETE.md": false,
+  "BOOK-ONE-COVER.png": false,
+  "BOOK-ONE-READER-COMPANION.pdf": false,
+  "SEVEN-BOOK-SERIES-BIBLE.pdf": true,
+  "BOOKS-2-THROUGH-7-OUTLINES.pdf": false,
+  "EDITORIAL-REPORT.md": false,
+  "CONTINUITY-REPORT.md": false,
+  "VERIFICATION-REPORT.md": false,
+  "README.md": false
+ }
+}

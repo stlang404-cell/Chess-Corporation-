@@ -1,0 +1,7 @@
+# Ch12 notes
+Canon: Sorle's study (Second Fathom, black door, knocker shaped as a closed eye, card "NOT NOW"); slates of arrears calculus; the 870 stillness-by-depth curve (stillness rises with depth like a keeping's arrears, not linearly). Kept moth under glass bell. Lise: Physic, died of the Settle 23 years ago (880).
+Poured casings grow outside-in; self-keepings grow skin-outward ("like rime from a twig"); Aske's hand radial with a "starburst" start-point; Aske often sleeved a hand to test reading; his release was bad.
+16 Russet: Aske visited Sorle 3rd bell with Fifth stay-return pressure figures; invited him for half past the tenth. Sorle's rooms are BELOW Aske's (Second Fathom). Hester left at a quarter before the half; trolley heard on the Stair from below; porters use lifts after the eighth bell; 109 steps Fourth→Third.
+Sorle reported doubts to Gage (17th), Vey in writing (18th), Conclave (22nd) — "thanked for his candour."
+871: Orsolya (26, three years in Choir) demolished him: bad borings below the Fourth, Halloway's constants wrong, and "crust would be warm from here to Quell".
+Lucan: 3 ribs (2 cracked, 1 broken); his father wrote to the Chancellor about the *Gannet*, Hester's name omitted at Lucan's request. Lucan offers to fund a Cistern descent. Cell 3-17 now Proctory-sealed (red wax, black ribbon). Physic ward on Third Fathom behind Glaziers' kilns, with return baths.
