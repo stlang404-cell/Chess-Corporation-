@@ -1,0 +1,5 @@
+# Ch. 9 — The Brinestacks (24–27 Russet) — synopsis
+
+Hester and Teo read the Exchequer returns. Three Cold House sleepers (Corrie, Teesdale, Hallam) were returned by casing failure and died in ten months, against a century's rate of one every three years. The catalogue card for the Founders' Cistern plans shows requisitions by Brack (788), "W.L.F. (office)" (9 Fallow 902) and C. Aske (1 Russet 903). Hester matches W.L.F. to the bill of lading; its hand nags at her. She cannot decode it and writes to the Registrar for the code list. A reduced Water Board copy shows the Great Cistern under the Cold House and a Main Line running two miles east: "Line enters at 5th Fm." Teo reads a post-fire tablet and hears the falling cry Hester heard in the *Wren* cargo. A hymnal woodcut names it: gulls. "There are no gulls." As they leave, Callow says: "Corvin sat there too… On the first of the month."
+
+**Knows by end:** The Cold House sits on a line to the Halcyon. W.L.F. is an unknown office. Clues paid off: the gull and the Cistern route. Callow's hint hangs.

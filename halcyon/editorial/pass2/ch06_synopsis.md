@@ -1,0 +1,5 @@
+# Ch. 6 — Kept (16–17 Russet) — synopsis
+
+At the tenth bell on 16 Russet Hester finds Aske's Cell, 3-17, locked and dark. She waits nearly half an hour. A little before the half she hears heavy iron wheels coming up the Stair from below and sees a blue lantern, grey wool and a canvas-covered trolley. She takes them for porters and goes up to bed. At first bell Aske is found kept, standing, reaching, mid-word. Gage rules it a self-keeping with Hush grain: kept beyond return, and dead in law. Hester grades the casing as she would a sample. It was poured and grew inward. Its grain is a widdershins spiral. It is clear, not grey, which Gage and the Physic put down to Hush. Its foot tastes of Hush, and quick. The notebook and papers are gone, and she pockets a loose shorthand sheet from the blotter. Vey murmurs to Gage. Orsolya grieves ("chick") and invites her to the Fifth. Gage questions Hester and names Sorle and Ferrers. The Registrar sets 21 Rime as her deadline. Teo can read brine-script.
+
+**Knows by end:** Hester has stored every anomaly and believes none of them. Teo knows only of the sheet.

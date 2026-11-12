@@ -1,0 +1,5 @@
+# Ch. 10 — Lantern Night (30 Russet): synopsis
+
+Hester and Teo go into Ambry with Saskia. At Hennie Orme's Glassmarket shop they meet Pip; Saskia tells them how Jory died in a sink and first says "I don't do causes, Vail. I do rent." She pays Hennie with a newly minted sol (courier-money plant). At the jar-drays she explains annealing: cool glass slowly and the stress walks out (venting seed #2). At the Cold House Tib's casing weeps in runnels; Agathe shows them Bett Linnow's thinning casing, with her mother Ruth beside it, and the brass channels running to drains by the eastern wall. Lucan is there with his hand down a drain. He has a torn Ferrers & Lisk page: Deep brine delivered for "cistern maintenance", charged to a Halcyon account "per W.L.F." Hester notices but does not decode the letters. From the sea-wall the four, with Pip, watch the light poured. Lucan says Aske's death was no accident; Hester agrees.
+
+By the end, Hester knows the Cold House drains run east to something called a cistern, and that W.L.F. is involved.

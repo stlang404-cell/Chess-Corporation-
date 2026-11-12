@@ -1,0 +1,5 @@
+# Ch. 12 — Sorle's Folly (8 Fallow): synopsis
+
+In Sorle's cold study he interrogates Hester's keeping of Lucan. A poured casing grows from the outside in; a self-keeping grows from the skin out. Aske's casing was poured, and it has none of the starburst of his radial hand (pays off the Ch. 6 clue). Sorle reported this to Gage, Vey and the Conclave. Aske had invited him for half past the tenth bell on 16 Russet; he found the corridor dark and left. Hester tells him she saw the trolley rising from below. Sorle notes that porters use lifts after the eighth bell, and they conclude that Aske was carried up. He explains the Held Moment Hypothesis with his 870 stillness-by-depth curve, and how Orsolya demolished it in 871. Hester describes the waves in the Roar. He will not sponsor her without evidence "Gage can't lose." In the Physic ward Lucan thanks her badly and offers to pay for a descent.
+
+By the end, Hester believes Aske was killed below and moved. She resolves to go under the Cold House.

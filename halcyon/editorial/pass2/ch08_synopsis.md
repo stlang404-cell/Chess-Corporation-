@@ -1,0 +1,5 @@
+# Ch. 8 — The Stay Choir (20–23 Russet) — synopsis
+
+Hester hunts for a sponsor and is refused by all. Crisp says she is "unfinished". Bassano is kind but full. Rusk is classist, and Pym and Fane are full; Fane warns that Hester was seen in the Quiet Rooms. Sorle says "I do not take charity cases from the dead" and dryly concedes that she passed him on the Stair. In the warm Warden's office on the Fifth, Orsolya mentions her father and the Coldbank collapse. She offers a Choir place at 3 sols a week, which protects Hester from being sent down until midwinter. Hester signs. Dunmore's plain upright hand tugs at her, and she cannot place it. Orsolya, tired: "The Stays have been kind this season." Fifthday night: sixty-one choristers breathe and sing. Ama Tessaly ("lamb") shows her the brass stay-lines joining the eastern trunk to "the Old Tap". At Stay Eleven Hester holds and hears the sea in the Roar, with waves, wind, knocking wood and one faint bell. She weeps salt and lags two or three minutes.
+
+**Knows by end:** Hester has money for Tib. She does not understand the plants.
