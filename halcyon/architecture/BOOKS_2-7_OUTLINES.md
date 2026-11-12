@@ -305,7 +305,7 @@ This is not a contest between a hero and a villain. It divides every household. 
 - **The Founders' Shaft**, reopened under guard: a live-brine column linking the Hush boundary to the Tear.
 - **The Tider riots** in the Mardens and Lowside. **Tidewater Abbey.**
 - **The Exchequer Counting House** under siege by creditors.
-- **The Cold House**, where Aldous comes at last.
+- **The Cold House**, where Aldous comes for the last time.
 
 ### Act-by-act outline
 
@@ -321,7 +321,7 @@ This is not a contest between a hero and a villain. It divides every household. 
 - **Riots.** The Tiders riot, believing these are the judged souls of their prophecy. In Lowside a Tider mob smashes a lantern factor's. In the Mardens Tiders burn an Exchequer grain depot.
 - **Suppression.** The Exchequer closes presses and arrests preachers. Vey bans Sonance readings of Deep grain. Ferrers calls the voices "echoes, not persons." That position becomes the Charterist creed.
 - **Hester's crisis.** Her whole craft has been spending people. She stops working grain. She goes to the Cold House and sits beside Tib's casing for a night, considering releasing him. It would be her old wound inverted: letting him die to stop spending them. She does not, because the choice must be for him, as she promised in B1, and not to ease her own conscience.
-- **Aldous.** Dying of salt-lung, Aldous asks Hester to take him to the Cold House. He visits Tib for the first time in more than a decade (signature moment 19). He talks to the boy about landships, whistles badly, and tells Hester: "You kept him. I left him. Neither of us was right. Both of us loved him." He dies four days later.
+- **Aldous.** Dying of salt-lung, Aldous asks Hester to take him to the Cold House. He has visited every week since the Vigil of 903 (Book One, Ch. 26); this is his last visit (signature moment 19). He talks to the boy about landships, whistles badly, and tells Hester: "You kept him. I left him. Neither of us was right. Both of us loved him." He dies four days later.
 - **Lovers.** After the funeral at the Lowside Pans, Hester and Lucan become lovers. It is quiet, adult and unhurried: two people who have counted the cost of everything, deciding not to count this.
 
 **Act III — The Choir Project.**
@@ -358,7 +358,7 @@ This is not a contest between a hero and a villain. It divides every household. 
 - **Aske:** limping and delighted, he is Teo's assayer, dating each Roar fragment by depth. He teaches the Choir's young choristers left-handed brinescript.
 - **Sorle:** he makes his last great calculation, the creep, while visibly Settling. He forgives Orsolya at the Choir: "You were right to demolish me. I was insufferable. I was also right."
 - **Orsolya:** she teaches from her chains. Her hold at the climax is a rehearsal for her death.
-- **Aldous:** he dies, after visiting Tib at last. His line becomes Hester's creed for B7.
+- **Aldous:** he dies, after a last visit to Tib. His line becomes Hester's creed for B7.
 - **New:** Taevo (provisional) grows into the Wend's interpreter. Reader Ilse Varro (provisional) is Teo's Sonance Reader and protector.
 
 ### Key relationships
@@ -835,7 +835,7 @@ The last Charterist against the Return. Ferrers attempts a Second Keeping. Once 
 - [ ] **No healing by magic.** The Ostrin sea-cough cure is a kept medicine.
 - [ ] **Lag must be shown after every major hold.** In particular: the burning beam (B2), the landship (B3, about an hour), the Choir contact (B4), the Causeway (B5), the release of the reserve (B7, the rush).
 - [ ] **Every rule extension flagged here is ratified in DECISIONS.md before drafting.** The extensions are: 0 Y.E. dating, landship scale, boundary creep, boundary speech, sanguine key-transfer, weakening of keepings, post-Return grain-fade.
-- [ ] **Reconcile the Aldous timing.** CHARACTERS.md says he had not visited "in nine years" as of 903. By B4 (905–906) it is eleven to twelve years, but signature moment 19 says "after nine years." Fix one before drafting B4.
+- [x] **Aldous timing reconciled.** Book One Ch. 26 is his first visit to the ward in nine years. From then on he visits weekly, and B4's signature moment is his *last* visit.
 - [ ] **Geography stays consistent:**
   - Lowside sits on the old seabed. It is half-burned (B5), flooded (B6) and becomes a harbour ward (B7).
   - The Gate of Coldbank stands at the 856 collapse site.

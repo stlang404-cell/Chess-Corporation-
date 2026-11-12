@@ -189,7 +189,7 @@
 16. **(B3)** Seeing a bell-tower through 60 fathoms of clear salt.
 17. **(B3)** Hester keeping a whole landship.
 18. **(B4)** Teo isolating the first word.
-19. **(B4)** Aldous at Tib's casing after nine years.
+19. **(B4)** Aldous's last visit to Tib's casing, carried there dying (his first came in B1, Ch. 26).
 20. **(B4)** "Aelith?" translated: "Is it over?"
 21. **(B4)** The Choir singing *into* the salt and receiving a name.
 22. **(B5)** Sorle's last lecture.
