@@ -1,0 +1,5 @@
+# Ch. 18 — The Fourth Sleeper (16–18 Cinder) — synopsis
+
+Agathe summons Hester: Bett Linnow's casing is failing. Hester attempts an unlicensed recast and feels the fresh stillness drawn east "like a sieve". Bett returns, finishes her twenty-year-old scream, half-recognises her mother Ruth, and dies in about three minutes. Tib's heel has thinned to an inch; Agathe says "Weeks, not months" and plants the bloom's origin: older than the Ebb, "the sea-cough" of the old ballads. On 18 Cinder, at the Drowned Man, Aldous says he will sign Tib's release "tomorrow" and tells her, "You didn't keep him for him. You kept him for you." Her tears crust salt. In R-41 she makes the full confession to Teo: Tib said "let me sleep", she knew he meant die, and she signed. Teo: "Then you've been keeping two people, Hes." Before dawn she nearly steals Hush residue to recast Tib, realises it would make him kept beyond return, and opens her hand.
+
+**By the end:** Hester knows the draw is killing sleepers and Tib has weeks; Teo knows her secret; Aldous intends to sign.

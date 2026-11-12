@@ -1,0 +1,5 @@
+# Ch. 21 — Still Runs to Quick (4–19 Rime) — synopsis
+
+In Sorle's study Hester tells Sorle, Teo, Saskia and Lucan everything, including that Tib is safe because of Orsolya. They test three options and reject each one. The Chancellor would bury it. The Assize would be too slow. Cutting the draw alone would starve the stays. Hester refuses the binary by putting four seeds together: Aske's "a road, not a lid", her father's spitting pan, Saskia's annealing, and Sorle's arrears. Saskia's Well-Cap from the Ch. 4 tour gives the road up: the Founders' Shaft. Sorle spends four days on the calculus, using Hester's new unit, the thorne. He sets three conditions (a road, three annealed steps, a worker to make the release) and warns that "the moment proceeds." Lucan joins Sorle's Bench. The Assay Night roles are fixed, with the cut at the twelfth bell. Aldous, still unreconciled, gives her the whole craft: "Stand to the side." Teo's Vigil-candle lesson unlocks her release. She returns her two Russet drops and then a six-year moth, and feels the rush.
+
+**By the end:** all five know the plan.

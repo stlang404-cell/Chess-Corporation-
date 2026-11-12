@@ -1,5 +1,7 @@
-# Ch. 7 — Ask O. (17–19 Russet) — synopsis
+# Ch. 7 — Ask O. (17–19 Russet)
 
-Teo decodes the sheet: *Cold House 14 weeping / Harl St 0 / Varenne 0 / Charity only? A draw? Still runs to quick. Cistern?? Old lines. Ask O.* Hester recognises the first lines from what Aske told her on the 15th. The rest (draw, Cistern, old lines) is new. She tells Teo about Tib's keeping and the fee, 778 sols 4 flecks. She does not tell him Tib's wish. They guess at O.: the Order, or Orme. Orsolya is never considered. In the Reading Well, Lucan admits Aske accused Ferrers & Lisk of buying deep grain ("Ask *your* Halcyon"). At the name *Constant Wren* his face moves. On the 19th Orsolya oversees moving the casing to the Quiet Rooms and touches Hester's wrist with a cold hand. Hester visits the plinth: "I brought it." Saskia, crying, says "I knew his *door*," and Hester misreads it as grief. Hester rules a ledger schedule of suspects and lists herself.
+Teo decodes the sheet: weeping counts, "A draw? Still runs to quick. Cistern?? Old lines. Ask O." Hester recognises the counts from Aske's talk on the 15th; the draw and the Cistern are new. She tells Teo about Tib's keeping and the fee (778 sols 4 flecks), but not Tib's wish. They guess that O. is the Order, or Orme. Orsolya is never considered.
 
-**Knows by end:** Hester suspects murder, Lucan, Sorle and Saskia. Orsolya is absent from the list. Teo shares the suspicion.
+In a Reading Well, Lucan admits Aske accused Ferrers & Lisk of buying deep grain ("Ask *your* Halcyon"). At the name *Constant Wren* his face moves. Orsolya oversees the casing's move to the Quiet Rooms, and her cold hand touches Hester's wrist. Saskia, crying, says "I knew his *door*," and Hester misreads it as grief. Hester rules a suspects' schedule and lists herself last.
+
+**By the end:** Hester suspects murder. Her list holds Lucan, Sorle, Saskia, O., W.L.F. and the Proctor; Orsolya is not on it.
