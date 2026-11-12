@@ -1,21 +1,37 @@
 # PROJECT STATUS — The Halcyon Cycle / Book One: *What the Salt Keeps*
 
-**Last updated:** Stage 3 (pre-drafting complete; drafting begun)
+**State: COMPLETE (release built and verified).**
 
-## Stages
-| # | Stage | Status | Evidence |
-|---|---|---|---|
-| 1 | Environment & tools | DONE | pandoc 3.1, WeasyPrint 70, ebooklib, epubcheck 5 (pip), EB Garamond + Linux Libertine fonts, python-docx |
-| 2 | Research | DONE | research/RESEARCH_NOTES.md |
-| 3 | Five concepts + selection | DONE | development/FIVE_CONCEPTS.md |
-| 4 | Originality audit | DONE | development/ORIGINALITY_AUDIT.md |
-| 5 | World / magic / academy / characters | DONE | bible/*.md |
-| 6 | Seven-book architecture | DONE | architecture/SERIES_ARCHITECTURE.md |
-| 7 | Mysteries, ledger, foreshadowing | DONE | bible/REVELATION_LEDGER.md |
-| 8 | Book One scene architecture | DONE | architecture/BOOK_ONE_OUTLINE.md |
-| 9 | Opening chapters test | IN PROGRESS | manuscript/chapters/ |
-| 10 | Full draft | PENDING | |
-| 11–14 | Editing passes | PENDING | |
-| 15 | Art & design | PENDING | |
-| 16–17 | Companion, bible PDF, outlines | PENDING | |
-| 18–21 | Builds, validation, ZIP, delivery | PENDING | |
+## Final acceptance audit
+| Requirement | Status | Evidence |
+|---|---|---|
+| Research completed | ✔ | research/RESEARCH_NOTES.md |
+| Five original concepts evaluated | ✔ | development/FIVE_CONCEPTS.md |
+| One concept selected and refined | ✔ | same; weaknesses → refinements |
+| Originality review completed | ✔ | development/ORIGINALITY_AUDIT.md |
+| Academy architecture documented | ✔ | bible/ACADEMY.md (14 disciplines) |
+| Magic system coherent | ✔ | bible/MAGIC_SYSTEM.md (canon-locked) |
+| World bible complete | ✔ | bible/WORLD_BIBLE.md |
+| Main character arcs developed | ✔ | bible/CHARACTERS.md |
+| Seven-book architecture complete | ✔ | architecture/SERIES_ARCHITECTURE.md |
+| Central saga mystery has a defined solution | ✔ | REVELATION_LEDGER.md |
+| Book One outline complete | ✔ | architecture/BOOK_ONE_OUTLINE.md |
+| Every Book One chapter written | ✔ | 26/26, verify.py |
+| Complete narrative prose | ✔ | 112,784 words, no placeholders |
+| Central conflict resolves | ✔ | Ch. 24–26 (draw cut, vent, Orsolya confesses, Aske returned) |
+| Developmental editing | ✔ | Reviews 1, 4; REVISION_PLAN A1–A9 |
+| Character editing | ✔ | Pass 2 voice crib; Review 2; A10 |
+| World/magic audits | ✔ | Review 3; A4/A5 |
+| Mystery/continuity audits | ✔ | Reviews 3, 4; CONTINUITY-REPORT |
+| Line editing | ✔ | Pass 2, Pass 3 |
+| Copyediting | ✔ | COPYEDIT_LOG.md |
+| Final proofreading | ✔ (manuscript + production editions checked by extraction and page renders) | VERIFICATION-REPORT |
+| Original cover | ✔ | art/BOOK-ONE-COVER.png |
+| Companion materials | ✔ | companion PDF, series bible PDF |
+| Books 2–7 detailed outlines | ✔ | BOOKS-2-THROUGH-7-OUTLINES.pdf |
+| PDF generated and checked | ✔ | 314 pp + mobile 471 pp |
+| EPUB generated and checked | ✔ | EPUBCheck 0 messages |
+| DOCX generated and checked | ✔ | python-docx |
+| ZIP generated and integrity-checked | ✔ | unzip -t OK, 173 files |
+| Files directly retrievable | ✔ | release/ in the project folder; attached in chat |
+| Verification report accurate | ✔ | release/VERIFICATION-REPORT.md |

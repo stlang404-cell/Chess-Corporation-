@@ -21,7 +21,7 @@ img{max-width:100%;display:block;margin:.8em auto} code{font-family:'DejaVu Sans
 def md2html(paths):
     txt="\n\n".join(open(p,encoding="utf-8").read() for p in paths)
     # demote: each source file's top '# ' stays h1
-    r=subprocess.run(["pandoc","-f","markdown+smart+pipe_tables","-t","html5","--wrap=none"],input=txt.encode(),capture_output=True,check=True)
+    r=subprocess.run(["pandoc","-f","markdown+smart+pipe_tables-yaml_metadata_block","-t","html5","--wrap=none"],input=txt.encode(),capture_output=True,check=True)
     return r.stdout.decode()
 def build(name,title,subtitle,paths,warn=None,base=ROOT):
     body=md2html(paths)

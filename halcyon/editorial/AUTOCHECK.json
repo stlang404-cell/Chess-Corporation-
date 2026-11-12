@@ -422,18 +422,18 @@
  ],
  "total_words": 112784,
  "release_present": {
-  "BOOK-ONE-COMPLETE.pdf": false,
-  "BOOK-ONE-MOBILE.pdf": false,
-  "BOOK-ONE-COMPLETE.epub": false,
-  "BOOK-ONE-COMPLETE.docx": false,
-  "BOOK-ONE-COMPLETE.md": false,
-  "BOOK-ONE-COVER.png": false,
+  "BOOK-ONE-COMPLETE.pdf": true,
+  "BOOK-ONE-MOBILE.pdf": true,
+  "BOOK-ONE-COMPLETE.epub": true,
+  "BOOK-ONE-COMPLETE.docx": true,
+  "BOOK-ONE-COMPLETE.md": true,
+  "BOOK-ONE-COVER.png": true,
   "BOOK-ONE-READER-COMPANION.pdf": true,
   "SEVEN-BOOK-SERIES-BIBLE.pdf": true,
   "BOOKS-2-THROUGH-7-OUTLINES.pdf": true,
-  "EDITORIAL-REPORT.md": false,
-  "CONTINUITY-REPORT.md": false,
-  "VERIFICATION-REPORT.md": false,
-  "README.md": false
+  "EDITORIAL-REPORT.md": true,
+  "CONTINUITY-REPORT.md": true,
+  "VERIFICATION-REPORT.md": true,
+  "README.md": true
  }
 }

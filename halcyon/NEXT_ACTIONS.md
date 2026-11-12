@@ -1,4 +1,4 @@
 # NEXT ACTIONS
-1. Draft Ch1–3; run opening-chapter test (editorial/OPENING_TEST.md); revise.
-2. Draft Ch4–26 (parallel drafting allowed; each chapter in manuscript/chapters/chNN.md).
-3. Update MANUSCRIPT_PROGRESS.md after each chapter.
+- Supply an author name; replace [AUTHOR NAME] and rebuild.
+- Optional: open the EPUB in Apple Books; run Ace by DAISY; check printer specs before print.
+- Book Two: begin from BOOKS_2-7_OUTLINES.md and the post-revision canon in CHARACTERS.md.
