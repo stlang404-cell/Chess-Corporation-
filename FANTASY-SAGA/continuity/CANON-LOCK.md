@@ -39,3 +39,10 @@ Ilse's party lives in **Second Range, the "Wren Stair"** (coincidence noted and 
 - At Benchmarking (Ch 6) she chooses to register the wren's foot as her official witness-mark, because it is the only mark that has ever felt like hers. That is a half-reckless, half-honest act. It is also how Kasimir later proves the Tull forgery is hers (Ch 21): the visible mark on the Tull charter matches her Benchmark on the Old Wall, and the ghosted mark beneath it belongs to a man dead three years before the charter’s date. Kasimir first notices the resemblance at Benchmarking (Ch 6/7) but can't prove it until he obtains the charter.
 - Hold-sense: Ilse calls the pressure behind her ears "the level." Burden aches in her right (signing) hand.
 - Chapter 1 details: Ilse's savings are 44 marks 6 (after the Tull fee). Saffery's steward named 60 marks for the north frontage. Tam Brewin, carter, has a bay mare. The milestone reads HOBBET II. Corwin Fask re-charted Wick Fallow in Haysel 1203, two months before Ch 1 (the Tull hedge) and in autumn 1192 (the Long Field).
+
+## Additions accepted during drafting
+- Sallow Expedition (1183), seven members: Brask (leader), Hallam (second), **Wenna Rook** (the third survivor; whereabouts for Book Two), and the four lost: Ansel Corrow, Mira Tey, Jory Paske and Benedek Vass.
+- The Morning Survey paper changed in **Thaw 1201**. The first Quiet case was Seedtime 1201.
+- Charting adjunct: Master Wystan Pell. Errata Society chair: Dunstan Moss.
+- Hallam became Master of the Register in 1189. He has worn gloves since about 1200.
+- Hen goes to the infirmary in Ch 16, not Ch 18 as the character bible says. The chapter text is authoritative.
