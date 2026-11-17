@@ -7,7 +7,7 @@ Generated from automated checks (`production/verify.py`) and manual proofing in 
 |---|---|
 | Chapter files present | 32 of 32 (`ch01.md`–`ch32.md`). Contiguous numbering, checked by `build.py`. |
 | Heading format | All 32 conform (`# Chapter N` / `## Title`). The build refuses to run on a mismatch. |
-| Word count (chapter prose, `wc -w`, including headings) | **123,227** words. 123,747 normalized tokens in the verifier, which splits hyphenated words. Target was 100,000–120,000, so this is about 2.7% over. |
+| Word count (chapter prose) | **123,227** words of chapter prose, excluding chapter headings (123,417 with headings, by `wc -w` on the chapter files). The verifier counts 123,747 normalized tokens because it splits hyphenated words. Target was 100,000–120,000, so this is about 2.7% over. |
 | Chapter lengths | 3,425–3,960 words each. |
 | Full prose, no summaries in place of scenes | Checked by four editorial agents and spot reads by the lead editor. |
 | Straight quotes in prose | 0 |

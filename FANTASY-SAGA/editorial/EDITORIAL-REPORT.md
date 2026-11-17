@@ -1,6 +1,6 @@
 # EDITORIAL REPORT — *The Forger of Verity*
 
-**Scope:** the complete Book One manuscript. 32 chapters, 123,227 words of chapter prose (wc -w, including chapter headings).
+**Scope:** the complete Book One manuscript. 32 chapters, 123,227 words of chapter prose (123,417 including chapter headings).
 
 **What this report is and is not.** Every review below was done by AI editors (Claude agents briefed as editors) and by the lead editor (the coordinating Claude session). **No independent human editor or reader has reviewed this manuscript.** The "adversarial reviews" are simulated personas, as the brief requested, not real third-party feedback. Literary quality is a judgment, not a measurement, and no numerical quality scores are given.
 
