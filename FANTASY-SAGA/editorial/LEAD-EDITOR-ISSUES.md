@@ -9,3 +9,8 @@
 | 6 | Hare simile reused in Ch 13 and 16 | REVIEW-ch01-ch08 | Pending (the Ch 9–16 editor). |
 | 7 | Forgery count: 34 (Ch 17) vs 31 (Ch 31) | REVIEW-ch01-ch08 | Pending |
 | 8 | Ilse never links Hallam's gloves to the Ch 1 gossip | REVIEW-ch01-ch08 | FIXED: a half-sentence in Ch 3 where she notices and dismisses it. |
+| 9 | Witness-mark sets conflicted between editors (Ch 6 and Ch 15) | REVIEW-ch09-ch16, ch17-ch24 | FIXED. Canonical marks: Hen a gull's wing over a line; Teo a looped T like a pothook; Cass a zigzag; Kasimir an R with a level line through it; Quince a crooked Q, its tail hooked through its own ring. Ch 15 was corrected. A grep found no stale marks. |
+| 7 | Forgery count, 34 vs 31 | — | FIXED. Ch 17: three made under Quince's mark while he lived, plus thirty-one under the wren's foot. |
+| 10 | Mother Nettle described with Nan's walnut image | REVIEW-ch17-ch24 | FIXED. Ch 25 gets a new description. |
+| 11 | Brask waking in the infirmary (Ch 26) vs on Hallam's back (Ch 14) | REVIEW-ch09-ch16 | No conflict. Ch 26 has both: carried on his back, then six weeks in the infirmary. |
+| 12 | Brask's cottage location | REVIEW-ch17-ch24 | Checked: both chapters say Netmakers' Row with a blue door. Consistent. |
