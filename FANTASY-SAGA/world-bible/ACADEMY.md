@@ -49,7 +49,7 @@
 - **Benchmarking:** in a newcomer's first week, each student cuts their witness-mark into the Old Wall under a brass benchmark arrow. They then make their first true attestation: of a single paving stone, which they must keep in place for a year.
 - **The Ladder:** the first-term practical examination, in a sealed and unstable room of the Third Range. Students must survey it by instruments alone in total darkness.
 - **Errata Night:** midwinter. The whole College gathers in the Mess. Anyone may stand and confess an error, and the College answers "Recorded." Confessions are not punished. Drink is involved.
-- **The Concordance Moot:** late winter. First-years duel in pairs. Each charts the same object, a loose **Moot-stone** in the Old Court, to a different position, and the stone goes where the higher-fidelity map says.
+- **The Concordance Moot:** early winter (Frost 10). First-years duel in pairs. Each charts the same object, a loose **Moot-stone** in the Old Court, to a different position, and the stone goes where the higher-fidelity map says.
 - **The Lantern Count:** the eve of the spring equinox. Every student walks the Drift Wing with a lantern, counting steps aloud, so that the whole Wing is held by many voices.
 - **The Long Measure:** the spring equinox competition. Parties of four survey a route from the Drift Wing out into the Margin and Drift to the **Tern Stack**, a sea-stack beacon three leagues west, and return. Judged on accuracy and time. The winning charter becomes the basis of the **Equinox Charter**, which every participant co-signs under the Lantern Gate to re-hold the Drift Wing for the year. Victory confers prestige and first choice of second-year placements.
 - **Coins for the Benchmarks:** before examinations.
