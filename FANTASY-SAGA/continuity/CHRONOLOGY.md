@@ -15,7 +15,7 @@
 | 1184 H. | Brask's testimony is ruled hallucination. She is moved to Fieldwork. |
 | 1190 H. | Corrow is granted a College charter under an old treaty. |
 | autumn 1192 H. | Corwin Fask re-charts Wick Fallow. The Long Field loses 60 yards and its well. |
-| 1193 H. | *Marrow v. Saffery*: the appeal fails. |
+| 1193 H. | *Saffery v. the Parish of Wick*: the Marrows' appeal fails. |
 | 1194 H. | Ilse (14) apprentices herself to Abelard Quince. |
 | 1195 H. | Daun Marrow dies of fever. |
 | 1200 H. | **The lease term ends** (secret). Hallam measures softening in the Zero Sheets and tells Steyne, who forbids disclosure. Quince dies, and Ilse begins forging alone. |
