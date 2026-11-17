@@ -12,8 +12,8 @@ Author: Sage Lang
 | Seven-book architecture | Done | planning/SERIES-ARCHITECTURE.md |
 | Revelation ledger and canon lock | Done | continuity/ |
 | Book One outline (scene level) | Done | planning/BOOK-ONE-OUTLINE.md |
-| Manuscript | In progress | see MANUSCRIPT_PROGRESS.md |
-| Editorial passes | Not started | |
-| Artwork | Not started | |
-| Companion, bible PDF, outlines | Not started | |
-| Production and verification | Not started | |
+| Manuscript | Complete draft, 32 chapters | MANUSCRIPT_PROGRESS.md |
+| Editorial passes | In progress | EDITORIAL_PROGRESS.md |
+| Artwork | Done (original vector) | artwork/ |
+| Companion, bible PDF, outlines | Built (rebuild at release) | production/, series/ |
+| Production and verification | Pipeline tested on chapters 1–2 | production/build.py |
