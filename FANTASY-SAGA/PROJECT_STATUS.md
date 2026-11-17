@@ -1,19 +1,16 @@
 # PROJECT STATUS — The Long Survey / Book One: *The Forger of Verity*
-Author: Sage Lang
+Author: Sage Lang · **Status: RELEASED (v1.0)**
 
 | Stage | Status | Evidence |
 |---|---|---|
-| Environment and tools | Done | pandoc 3.1.3, Chromium (Playwright), LibreOffice, EPUBCheck 5.1.0, EB Garamond, Cardo, Junicode |
+| Environment and tools | Done | pandoc 3.1.3, Chromium (Playwright), LibreOffice, EPUBCheck 5.1.0, EB Garamond |
 | Research | Done | research/CRAFT-RESEARCH.md |
-| Five concepts and evaluation | Done | concepts/ |
-| Originality audit and selection gate | Done (passed) | concepts/CONCEPT-EVALUATION.md |
-| World bible (magic, academy, world, creatures) | Done | world-bible/ |
-| Characters and voice | Done | characters/ |
-| Seven-book architecture | Done | planning/SERIES-ARCHITECTURE.md |
-| Revelation ledger and canon lock | Done | continuity/ |
+| Five concepts, evaluation, originality audit, selection gate | Done (passed) | concepts/ |
+| World bible, characters, seven-book architecture, continuity records | Done | world-bible/, characters/, planning/, continuity/ |
 | Book One outline (scene level) | Done | planning/BOOK-ONE-OUTLINE.md |
-| Manuscript | Complete draft, 32 chapters | MANUSCRIPT_PROGRESS.md |
-| Editorial passes | In progress | EDITORIAL_PROGRESS.md |
-| Artwork | Done (original vector) | artwork/ |
-| Companion, bible PDF, outlines | Built (rebuild at release) | production/, series/ |
-| Production and verification | Pipeline tested on chapters 1–2 | production/build.py |
+| Manuscript (32 chapters, 123,227 words) | Done | manuscript/ |
+| Editorial passes (developmental, character, world, mystery, line, copy, proof, adversarial) | Done (AI-performed) | editorial/ |
+| Artwork | Done (original procedural vector) | artwork/ |
+| Companion, series bible, Books 2–7 outlines | Done | release/, series/ |
+| PDF ×2, EPUB, DOCX, MD | Done and verified | release/VERIFICATION-REPORT.md |
+| ZIP | Done and integrity-checked | release/COMPLETE-FANTASY-SAGA-BOOK-ONE.zip |

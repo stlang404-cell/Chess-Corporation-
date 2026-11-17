@@ -1,9 +1,8 @@
-# NEXT ACTIONS
-1. Draft chapters 2–32 (parallel drafting agents, using the outline, canon and style guide).
-2. Do a continuity pass across chapter boundaries and update the CHRONOLOGY and CHARACTER-KNOWLEDGE files.
-3. Run the editorial passes (developmental, character, world, mystery, line, copy, proof, and three adversarial reviews).
-4. Create the artwork: cover, maps and ornaments.
-5. Write the companion, the series bible PDF and the Books 2–7 outlines.
-6. Build PDF, EPUB and DOCX; validate; build the ZIP.
+# NEXT ACTIONS (optional, after v1.0)
+1. Human editorial read (developmental and proofread). All editing so far is AI-performed.
+2. Test the EPUB on Apple Books and Kobo devices.
+3. Obtain a printer's spec (KDP or IngramSpark) and re-export the PDF with bleed and PDF/X if a print release is wanted.
+4. Commission painted cover and interior art, using `artwork/` as the layout guide.
+5. Book Two, *The Sounding Sea*: expand `series/BOOK-02-OUTLINE.md` to a scene-level outline, reusing the canon files.
 
-**Resuming after an interruption:** read PROJECT_STATUS.md, continuity/CANON-LOCK.md, planning/BOOK-ONE-OUTLINE.md and MANUSCRIPT_PROGRESS.md first. Never overwrite a completed chapter file with an incomplete draft.
+**Resuming:** load PROJECT_STATUS.md, continuity/CANON-LOCK.md and the series bible first.

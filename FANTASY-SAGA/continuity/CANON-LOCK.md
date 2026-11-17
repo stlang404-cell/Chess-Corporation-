@@ -26,7 +26,7 @@ Ilse Marrow 23; Odile Brask 61; Teodor "Teo" Anselm 24; Cassia "Cass" Tenter 22;
 19 Walkers set out. 11 returned with passing surveys. 6 returned and failed. 2 didn't return: Yara Penhallow and a man named Oskar Fell. (Fell is found alive, half-mad, in the Margin on Reaping 25.) Yara is never found in Book One.
 
 ## Party rooms
-Ilse's party lives in **Second Range, the "Wren Stair"** (coincidence noted and mocked). Their Morning Survey stretch is the **Wren Stair and the Long Gallery**, 3 chains 41 links in total.
+Ilse's party lives in **Second Range, the "Wren Stair"** (coincidence noted and mocked). Their Morning Survey stretch is the **Wren Stair (41 steps) and the Long Gallery (about 1 chain 60 links, varying a few links daily; open-charter range 1 ch 56 l to 1 ch 65 l)**.
 
 ## Physical facts
 - Brask: black patch over her **right** eye; **left** hand stilled and grey; staff called the Long Lie.

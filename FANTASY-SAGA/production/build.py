@@ -196,7 +196,7 @@ def build_epub(chapters, mdpath):
         p = part_for(c["n"])
         if p:
             out += [f"# {p[0]}: {p[1]} {{.part}}", "", f"![]({ART}/{p[2]}.png){{alt=\"{PART_ALT[p[2]]}\"}}", ""]
-        out += [f"## Chapter {c['n']}: {c['title']} {{.chapter}}", "", c["body"].replace("\n* * *\n", "\n\n<p class=\"scenebreak\">* * *</p>\n\n"), ""]
+        out += [f"## Chapter {c['n']}: {c['title']} {{.chapter}}", "", c["body"].replace("\n* * *\n", "\n\n<p class=\"scenebreak\">&#42;&#160;&#42;&#160;&#42;</p>\n\n"), ""]
     out += ["# A Note on Measures {.backmatter}", "",
             "Surveyors of the Held Reach measure in the old units. A **link** is 7.92 inches. Twenty-five links make a **rod** (16½ feet). Four rods, or one hundred links, make a **chain** (66 feet). Ten chains make a **furlong**, eighty chains a **mile**, and three miles a **league**.", "",
             "At the Meridian, first-year students are called *links*, second-years *chains*, third-years *furlongs*, and the most senior *leagues*.", "",

@@ -10,7 +10,7 @@ Who knows what, and when. ✔ = knows; ~ = suspects or knows partially; ✘ = fa
 | Hallam is behind it | ~ Ch19 (rejected), ✔ Ch25 | ✔ Ch25 | ✔ Ch25 | — | ✔ Ch25 | ✔ Ch26 | — | ~ (complicit in silence) | ~ Ch19, ✔ Ch25 |
 | The Zero Sheets are softening | ✔ Ch27 | ✔ Ch27 | ✔ Ch27 | — | ✔ Ch27 | ✔ Ch27 | ✔ (since 1200) | ✔ (since 1200) | ✔ Ch27 |
 | The Equinox folio plan | ✔ Ch27 | ✔ | ✔ | — | ✔ | ✔ | ✔ | ✘ | ✔ Ch27 |
-| The open charter defeats ghosting | ✔ Ch29 | ✔ | ✔ | — | ✔ | ✔ (by crow) | ✔ Ch29 (realizes) | — | ✔ Ch29 |
+| The open charter defeats ghosting | ✔ Ch29 | ✔ | ✔ | — | ✔ | ✔ Ch31 (told after) | ✔ Ch29 (realizes) | — | ✔ Ch29 |
 | The voids are Hallam's "pruning" | ✔ Ch25–27 | ✔ | ✔ | — | ✔ Ch25 | ✔ | ✔ | ~ | ✔ Ch25–27 |
 | The Vey are real | ~ (Brask's story) | ✘ | ~ (Tenting lore) | ✘ | ✘ | ✔ | ✘ ("enemies") | ✘ | ~ |
 | "Until the term is spent" | ✔ Ch32 | — | ✔ Ch32 | — | — | — | — | — | ✔ Ch32 |
